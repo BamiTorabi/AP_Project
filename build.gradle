@@ -4,6 +4,9 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+System.setProperty( "user.dir", project.projectDir.toString() )
+println  "  project dir:  "+ System.getProperty("user.dir");
+
 
 repositories {
     mavenCentral()
