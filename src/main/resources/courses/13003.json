@@ -1,0 +1,38 @@
+{
+  "courseName" : "Analytical Mechanics 2",
+  "collegeLinked" : "PHYSICS",
+  "professorID" : "2022131000",
+  "scoreList" : [ {
+    "studentLinked" : "2022130000",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130001",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "meanScore" : 0.0,
+  "units" : 3,
+  "classTimes" : [ {
+    "day" : 0,
+    "startHours" : 9,
+    "startMins" : 0,
+    "endHours" : 10,
+    "endMins" : 30
+  }, {
+    "day" : 2,
+    "startHours" : 9,
+    "startMins" : 0,
+    "endHours" : 10,
+    "endMins" : 30
+  } ],
+  "examTime" : "06/07/2022 09:00",
+  "level" : "UNDERGRADUATE",
+  "courseID" : "13003"
+}

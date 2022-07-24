@@ -1,0 +1,22 @@
+{
+  "firstName" : "Omid",
+  "lastName" : "Mir Sadeghi",
+  "nationalID" : "3648273648",
+  "phoneNumber" : "09234564564",
+  "emailAddress" : "mirsadeghi_thug_life@gmail.com",
+  "universityID" : "2022011001",
+  "password" : "2022011001",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : false,
+  "roomNumber" : 123,
+  "type" : "ASSOCIATE",
+  "courseList" : [ {
+    "studentLinked" : "2022011001",
+    "courseLinked" : "01002",
+    "value" : 0.0,
+    "status" : "PENDING"
+  } ],
+  "deputy" : false,
+  "head" : false
+}

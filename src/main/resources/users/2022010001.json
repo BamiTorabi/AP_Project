@@ -1,0 +1,31 @@
+{
+  "firstName" : "Zeinab",
+  "lastName" : "Lotfi",
+  "nationalID" : "1234567890",
+  "phoneNumber" : "09333914824",
+  "emailAddress" : "zeinab.lotfi0@gmail.com",
+  "universityID" : "2022010001",
+  "password" : "2022010001",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : true,
+  "courseList" : [ {
+    "studentLinked" : "2022010001",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010001",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "counsellor" : "2022011002",
+  "type" : "UNDERGRADUATE",
+  "totalScore" : 0.0,
+  "educationalStatus" : 0
+}

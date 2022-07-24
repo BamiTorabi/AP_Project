@@ -1,0 +1,31 @@
+{
+  "courseName" : "Statistics",
+  "collegeLinked" : "MATHEMATICAL",
+  "professorID" : "2022011001",
+  "scoreList" : [ {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "01002",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "meanScore" : 0.0,
+  "units" : 4,
+  "classTimes" : [ {
+    "day" : 0,
+    "startHours" : 8,
+    "startMins" : 0,
+    "endHours" : 10,
+    "endMins" : 0
+  }, {
+    "day" : 2,
+    "startHours" : 8,
+    "startMins" : 0,
+    "endHours" : 10,
+    "endMins" : 0
+  } ],
+  "examTime" : "06/07/2022 09:00",
+  "level" : "UNDERGRADUATE",
+  "courseID" : "01002"
+}

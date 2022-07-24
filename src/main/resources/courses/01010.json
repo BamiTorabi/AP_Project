@@ -1,0 +1,45 @@
+{
+  "courseName" : "Automata Theory",
+  "collegeLinked" : "MATHEMATICAL",
+  "professorID" : "2022011002",
+  "scoreList" : [ {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010003",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010001",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "meanScore" : 0.0,
+  "units" : 3,
+  "classTimes" : [ {
+    "day" : 1,
+    "startHours" : 17,
+    "startMins" : 0,
+    "endHours" : 19,
+    "endMins" : 0
+  }, {
+    "day" : 3,
+    "startHours" : 17,
+    "startMins" : 0,
+    "endHours" : 19,
+    "endMins" : 0
+  } ],
+  "examTime" : "25/06/2022 15:30",
+  "level" : "UNDERGRADUATE",
+  "courseID" : "01010"
+}

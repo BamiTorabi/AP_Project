@@ -1,0 +1,31 @@
+{
+  "firstName" : "Mani",
+  "lastName" : "Rezaie",
+  "nationalID" : "1234567890",
+  "phoneNumber" : "09987654321",
+  "emailAddress" : "mani_rezaie@yahoo.com",
+  "universityID" : "2022011000",
+  "password" : "2022011000",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : false,
+  "courseList" : [ {
+    "studentLinked" : "2022011000",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022011000",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "roomNumber" : 123,
+  "type" : "ASSISTANT",
+  "deputy" : false,
+  "head" : false
+}

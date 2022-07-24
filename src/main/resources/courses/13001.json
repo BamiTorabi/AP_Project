@@ -1,0 +1,52 @@
+{
+  "courseName" : "Physics 2",
+  "collegeLinked" : "PHYSICS",
+  "professorID" : "2022131001",
+  "scoreList" : [ {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130000",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010001",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130001",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "meanScore" : 0.0,
+  "units" : 3,
+  "classTimes" : [ {
+    "day" : 0,
+    "startHours" : 16,
+    "startMins" : 30,
+    "endHours" : 18,
+    "endMins" : 0
+  }, {
+    "day" : 2,
+    "startHours" : 16,
+    "startMins" : 30,
+    "endHours" : 18,
+    "endMins" : 0
+  } ],
+  "examTime" : "07/07/2022 09:00",
+  "level" : "UNDERGRADUATE",
+  "courseID" : "13001"
+}

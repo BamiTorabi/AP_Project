@@ -1,0 +1,38 @@
+{
+  "firstName" : "Hasan",
+  "lastName" : "Kazemi",
+  "nationalID" : "1230982348",
+  "phoneNumber" : "098787876",
+  "emailAddress" : "hasanak@gmail.com",
+  "universityID" : "2022130000",
+  "password" : "2022130000",
+  "firstYear" : 2022,
+  "college" : "PHYSICS",
+  "student" : true,
+  "courseList" : [ {
+    "studentLinked" : "2022130000",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130000",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130000",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "counsellor" : "2022131000",
+  "type" : "UNDERGRADUATE",
+  "totalScore" : 0.0,
+  "educationalStatus" : 0
+}

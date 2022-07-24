@@ -1,0 +1,24 @@
+{
+  "firstName" : "Mahmoud",
+  "lastName" : "Bahman Abadi",
+  "nationalID" : "0912873465",
+  "phoneNumber" : "0912873465",
+  "emailAddress" : "bahman@gmail.com",
+  "universityID" : "2022131001",
+  "password" : "2022131001",
+  "firstYear" : 2022,
+  "college" : "PHYSICS",
+  "student" : false,
+  "courseList" : [ {
+    "studentLinked" : "2022131001",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "roomNumber" : 430,
+  "type" : "FULL",
+  "deputy" : false,
+  "head" : false
+}

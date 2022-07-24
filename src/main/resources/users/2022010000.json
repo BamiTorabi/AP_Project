@@ -1,0 +1,45 @@
+{
+  "firstName" : "Bamdad",
+  "lastName" : "Torabi",
+  "nationalID" : "1234567890",
+  "phoneNumber" : "09196392765",
+  "emailAddress" : "bamdadtorabi99@googlemail.com",
+  "universityID" : "2022010000",
+  "password" : "2022010000",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : true,
+  "courseList" : [ {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "01002",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010000",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "counsellor" : "2022011001",
+  "type" : "UNDERGRADUATE",
+  "totalScore" : 0.0,
+  "educationalStatus" : 0
+}

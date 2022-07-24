@@ -1,0 +1,38 @@
+{
+  "firstName" : "Alireza",
+  "lastName" : "Talebi",
+  "nationalID" : "1223344556",
+  "phoneNumber" : "09123412345",
+  "emailAddress" : "alireza-talebi@yahoo.com",
+  "universityID" : "2022130001",
+  "password" : "2022130001",
+  "firstYear" : 2022,
+  "college" : "PHYSICS",
+  "student" : true,
+  "courseList" : [ {
+    "studentLinked" : "2022130001",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130001",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022130001",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "counsellor" : "2022131000",
+  "type" : "UNDERGRADUATE",
+  "totalScore" : 0.0,
+  "educationalStatus" : 0
+}

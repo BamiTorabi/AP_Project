@@ -1,0 +1,31 @@
+{
+  "firstName" : "Sohrab",
+  "lastName" : "Rahvar",
+  "nationalID" : "1029384756",
+  "phoneNumber" : "02166164531",
+  "emailAddress" : "rahvar@sharif.edu",
+  "universityID" : "2022131000",
+  "password" : "2022131000",
+  "firstYear" : 2022,
+  "college" : "PHYSICS",
+  "student" : false,
+  "courseList" : [ {
+    "studentLinked" : "2022131000",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022131000",
+    "courseLinked" : "13003",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "roomNumber" : 325,
+  "type" : "FULL",
+  "deputy" : true,
+  "head" : false
+}

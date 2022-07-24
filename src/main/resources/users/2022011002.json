@@ -1,0 +1,31 @@
+{
+  "firstName" : "Shahram",
+  "lastName" : "Khazaei",
+  "nationalID" : "1231231231",
+  "phoneNumber" : "02166165619",
+  "emailAddress" : "shahram.khazaei@sharif.ir",
+  "universityID" : "2022011002",
+  "password" : "2022011002",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : false,
+  "courseList" : [ {
+    "studentLinked" : "2022011002",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022011002",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "roomNumber" : 212,
+  "type" : "ASSOCIATE",
+  "deputy" : true,
+  "head" : false
+}

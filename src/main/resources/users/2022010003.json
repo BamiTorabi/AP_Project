@@ -1,0 +1,38 @@
+{
+  "firstName" : "Ali",
+  "lastName" : "Davarjah",
+  "nationalID" : "4747474747",
+  "phoneNumber" : "09383331494",
+  "emailAddress" : "ali.davarjah@gmail.com",
+  "universityID" : "2022010003",
+  "password" : "yoohoo81",
+  "firstYear" : 2022,
+  "college" : "MATHEMATICAL",
+  "student" : true,
+  "courseList" : [ {
+    "studentLinked" : "2022010003",
+    "courseLinked" : "01010",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010003",
+    "courseLinked" : "01001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  }, {
+    "studentLinked" : "2022010003",
+    "courseLinked" : "13001",
+    "value" : 0.0,
+    "status" : "PENDING",
+    "studentProtest" : "",
+    "professorAnswer" : ""
+  } ],
+  "counsellor" : "2022011002",
+  "type" : "UNDERGRADUATE",
+  "totalScore" : 0.0,
+  "educationalStatus" : 0
+}
