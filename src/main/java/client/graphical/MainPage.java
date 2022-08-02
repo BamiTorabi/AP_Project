@@ -1,17 +1,18 @@
-package graphics;
+package client.graphical;
 
-import process.User;
+import client.Application;
+import client.logic.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
 import java.util.Calendar;
 
 public class MainPage extends JFrame {
 
-    private User userLoggedIn;
+    private Application app;
+    private User user;
 
     private int BUTTON_SIZE = 100;
     private int TOOLBAR_HEIGHT = 100;
@@ -30,9 +31,10 @@ public class MainPage extends JFrame {
     private JComboBox<String> eduButton;
     private JComboBox<String> reportButton;
 
-    public MainPage(User user){
+    public MainPage(Application app, User user){
         super();
-        this.userLoggedIn = user;
+        this.app = app;
+        this.user = user;
         this.setTitle("Sharif EDU");
         this.setLayout(null);
         this.setResizable(false);
@@ -70,7 +72,7 @@ public class MainPage extends JFrame {
         this.backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().remove();
+                app.remove();
             }
         });
         this.topToolbar.add(this.backButton, gbc);
@@ -82,7 +84,7 @@ public class MainPage extends JFrame {
         this.homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().newPage(1);
+                app.newPage(1);
             }
         });
         gbc.gridx = 1;
@@ -97,7 +99,7 @@ public class MainPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                Application.getInstance().logOut();
+                app.logOut();
             }
         });
         this.topToolbar.add(this.logOutButton, gbc);
@@ -117,7 +119,7 @@ public class MainPage extends JFrame {
         this.profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Application.getInstance().newPage(2);
+                app.getPageInfo(2);
             }
         });
         this.topToolbar.add(this.profileButton, gbc);
@@ -131,10 +133,10 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (listsButton.getSelectedIndex()){
                     case 0:
-                        Application.getInstance().newPage(3);
+                        app.newPage(3);
                         break;
                     case 1:
-                        Application.getInstance().newPage(4);
+                        app.newPage(4);
                         break;
                     default:
                 }
@@ -153,13 +155,13 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (eduButton.getSelectedIndex()){
                     case 0:
-                        Application.getInstance().newPage(5);
+                        app.newPage(5);
                         break;
                     case 1:
-                        Application.getInstance().newPage(6);
+                        app.newPage(6);
                         break;
                     case 2:
-                        Application.getInstance().newPage(7);
+                        app.newPage(7);
                     default:
                 }
                 eduButton.setSelectedIndex(-1);
@@ -171,7 +173,7 @@ public class MainPage extends JFrame {
 
     public void addReportButton(){
         this.reportButton = new JComboBox<>(new String[] {"Temporary Scores"});
-        if (this.userLoggedIn.isStudent())
+        if (this.user.isStudent())
             this.reportButton.addItem("Report Card");
         this.reportButton.setSelectedIndex(-1);
         this.reportButton.addActionListener(new ActionListener() {
@@ -179,10 +181,10 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (reportButton.getSelectedIndex()){
                     case 0:
-                        Application.getInstance().newPage(8);
+                        app.newPage(8);
                         break;
                     case 1:
-                        Application.getInstance().newPage(9);
+                        app.newPage(9);
                         break;
                     default:
                 }

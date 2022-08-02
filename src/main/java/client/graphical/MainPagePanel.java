@@ -1,9 +1,8 @@
-package graphics;
+package client.graphical;
 
-import process.Professor;
-import process.Student;
-import process.University;
-import process.User;
+import client.Application;
+import client.logic.*;
+//import graphics.UserDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,8 @@ public class MainPagePanel extends JPanel {
 
     private Font normalPlainFont = new Font("Arial", Font.PLAIN, 18);
 
-    private User userLoggedIn;
+    private Application app;
+    private User user;
 
     private JLabel lastEntryLabel = new JLabel();
     private JLabel nameLabel = new JLabel();
@@ -27,15 +27,16 @@ public class MainPagePanel extends JPanel {
     private int MARGIN_HEIGHT = 50;
     private int LABEL_HEIGHT = 50;
 
-    public MainPagePanel(User user){
+    public MainPagePanel(Application app, User user){
         super();
-        this.userLoggedIn = user;
+        this.app = app;
+        this.user = user;
         this.setLayout(null);
 
         addGeneralLabels();
-        if (this.userLoggedIn.isStudent())
+        if (this.user.isStudent())
             addStudentLabels();
-        else if (((Professor)this.userLoggedIn).isDeputy())
+        else if (((Professor)this.user).isDeputy())
             addNewUserButton();
     }
 
@@ -50,21 +51,21 @@ public class MainPagePanel extends JPanel {
         this.add(this.lastEntryLabel);
 
         this.nameLabel.setFont(normalPlainFont);
-        this.nameLabel.setText("Welcome, " + this.userLoggedIn.giveName() + "!");
+        this.nameLabel.setText("Welcome, " + this.user.giveName() + "!");
         this.nameLabel.setBounds(50, getCoor(0), 600, LABEL_HEIGHT);
         this.add(this.nameLabel);
 
         this.emailLabel.setFont(normalPlainFont);
-        this.emailLabel.setText("Email: " + this.userLoggedIn.getEmailAddress());
+        this.emailLabel.setText("Email: " + this.user.getEmailAddress());
         this.emailLabel.setBounds(50, getCoor(3), 600, LABEL_HEIGHT);
         this.add(this.emailLabel);
     }
 
     public void addStudentLabels(){
-        Student student = (Student)this.userLoggedIn;
+        Student student = (Student)this.user;
 
         this.counsellorLabel.setFont(normalPlainFont);
-        this.counsellorLabel.setText("Counsellor: " + University.getUser(student.getCounsellor()).giveName());
+        this.counsellorLabel.setText("Counsellor: ");
         this.counsellorLabel.setBounds(50, getCoor(4), 600, LABEL_HEIGHT);
         this.add(this.counsellorLabel);
 
@@ -96,7 +97,7 @@ public class MainPagePanel extends JPanel {
         this.newUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserDialog dialog = new UserDialog(userLoggedIn);
+                //UserDialog dialog = new UserDialog(user);
             }
         });
         this.add(this.newUserButton);

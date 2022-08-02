@@ -4,9 +4,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="BranchTest">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #1">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GuiMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DataUploader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DemoCourseAdder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DemoScoreFixer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DemoUserAdder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/AddCourseDialog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/CaptchaLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CaptchaLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/ConfirmScoreDialog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/CoursesList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/ExamPlanPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/LoginPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/MainPagePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/ProfilePage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/ProfsList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/ReportCardPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/RequestsPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/TemporaryScoresPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/UserDialog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/WeeklyPlanPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/ClassLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/ClassTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/ClassTimeDialog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/College.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/CollegeType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/Course.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/Professor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Professor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/ProfessorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/ProfessorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/Request.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/RequestStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/Score.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/ScoreStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/StudentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/StudentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/University.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/process/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,19 +106,25 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "last_opened_file_path": "/home/administrator/Desktop/00-01/Term 2/AP/Project Phase 2/AP_Project/src/main/jackson-all-1.9.9.jar",
-    "project.structure.last.edited": "Problems",
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/administrator/Desktop/00-01/Term 2/AP/Project Phase 2/AP_Project/src/main/java/process",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.45632184"
+    "project.structure.side.proportion": "0.45632184",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.excludes"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DataUploader">
+  <component name="RunManager" selected="Application.ServerMain">
     <configuration name="DataUploader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="data.DataUploader" />
       <module name="AP_Project.main" />
@@ -97,8 +145,57 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.ServerMain" />
+      <module name="AP_Project.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="client.ClientMain" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.ClientMain" />
+      <module name="AP_Project.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="server.ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.ServerMain" />
+      <module name="AP_Project.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.client.ClientMain" />
+      <item itemvalue="Application.DataUploader" />
+      <item itemvalue="Application.GuiMain" />
+      <item itemvalue="Application.server.ServerMain" />
+      <item itemvalue="Application.ServerMain" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.client.ClientMain" />
+        <item itemvalue="Application.ServerMain" />
+        <item itemvalue="Application.server.ServerMain" />
         <item itemvalue="Application.DataUploader" />
         <item itemvalue="Application.GuiMain" />
       </list>
@@ -141,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658750604695</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Server and Client Development #1">
+      <created>1658926423358</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1658926423358</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,6 +275,7 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added all info to local db with DataUploader" />
     <MESSAGE value="BranchTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="BranchTest" />
+    <MESSAGE value="Server and Client Development #1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #1" />
   </component>
 </project>

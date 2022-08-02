@@ -1,4 +1,4 @@
-package process;
+package client.logic;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -31,8 +31,8 @@ public class Course {
         this.classTimes = times;
         this.examTime = createDateTime(examDate, examTime);
         this.level = level;
-        College temp = College.getInstance(college);
-        this.courseID = String.format("%%02d", college.getNumber()) + String.format("%03d", temp.getLastCourseID());
+        //College temp = College.getInstance(college);
+        //this.courseID = String.format("%%02d", college.getNumber()) + String.format("%03d", temp.getLastCourseID());
     }
 
     public static String createDateTime(String date, String time){

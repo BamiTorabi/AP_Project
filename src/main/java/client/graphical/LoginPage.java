@@ -1,12 +1,14 @@
-package graphics;
+package client.graphical;
 
-import process.University;
+import client.Application;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LoginPage extends JFrame {
+    private Application app;
     private JLabel topTextLabel = new JLabel();
     private JLabel usernameLabel = new JLabel();
     private JLabel passwordLabel = new JLabel();
@@ -33,8 +35,9 @@ public class LoginPage extends JFrame {
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 50;
 
-    public LoginPage(){
+    public LoginPage(Application app){
         super();
+        this.app = app;
         this.setTitle("Login");
         this.setSize(WIDTH, HEIGHT);
         this.setLayout(null);
@@ -87,7 +90,7 @@ public class LoginPage extends JFrame {
         this.captchaField.setBounds(getCoor(2, true), getCoor(4, false), FIELD_WIDTH, LABEL_HEIGHT);
         this.add(this.captchaField);
 
-        this.captchaPicture = new JButton(CaptchaLoader.getInstance().getRandomCaptcha());
+        this.captchaPicture = new JButton(app.getCaptchaIcon());
         this.captchaPicture.setBounds(getCoor(2, true), getCoor(5, false), 100, 50);
         this.captchaPicture.addActionListener(new CaptchaListener());
         this.add(this.captchaPicture);
@@ -112,13 +115,27 @@ public class LoginPage extends JFrame {
         this.add(this.cancelButton);
     }
 
+    public void updatePage(boolean flag){
+        captchaPicture.setIcon(null);
+        captchaPicture.setIcon(app.getCaptchaIcon());
+        if (flag)
+            app.repaintApp();
+    }
+
+    public void wrongLogIn(){
+        topTextLabel.setText("Wrong username or password. Please try again.");
+        updatePage(true);
+    }
+
     public class CaptchaListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             captchaField.setText("");
-            captchaPicture.setIcon(CaptchaLoader.getInstance().getRandomCaptcha());
-            getContentPane().revalidate();
-            getContentPane().repaint();
+            try {
+                app.sendCaptchaRequest();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -127,17 +144,11 @@ public class LoginPage extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String captchaFieldText = captchaField.getText();
             String usernameFieldText = usernameField.getText();
-            String passwordFieldText = passwordField.getText();
-            if (CaptchaLoader.getInstance().checkCaptcha(captchaFieldText)){
-                Application.getInstance().setUserLoggedIn(University.getUser(usernameFieldText, passwordFieldText));
-                if (Application.getInstance().getUserLoggedIn() != null){
-                    topTextLabel.setText("Welcome!");
-                    setVisible(false);
-                    Application.getInstance().newPage(1);
-                }
-                else{
-                    topTextLabel.setText("Wrong username or password. Please try again.");
-                }
+            String passwordFieldText = String.valueOf(passwordField.getPassword());
+            if (captchaFieldText.equals(String.format("%04d", app.getCaptchaNumber()))){
+                app.logIn(usernameFieldText, passwordFieldText);
+                topTextLabel.setText("Welcome!");
+                setVisible(false);
             }
             else{
                 topTextLabel.setText("Invalid captcha. Please try again.");
@@ -145,9 +156,13 @@ public class LoginPage extends JFrame {
             usernameField.setText("");
             passwordField.setText("");
             captchaField.setText("");
-            captchaPicture.setIcon(CaptchaLoader.getInstance().getRandomCaptcha());
-            getContentPane().revalidate();
-            getContentPane().repaint();
+            try {
+                app.sendCaptchaRequest();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            captchaPicture.setIcon(app.getCaptchaIcon());
+            updatePage(false);
         }
     }
 }

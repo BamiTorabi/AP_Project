@@ -1,20 +1,29 @@
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Server {
     private static Server server;
+    private CaptchaLoader captchaLoader;
     private DatabaseHandler db;
+    private Random random;
     private int port = 9000;
     private ServerSocket serverSocket;
     private List<ClientHandler> handlers;
 
     private Server(){
         db = DatabaseHandler.getInstance();
+        random = new Random();
+        captchaLoader = CaptchaLoader.getInstance();
         handlers = new ArrayList<>();
     }
 
@@ -37,9 +46,57 @@ public class Server {
         }
     }
 
+    public void authenticate(ClientHandler handler){
+        byte[] bytes = new byte[20];
+        random.nextBytes(bytes);
+        handler.setAuthToken(Arrays.toString(bytes));
+    }
+
     public void addNewClientHandler(Socket socket){
         ClientHandler handler = new ClientHandler(socket);
+        authenticate(handler);
         handlers.add(handler);
+        handler.run();
+    }
 
+    public int getRandomCaptcha(int x){
+        return captchaLoader.getRandomCaptcha(x);
+    }
+
+    public File fetchBufferedCaptcha(int x) {
+        return captchaLoader.getCaptcha(x);
+    }
+
+    public boolean checkLogIn(String userID, String password){
+        String[] S = {"password=" + password};
+        try {
+            ResultSet resultSet = db.getResult("Students", userID, S, new String[]{"password"});
+            return resultSet.next();
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean isStudent(String userID){
+        try {
+            ResultSet resultSet = db.getResult("Students", userID, new String[]{}, new String[]{});
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getInfo(String tableName, String userID, String[] conditions, String[] columns){
+        try{
+            ResultSet resultSet = db.getResult(tableName, userID, conditions, columns);
+            resultSet.next();
+            String answer = "universityID:" + userID;
+            for (String column : columns){
+                answer += "/" + column + ":" + resultSet.getObject(column);
+            }
+            return answer;
+        } catch (SQLException e) {
+            return null;
+        }
     }
 }

@@ -1,14 +1,15 @@
-package graphics;
+package client.graphical;
 
-import process.Professor;
-import process.Student;
-import process.University;
-import process.User;
+import client.Application;
+import client.logic.Professor;
+import client.logic.Student;
+import client.logic.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ProfilePage extends JPanel {
 
@@ -34,20 +35,24 @@ public class ProfilePage extends JPanel {
     private JTextField emailAddressText = new JTextField();
     private JButton saveButton = new JButton();
 
+    private User userLoggedIn;
     private User profileToBeDrawn;
     private Student studentToBeDrawn;
     private Professor profToBeDrawn;
-
-    private Application app = Application.getInstance();
+    private boolean profileOfLoggedIn;
+    private Application app;
 
     private final int LABEL_WIDTH = 700;
     private final int LABEL_HEIGHT = 50;
     private final int MARGIN_SIZE = 50;
     private final int SPACE_SIZE = 40;
 
-    public ProfilePage(User user){
+    public ProfilePage(Application app, User userLoggedIn, User userToBeDrawn){
         super();
-        this.profileToBeDrawn = user;
+        this.app = app;
+        this.profileToBeDrawn = userToBeDrawn;
+        this.userLoggedIn = userLoggedIn;
+        this.profileOfLoggedIn = (userLoggedIn == userToBeDrawn);
         this.setLayout(null);
 
         putGeneralInfo();
@@ -59,7 +64,8 @@ public class ProfilePage extends JPanel {
             putProfessorInfo();
         }
         this.addTitle();
-        this.addSaveButton();
+        if (profileOfLoggedIn)
+            this.addSaveButton();
     }
 
     public void putGeneralInfo(){
@@ -133,6 +139,9 @@ public class ProfilePage extends JPanel {
         this.phoneNumberText.setText(profileToBeDrawn.getPhoneNumber());
         this.phoneNumberText.setBounds(MARGIN_SIZE + 175, getCoor(5), 400, 50);
         this.add(this.phoneNumberText);
+
+        if (profileOfLoggedIn)
+            this.phoneNumberText.setEditable(false);
     }
 
     public void addEmailAddress(){
@@ -147,6 +156,9 @@ public class ProfilePage extends JPanel {
         this.emailAddressText.setText(profileToBeDrawn.getEmailAddress());
         this.emailAddressText.setBounds(MARGIN_SIZE + 175, getCoor(6), 400, 50);
         this.add(this.emailAddressText);
+
+        if (profileOfLoggedIn)
+            this.emailAddressText.setEditable(false);
     }
 
     public void addCollege(){
@@ -172,7 +184,7 @@ public class ProfilePage extends JPanel {
 
     public void addCounsellor(){
         this.counsellorLabel.setFont(normalPlainFont);
-        this.counsellorLabel.setText("Counsellor: " + University.getUser(studentToBeDrawn.getCounsellor()).giveName());
+        this.counsellorLabel.setText("Counsellor: " + studentToBeDrawn.getCounsellor());
         this.counsellorLabel.setBounds(MARGIN_SIZE, getCoor(10), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.counsellorLabel);
     }
@@ -215,7 +227,12 @@ public class ProfilePage extends JPanel {
                 if (!phone.equals("") && !email.equals("")){
                     profileToBeDrawn.setPhoneNumber(phone);
                     profileToBeDrawn.setEmailAddress(email);
-                    app.saveUser();
+                    try {
+                        app.sendChanges(profileToBeDrawn.getUniversityID(), "phoneNumber", phone);
+                        app.sendChanges(profileToBeDrawn.getUniversityID(), "emailAddress", email);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     JOptionPane.showMessageDialog(ProfilePage.this, "Profile successfully updated.");
                 }
                 else{

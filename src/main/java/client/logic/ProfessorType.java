@@ -1,4 +1,4 @@
-package process;
+package client.logic;
 
 public enum ProfessorType {
     ALL, ASSISTANT, ASSOCIATE, FULL;

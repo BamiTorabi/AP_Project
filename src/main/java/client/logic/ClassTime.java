@@ -1,4 +1,4 @@
-package process;
+package client.logic;
 
 import java.util.Arrays;
 

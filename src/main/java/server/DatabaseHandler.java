@@ -1,8 +1,6 @@
 package server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseHandler {
 
@@ -31,6 +29,27 @@ public class DatabaseHandler {
         if (db == null)
             db = new DatabaseHandler();
         return db;
+    }
+
+    public ResultSet getResult(String tableName, String ID, String[] conditions, String[] columns) throws SQLException {
+        String message = "SELECT ";
+        if (columns.length == 0)
+            message += "*";
+        else{
+            message += "universityID";
+            for (String column : columns)
+                message += ", " + column;
+        }
+        message += " FROM " + databaseName + "." + tableName;
+        message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;
+        if (conditions.length > 0){
+            for (int i = 0; i < conditions.length; i++){
+                message += " AND " + conditions[i] + " ";
+            }
+        }
+        message += ";";
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(message);
     }
 
 }

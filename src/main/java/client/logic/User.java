@@ -1,4 +1,4 @@
-package process;
+package client.logic;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,13 +29,13 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
         this.college = type;
-        College col = College.getInstance(type);
+        //College col = College.getInstance(type);
         this.student = isStudent;
         this.firstYear = Calendar.getInstance().get(Calendar.YEAR);
-        this.universityID = ("" + firstYear) +
+        /*this.universityID = ("" + firstYear) +
                 String.format("%02d", type.ordinal()) +
                 (student ? "0" : "1") +
-                ("" + String.format("%03d",isStudent ? col.getLastStudentID() : col.getLastProfessorID()));
+                ("" + String.format("%03d",isStudent ? col.getLastStudentID() : col.getLastProfessorID()));*/
         this.password = this.universityID;
         this.courseList = new ArrayList<>();
         // id = first year in uni + college number + (0 for student or 1 for professor) + the next available id in their college.
@@ -136,4 +136,6 @@ public class User {
     public String giveName(){
         return this.firstName + " " + this.lastName;
     }
+
+
 }

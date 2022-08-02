@@ -1,4 +1,4 @@
-package process;
+package client.logic;
 
 public enum ClassLevel {
     ALL, UNDERGRADUATE, GRADUATE, SHARED;
