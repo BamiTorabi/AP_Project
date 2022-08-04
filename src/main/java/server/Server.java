@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,14 +14,18 @@ import java.util.Random;
 
 public class Server {
     private static Server server;
+    private final Clock clock;
     private CaptchaLoader captchaLoader;
     private DatabaseHandler db;
     private Random random;
     private int port = 9000;
+    private long lastUpdateTime = 0;
+    private long threshold = 50;
     private ServerSocket serverSocket;
     private List<ClientHandler> handlers;
 
     private Server(){
+        clock = Clock.systemDefaultZone();
         db = DatabaseHandler.getInstance();
         random = new Random();
         captchaLoader = CaptchaLoader.getInstance();
@@ -70,7 +75,8 @@ public class Server {
     public boolean checkLogIn(String userID, String password){
         String[] S = {"password=" + password};
         try {
-            ResultSet resultSet = db.getResult("Students", userID, S, new String[]{"password"});
+            String tableName = (isStudent(userID) ? "Students" : "Professors");
+            ResultSet resultSet = db.getResult(tableName, userID, S, new String[]{"password"});
             return resultSet.next();
         } catch (SQLException e) {
             return false;
@@ -97,6 +103,15 @@ public class Server {
             return answer;
         } catch (SQLException e) {
             return null;
+        }
+    }
+
+    public boolean updateInfo(String tableName, String userID, String[] conditions, String fieldName, String newValue){
+        try{
+            db.updateTable(tableName, userID, conditions, fieldName, newValue);
+            return true;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }

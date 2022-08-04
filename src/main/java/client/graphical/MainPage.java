@@ -133,7 +133,7 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (listsButton.getSelectedIndex()){
                     case 0:
-                        app.newPage(3);
+                        app.getPageInfo(3);
                         break;
                     case 1:
                         app.newPage(4);

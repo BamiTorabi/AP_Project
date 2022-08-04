@@ -37,8 +37,6 @@ public class ProfilePage extends JPanel {
 
     private User userLoggedIn;
     private User profileToBeDrawn;
-    private Student studentToBeDrawn;
-    private Professor profToBeDrawn;
     private boolean profileOfLoggedIn;
     private Application app;
 
@@ -52,15 +50,14 @@ public class ProfilePage extends JPanel {
         this.app = app;
         this.profileToBeDrawn = userToBeDrawn;
         this.userLoggedIn = userLoggedIn;
-        this.profileOfLoggedIn = (userLoggedIn == userToBeDrawn);
+        this.profileOfLoggedIn = (userLoggedIn.getUniversityID().equals(userToBeDrawn.getUniversityID()));
         this.setLayout(null);
 
         putGeneralInfo();
-        if ((profileToBeDrawn.isStudent())) {
-            studentToBeDrawn = (Student) profileToBeDrawn;
+        if (profileToBeDrawn instanceof Student) {
             putStudentInfo();
-        } else {
-            profToBeDrawn = (Professor) profileToBeDrawn;
+        }
+        if (profileToBeDrawn instanceof Professor) {
             putProfessorInfo();
         }
         this.addTitle();
@@ -95,11 +92,11 @@ public class ProfilePage extends JPanel {
     public void addTitle(){
         this.titleLabel.setFont(normalBoldFont);
         String labelText = "";
-        if (profileToBeDrawn.isStudent()){
-            labelText = (studentToBeDrawn).getType().toString().toUpperCase() + " STUDENT";
+        if (profileToBeDrawn instanceof Student){
+            labelText = ((Student) profileToBeDrawn).getType().toString().toUpperCase() + " STUDENT";
         }
-        else{
-            labelText = (profToBeDrawn).getType().toString().toUpperCase() + " PROFESSOR";
+        if (profileToBeDrawn instanceof Professor){
+            labelText = ((Professor) profileToBeDrawn).getType().toString().toUpperCase() + " PROFESSOR";
         }
         this.titleLabel.setText(labelText);
         this.titleLabel.setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH, LABEL_HEIGHT);
@@ -140,7 +137,7 @@ public class ProfilePage extends JPanel {
         this.phoneNumberText.setBounds(MARGIN_SIZE + 175, getCoor(5), 400, 50);
         this.add(this.phoneNumberText);
 
-        if (profileOfLoggedIn)
+        if (!profileOfLoggedIn)
             this.phoneNumberText.setEditable(false);
     }
 
@@ -157,7 +154,7 @@ public class ProfilePage extends JPanel {
         this.emailAddressText.setBounds(MARGIN_SIZE + 175, getCoor(6), 400, 50);
         this.add(this.emailAddressText);
 
-        if (profileOfLoggedIn)
+        if (!profileOfLoggedIn)
             this.emailAddressText.setEditable(false);
     }
 
@@ -170,21 +167,21 @@ public class ProfilePage extends JPanel {
 
     public void addScore(){
         this.scoreLabel.setFont(normalPlainFont);
-        this.scoreLabel.setText("Total Score: " + studentToBeDrawn.getTotalScore());
+        this.scoreLabel.setText("Total Score: " + ((Student) profileToBeDrawn).getTotalScore());
         this.scoreLabel.setBounds(MARGIN_SIZE, getCoor(8), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.scoreLabel);
     }
 
     public void addEntryYear(){
         this.yearAddedLabel.setFont(normalPlainFont);
-        this.yearAddedLabel.setText("Year Joined: " + studentToBeDrawn.getFirstYear());
+        this.yearAddedLabel.setText("Year Joined: " + profileToBeDrawn.getFirstYear());
         this.yearAddedLabel.setBounds(MARGIN_SIZE, getCoor(9), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.yearAddedLabel);
     }
 
     public void addCounsellor(){
         this.counsellorLabel.setFont(normalPlainFont);
-        this.counsellorLabel.setText("Counsellor: " + studentToBeDrawn.getCounsellor());
+        this.counsellorLabel.setText("Counsellor: " + ((Student) profileToBeDrawn).getCounsellor());
         this.counsellorLabel.setBounds(MARGIN_SIZE, getCoor(10), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.counsellorLabel);
     }
@@ -192,7 +189,7 @@ public class ProfilePage extends JPanel {
     public void addGraduationStatus(){
         this.graduationStatusLabel.setFont(normalPlainFont);
         String labelText = "Graduation Status: ";
-        switch (studentToBeDrawn.getEducationalStatus()){
+        switch (((Student) profileToBeDrawn).getEducationalStatus()){
             case -1:
                 labelText += "Dropped out";
                 break;
@@ -210,7 +207,7 @@ public class ProfilePage extends JPanel {
 
     public void addRoomNumber(){
         this.roomNumberLabel.setFont(normalPlainFont);
-        this.roomNumberLabel.setText("Room No: " + profToBeDrawn.getRoomNumber());
+        this.roomNumberLabel.setText("Room No: " + ((Professor) profileToBeDrawn).getRoomNumber());
         this.roomNumberLabel.setBounds(MARGIN_SIZE, getCoor(8), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.roomNumberLabel);
     }
@@ -228,8 +225,8 @@ public class ProfilePage extends JPanel {
                     profileToBeDrawn.setPhoneNumber(phone);
                     profileToBeDrawn.setEmailAddress(email);
                     try {
-                        app.sendChanges(profileToBeDrawn.getUniversityID(), "phoneNumber", phone);
-                        app.sendChanges(profileToBeDrawn.getUniversityID(), "emailAddress", email);
+                        app.sendUserUpdate(profileToBeDrawn.getUniversityID(), "phoneNumber", phone);
+                        app.sendUserUpdate(profileToBeDrawn.getUniversityID(), "emailAddress", email);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }

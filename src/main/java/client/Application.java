@@ -68,8 +68,10 @@ public class Application implements Runnable{
             case 2:
                 panelList[1] = new ProfilePage(this, userLoggedIn, userLoggedIn);
                 break;
-        /*panelList[2] = new CoursesList();
-        panelList[3] = new ProfsList();
+            case 3:
+                panelList[2] = new CoursesList(this, userLoggedIn);
+                break;
+        /*panelList[3] = new ProfsList();
         panelList[4] = new WeeklyPlanPage();
         panelList[5] = new ExamPlanPage();
         panelList[6] = new RequestsPage();
@@ -84,6 +86,13 @@ public class Application implements Runnable{
         if (pageStack.size() > 2) {
             pageStack.pop();
         }
+        repaintApp();
+    }
+
+    public int getCurrentPage(){
+        if (pageStack.size() == 0)
+            return -1;
+        return pageStack.peek();
     }
 
     public void logOut(){
@@ -121,7 +130,7 @@ public class Application implements Runnable{
         client.send("CAPTCHA/" + String.format("%04d", captchaNumber));
     }
 
-    public void sendChanges(String userID, String fieldName, String newValue) throws IOException {
+    public void sendUserUpdate(String userID, String fieldName, String newValue) throws IOException {
         client.send("UPDATE/USER/" + userID + "/" + fieldName + "/" + newValue);
     }
 
@@ -179,13 +188,16 @@ public class Application implements Runnable{
 
     public void unpackUser(String info){
         boolean isStudent = true;
+        String ID = null;
+        if (userLoggedIn != null)
+            ID = userLoggedIn.getUniversityID();
         userLoggedIn = new User();
-        String ID = "";
         for (String entry : info.split("/")){
             String[] S = entry.split(":");
             switch (S[0]){
                 case "universityID":
-                    ID = S[1];
+                    if (ID == null)
+                        ID = S[1];
                     break;
                 case "student":
                     isStudent = Boolean.parseBoolean(S[1]);

@@ -48,8 +48,24 @@ public class DatabaseHandler {
             }
         }
         message += ";";
+        //System.err.println("mysql> " + message);
         Statement statement = connection.createStatement();
         return statement.executeQuery(message);
+    }
+
+    public void updateTable(String tableName, String ID, String[] conditions, String fieldName, String newValue) throws SQLException {
+        String message = "UPDATE " + tableName;
+        message += " SET " + fieldName + " = \"" + newValue + "\"";
+        message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=\"" + ID + "\"";
+        if (conditions.length > 0){
+            for (int i = 0; i < conditions.length; i++){
+                message += " AND " + conditions[i] + " ";
+            }
+        }
+        message += ";";
+        //System.err.println("mysql> " + message);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(message);
     }
 
 }

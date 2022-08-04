@@ -3,7 +3,10 @@ package client;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Base64;
@@ -19,6 +22,9 @@ public class Client implements Runnable{
     private PrintWriter output;
     private Application app;
     private Thread guiThread;
+
+    public Client() {
+    }
 
     public void init() throws IOException {
         this.socket = new Socket(address, port);
