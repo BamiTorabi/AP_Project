@@ -10,11 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
-public class MainPagePanel extends JPanel {
+public class MainPagePanel extends PanelTemplate {
 
     private Font normalPlainFont = new Font("Arial", Font.PLAIN, 18);
 
-    private Application app;
     private User user;
 
     private JLabel lastEntryLabel = new JLabel();
@@ -27,17 +26,9 @@ public class MainPagePanel extends JPanel {
     private int MARGIN_HEIGHT = 50;
     private int LABEL_HEIGHT = 50;
 
-    public MainPagePanel(Application app, User user){
-        super();
-        this.app = app;
-        this.user = user;
+    public MainPagePanel(Application app, String userID){
+        super(app, userID);
         this.setLayout(null);
-
-        addGeneralLabels();
-        if (this.user.isStudent())
-            addStudentLabels();
-        else if (((Professor)this.user).isDeputy())
-            addNewUserButton();
     }
 
     public int getCoor(double x){
@@ -45,16 +36,19 @@ public class MainPagePanel extends JPanel {
     }
 
     public void addGeneralLabels(){
+        this.lastEntryLabel = new JLabel();
         this.lastEntryLabel.setFont(normalPlainFont);
         this.lastEntryLabel.setText("Last entry time: " + Calendar.getInstance().getTime());
         this.lastEntryLabel.setBounds(50, getCoor(2), 600, LABEL_HEIGHT);
         this.add(this.lastEntryLabel);
 
+        this.nameLabel = new JLabel();
         this.nameLabel.setFont(normalPlainFont);
         this.nameLabel.setText("Welcome, " + this.user.giveName() + "!");
         this.nameLabel.setBounds(50, getCoor(0), 600, LABEL_HEIGHT);
         this.add(this.nameLabel);
 
+        this.emailLabel = new JLabel();
         this.emailLabel.setFont(normalPlainFont);
         this.emailLabel.setText("Email: " + this.user.getEmailAddress());
         this.emailLabel.setBounds(50, getCoor(3), 600, LABEL_HEIGHT);
@@ -64,6 +58,7 @@ public class MainPagePanel extends JPanel {
     public void addStudentLabels(){
         Student student = (Student)this.user;
 
+        this.counsellorLabel = new JLabel();
         this.counsellorLabel.setFont(normalPlainFont);
         this.counsellorLabel.setText("Counsellor: ");
         this.counsellorLabel.setBounds(50, getCoor(4), 600, LABEL_HEIGHT);
@@ -83,6 +78,7 @@ public class MainPagePanel extends JPanel {
             default:
         }
 
+        this.eduStatusLabel = new JLabel();
         this.eduStatusLabel.setFont(normalPlainFont);
         this.eduStatusLabel.setText("Educational status: " + text);
         this.eduStatusLabel.setBounds(50, getCoor(5), 600, LABEL_HEIGHT);
@@ -90,6 +86,7 @@ public class MainPagePanel extends JPanel {
     }
 
     public void addNewUserButton(){
+        this.newUserButton = new JButton();
         this.newUserButton.setFont(normalPlainFont);
         this.newUserButton.setText("New User");
         this.newUserButton.setBackground(Color.GREEN);
@@ -103,4 +100,17 @@ public class MainPagePanel extends JPanel {
         this.add(this.newUserButton);
     }
 
+    @Override
+    public void refreshPanel(String info) {
+        if (info.equals(lastUpdate))
+            return;
+        lastUpdate = info;
+        this.removeAll();
+        this.user = app.unpackUser(info);
+        addGeneralLabels();
+        if (this.user.isStudent())
+            addStudentLabels();
+        else if (((Professor)this.user).isDeputy())
+            addNewUserButton();
+    }
 }

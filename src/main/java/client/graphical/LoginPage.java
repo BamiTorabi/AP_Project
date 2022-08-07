@@ -5,10 +5,8 @@ import client.Application;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-public class LoginPage extends JFrame {
-    private Application app;
+public class LoginPage extends PageTemplate {
     private JLabel topTextLabel = new JLabel();
     private JLabel usernameLabel = new JLabel();
     private JLabel passwordLabel = new JLabel();
@@ -34,17 +32,22 @@ public class LoginPage extends JFrame {
     private final int LABEL_HEIGHT = 20;
     private final int BUTTON_WIDTH = 100;
     private final int BUTTON_HEIGHT = 50;
+    private String topText;
 
     public LoginPage(Application app){
-        super();
-        this.app = app;
+        super(app);
         this.setTitle("Login");
         this.setSize(WIDTH, HEIGHT);
         this.setLayout(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.topText = "Welcome!";
+    }
 
-        setTopText("Welcome!");
+    @Override
+    public void refreshPage(String info) {
+        this.getContentPane().removeAll();
+        setTopText(this.topText);
         addUsernameField();
         addPasswordField();
         addCaptchaField();
@@ -115,27 +118,11 @@ public class LoginPage extends JFrame {
         this.add(this.cancelButton);
     }
 
-    public void updatePage(boolean flag){
-        captchaPicture.setIcon(null);
-        captchaPicture.setIcon(app.getCaptchaIcon());
-        if (flag)
-            app.repaintApp();
-    }
-
-    public void wrongLogIn(){
-        topTextLabel.setText("Wrong username or password. Please try again.");
-        updatePage(true);
-    }
-
     public class CaptchaListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             captchaField.setText("");
-            try {
-                app.sendCaptchaRequest();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            app.askForInfo(0, String.format("%04d", app.getCaptchaNumber()));
         }
     }
 
@@ -147,22 +134,14 @@ public class LoginPage extends JFrame {
             String passwordFieldText = String.valueOf(passwordField.getPassword());
             if (captchaFieldText.equals(String.format("%04d", app.getCaptchaNumber()))){
                 app.logIn(usernameFieldText, passwordFieldText);
-                topTextLabel.setText("Welcome!");
-                setVisible(false);
             }
             else{
-                topTextLabel.setText("Invalid captcha. Please try again.");
+                topText = "Invalid captcha. Please try again.";
             }
+            setVisible(false);
             usernameField.setText("");
             passwordField.setText("");
             captchaField.setText("");
-            try {
-                app.sendCaptchaRequest();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            captchaPicture.setIcon(app.getCaptchaIcon());
-            updatePage(false);
         }
     }
 }

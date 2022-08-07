@@ -14,7 +14,6 @@ public class ClientHandler implements Runnable{
     private Scanner input;
     private PrintWriter output;
     private String authToken;
-    private String lastUpdate = "";
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
@@ -33,13 +32,6 @@ public class ClientHandler implements Runnable{
             String[] S = message.split("/");
             boolean flag;
             switch (S[1]) {
-                case "CAPTCHA":
-                    int prev = Integer.parseInt(S[2]);
-                    int x = server.getRandomCaptcha(prev);
-                    File file = server.fetchBufferedCaptcha(x);
-                    String response = "CAPTCHA/" + String.format("%04d/", x);
-                    sendCaptcha(response, file);
-                    break;
                 case "LOGIN":
                     String ID = S[2];
                     String password = S[3];
@@ -48,7 +40,6 @@ public class ClientHandler implements Runnable{
                     break;
                 case "INFO":
                     handleInfoQuery(message);
-                    lastUpdate = message;
                     break;
                 case "UPDATE":
                     switch (S[2]) {
@@ -71,12 +62,19 @@ public class ClientHandler implements Runnable{
 
     public void handleInfoQuery(String message) throws IOException {
         String S[] = message.split("/");
-        int pageNumber = Integer.parseInt(S[3]);
+        int pageNumber = Integer.parseInt(S[2]);
         String info = "";
         switch (pageNumber) {
+            case 0:
+                int prev = Integer.parseInt(S[3]);
+                int x = server.getRandomCaptcha(prev);
+                File file = server.fetchBufferedCaptcha(x);
+                String response = String.format("INFO/00/%04d/", x);
+                sendCaptcha(response, file);
+                return;
             case 1:
-                if (server.isStudent(S[2])) {
-                    info = server.getInfo("Students", S[2], new String[]{}, new String[]{
+                if (server.isStudent(S[3])) {
+                    info = server.getInfo("Students", S[3], new String[]{}, new String[]{
                             "student",
                             "firstName",
                             "lastName",
@@ -84,7 +82,7 @@ public class ClientHandler implements Runnable{
                             "counsellor"
                     });
                 } else {
-                    info = server.getInfo("Professors", S[2], new String[]{}, new String[]{"student",
+                    info = server.getInfo("Professors", S[3], new String[]{}, new String[]{"student",
                             "firstName",
                             "lastName",
                             "emailAddress",
@@ -93,8 +91,8 @@ public class ClientHandler implements Runnable{
                 }
                 break;
             case 2:
-                if (server.isStudent(S[2])) {
-                    info = server.getInfo("Students", S[2], new String[]{}, new String[]{
+                if (server.isStudent(S[3])) {
+                    info = server.getInfo("Students", S[3], new String[]{}, new String[]{
                             "student",
                             "firstName",
                             "lastName",
@@ -109,7 +107,7 @@ public class ClientHandler implements Runnable{
                             "educationalStatus"
                     });
                 } else {
-                    info = server.getInfo("Professors", S[2], new String[]{}, new String[]{
+                    info = server.getInfo("Professors", S[3], new String[]{}, new String[]{
                             "student",
                             "firstName",
                             "lastName",

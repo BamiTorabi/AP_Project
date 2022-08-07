@@ -7,70 +7,84 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Stack;
 
-public class Application implements Runnable{
+public class Application implements Runnable {
 
-    private Client client;
-    private User userLoggedIn = null;
-    private JFrame[] pageList;
-    private JPanel[] panelList;
-    private Stack<Integer> pageStack;
+    private final Client client;
+    private String userID = "";
+    private final Stack<String> pageStack;
+    private PanelTemplate panel;
+    private PageTemplate page;
     private int captchaNumber = 0;
     private ImageIcon captchaIcon;
+    private Updater updater;
+    private Thread updateThread;
     //private List<Score> temporaryScoreList;
 
-    public Application(Client client){
+    public Application(Client client) {
         this.client = client;
+        this.updater = new Updater(this);
         //temporaryScoreList = new ArrayList<>();
         /*Data.initialize();
         Data.readUsers();
         Data.readCourses();
         Data.readRequests();*/
         //University.setSpecialUsers();
-        userLoggedIn = null;
-        pageList = new JFrame[2];
-        panelList = new JPanel[10];
-        pageStack = new Stack<>();
+        this.pageStack = new Stack<>();
     }
 
-    public void repaintApp(){
-        int top = pageStack.peek();
-        JFrame frameToBeDrawn = pageList[top > 0 ? 1 : 0];
-        if (top > 0) {
-            JPanel panelToBeDrawn = panelList[top - 1];
-            if (frameToBeDrawn instanceof MainPage){
-                ((MainPage) frameToBeDrawn).setMainPanel(panelToBeDrawn);
-                ((MainPage) frameToBeDrawn).addMainPanel();
+    public void repaintApp() {
+        int pageNumber = getPageNumber(pageStack.peek());
+        if (pageNumber > 0) {
+            if (page instanceof MainPage) {
+                ((MainPage) page).setMainPanel(this.panel);
+                ((MainPage) page).addMainPanel();
             }
-            panelToBeDrawn.setVisible(true);
-            panelToBeDrawn.revalidate();
-            panelToBeDrawn.repaint();
+            panel.setVisible(true);
+            panel.revalidate();
+            panel.repaint();
         }
-        frameToBeDrawn.setVisible(true);
-        frameToBeDrawn.revalidate();
-        frameToBeDrawn.repaint();
+        page.setVisible(true);
+        page.revalidate();
+        page.repaint();
     }
 
-    public void newPage(int n){
-        if (!pageStack.isEmpty() && pageStack.peek() == n)
-            return;
-        pageStack.push(n);
-        System.err.println(pageStack);
-        if (n == 0){
-            pageList[0] = new LoginPage(this);
+    public int getPageNumber(String S){
+        return Integer.parseInt(S.split("/")[0]);
+    }
+
+    public void newPage(int pageNumber, String pageInfo) {
+        String temp = String.format("%02d/%s", pageNumber, pageInfo);
+        if (!pageStack.isEmpty() && getPageNumber(pageStack.peek()) == pageNumber) {
+            pageStack.pop();
         }
-        if (pageStack.size() == 2) {
-            pageList[1] = new MainPage(this, userLoggedIn);
+        pageStack.push(temp);
+        pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
+        System.out.println();
+        updater.getPageStack().forEach(x -> System.out.print(x.substring(0, 2) + ", "));
+        System.out.println();
+        if (pageNumber == 0){
+            if (!(page instanceof LoginPage))
+                page = new LoginPage(this);
+            //page.refreshPage("");
         }
-        switch (n) {
-            case 1:
-                panelList[0] = new MainPagePanel(this, userLoggedIn);
-                break;
-            case 2:
-                panelList[1] = new ProfilePage(this, userLoggedIn, userLoggedIn);
-                break;
-            case 3:
-                panelList[2] = new CoursesList(this, userLoggedIn);
-                break;
+        else {
+            if (!(page instanceof MainPage))
+                page = new MainPage(this);
+            //page.refreshPage(pageInfo);
+            switch (pageNumber) {
+                case 1:
+                    if (!(panel instanceof MainPagePanel))
+                        panel = new MainPagePanel(this, userID);
+                    panel.refreshPanel(pageInfo);
+                    break;
+                case 2:
+                    if (!(panel instanceof ProfilePage))
+                        panel = new ProfilePage(this, userID);
+                    panel.refreshPanel(pageInfo);
+                    break;
+                case 3:
+                    panel = new CoursesList(this, userID);
+                    break;
         /*panelList[3] = new ProfsList();
         panelList[4] = new WeeklyPlanPage();
         panelList[5] = new ExamPlanPage();
@@ -78,56 +92,37 @@ public class Application implements Runnable{
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
             panelList[8] = new ReportCardPage(userLoggedIn);*/
+            }
         }
+        page.refreshPage(pageInfo);
         repaintApp();
     }
 
     public void remove(){
         if (pageStack.size() > 2) {
             pageStack.pop();
+            updater.popQuery();
+            String query = updater.getLastQuery();
+            askForInfo(getPageNumber(query), query.substring(3));
         }
-        repaintApp();
     }
-
-    public int getCurrentPage(){
-        if (pageStack.size() == 0)
-            return -1;
-        return pageStack.peek();
-    }
+    
 
     public void logOut(){
-        while (pageStack.size() > 1)
+        while (pageStack.size() > 1) {
             pageStack.pop();
-        setUserLoggedIn(null);
+            updater.popQuery();
+        }
+        setUserID("");
         repaintApp();
     }
 
-
-    public User getUserLoggedIn() {
-        return userLoggedIn;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUserLoggedIn(User userLoggedIn) {
-        this.userLoggedIn = userLoggedIn;
-    }
-
-    /*public void addToTempScoreList(Score score){
-        temporaryScoreList.add(score);
-    }
-
-    public void setScores(){
-        if (temporaryScoreList.isEmpty())
-            return;
-        for (Score score : temporaryScoreList){
-            Student student = (Student) University.getUser(score.getStudentLinked());
-            Course course = University.getCourse(score.getCourseLinked());
-            student.addScore(score);
-            course.addScore(score);
-        }
-    }*/
-
-    public void sendCaptchaRequest() throws IOException {
-        client.send("CAPTCHA/" + String.format("%04d", captchaNumber));
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void sendUserUpdate(String userID, String fieldName, String newValue) throws IOException {
@@ -137,13 +132,6 @@ public class Application implements Runnable{
     public void setCaptcha(int x, ImageIcon icon){
         this.captchaNumber = x;
         this.captchaIcon = icon;
-        if (pageList[0] == null) {
-            pageList[0] = new LoginPage(this);
-            newPage(0);
-        }
-        else {
-            ((LoginPage) pageList[0]).updatePage(true);
-        }
     }
 
     public int getCaptchaNumber() {
@@ -162,14 +150,6 @@ public class Application implements Runnable{
         this.captchaIcon = captchaIcon;
     }
 
-    public void getPageInfo(int t){
-        try {
-            client.send("INFO/" + userLoggedIn.getUniversityID() + String.format("/%d", t));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void logIn(String username, String password){
         if (username.equals(""))
             username += "0";
@@ -182,16 +162,10 @@ public class Application implements Runnable{
         }
     }
 
-    public void badLogIn(){
-        ((LoginPage) pageList[0]).wrongLogIn();
-    }
-
-    public void unpackUser(String info){
+    public User unpackUser(String info){
         boolean isStudent = true;
         String ID = null;
-        if (userLoggedIn != null)
-            ID = userLoggedIn.getUniversityID();
-        userLoggedIn = new User();
+        User user = new User();
         for (String entry : info.split("/")){
             String[] S = entry.split(":");
             switch (S[0]){
@@ -202,71 +176,108 @@ public class Application implements Runnable{
                 case "student":
                     isStudent = Boolean.parseBoolean(S[1]);
                     if (isStudent)
-                        userLoggedIn = new Student();
+                        user = new Student();
                     else
-                        userLoggedIn = new Professor();
-                    userLoggedIn.setStudent(isStudent);
+                        user = new Professor();
+                    user.setStudent(isStudent);
                     break;
                 case "firstName":
-                    userLoggedIn.setFirstName(S[1]);
+                    user.setFirstName(S[1]);
                     break;
                 case "lastName":
-                    userLoggedIn.setLastName(S[1]);
+                    user.setLastName(S[1]);
                     break;
                 case "phoneNumber":
-                    userLoggedIn.setPhoneNumber(S[1]);
+                    user.setPhoneNumber(S[1]);
                     break;
                 case "nationalID":
-                    userLoggedIn.setNationalID(S[1]);
+                    user.setNationalID(S[1]);
                     break;
                 case "emailAddress":
-                    userLoggedIn.setEmailAddress(S[1]);
+                    user.setEmailAddress(S[1]);
                     break;
                 case "college":
-                    userLoggedIn.setCollegeType(CollegeType.valueOf(S[1]));
+                    user.setCollegeType(CollegeType.valueOf(S[1]));
                     break;
                 case "type":
-                    if (userLoggedIn.isStudent()){
-                        ((Student) userLoggedIn).setType(StudentType.valueOf(S[1]));
+                    if (user.isStudent()){
+                        ((Student) user).setType(StudentType.valueOf(S[1]));
                     }
                     else{
-                        ((Professor) userLoggedIn).setType(ProfessorType.valueOf(S[1]));
+                        ((Professor) user).setType(ProfessorType.valueOf(S[1]));
                     }
                     break;
                 case "firstYear":
-                    userLoggedIn.setFirstYear(Integer.parseInt(S[1]));
+                    user.setFirstYear(Integer.parseInt(S[1]));
                     break;
                 case "totalScore":
-                    assert userLoggedIn instanceof Student;
-                    ((Student) userLoggedIn).setTotalScore(Double.parseDouble(S[1]));
+                    assert user instanceof Student;
+                    ((Student) user).setTotalScore(Double.parseDouble(S[1]));
                     break;
                 case "educationalStatus":
-                    assert userLoggedIn instanceof Student;
-                    ((Student) userLoggedIn).setEducationalStatus(Integer.parseInt(S[1]));
+                    assert user instanceof Student;
+                    ((Student) user).setEducationalStatus(Integer.parseInt(S[1]));
                     break;
                 case "roomNumber":
-                    assert userLoggedIn instanceof Professor;
-                    ((Professor) userLoggedIn).setRoomNumber(Integer.parseInt(S[1]));
+                    assert user instanceof Professor;
+                    ((Professor) user).setRoomNumber(Integer.parseInt(S[1]));
                     break;
                 case "deputy":
-                    assert userLoggedIn instanceof Professor;
-                    ((Professor) userLoggedIn).setDeputy(Boolean.parseBoolean(S[1]));
+                    assert user instanceof Professor;
+                    ((Professor) user).setDeputy(Boolean.parseBoolean(S[1]));
                     break;
                 case "counsellor":
-                    assert userLoggedIn instanceof Student;
-                    ((Student) userLoggedIn).setCounsellor(S[1]);
+                    assert user instanceof Student;
+                    ((Student) user).setCounsellor(S[1]);
                     break;
             }
         }
-        userLoggedIn.setUniversityID(ID);
+        user.setUniversityID(ID);
+        return user;
+    }
+
+    public void unpackMessage(int pageNumber, String info){
+        String[] S = info.split("/");
+        switch (pageNumber){
+            case 0:
+                int x = Integer.parseInt(S[0]);
+                client.receiveCaptcha(info.substring(5));
+                setCaptcha(x, new ImageIcon("captchaTest.jpg"));
+                break;
+            case 1:
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+        newPage(pageNumber, info);
+    }
+
+    public void askForInfo(int pageNumber, String infoNeeded) {
+        String message = String.format("INFO/%02d/%s", pageNumber, infoNeeded);
+        this.updater.addQuery(message.substring(5));
+        try{
+            this.client.send(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goodLogIn(String userID){
+        this.userID = userID;
+        askForInfo(1, userID);
+    }
+
+    public void badLogIn(){
+        if (this.page instanceof LoginPage)
+            ((LoginPage) this.page).setTopText("Wrong username or password. Please try again.");
+        askForInfo(0, String.format("%04d", captchaNumber));
     }
 
     @Override
     public void run() {
-        try {
-            sendCaptchaRequest();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        askForInfo(0, "0000");
+        this.updateThread = new Thread(this.updater);
+        this.updateThread.start();
     }
 }

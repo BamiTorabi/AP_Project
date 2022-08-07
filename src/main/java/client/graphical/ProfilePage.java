@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class ProfilePage extends JPanel {
+public class ProfilePage extends PanelTemplate {
 
     private Font bigBoldFont = new Font("Arial", Font.BOLD, 30);
     private Font normalPlainFont = new Font("Arial", Font.PLAIN, 20);
@@ -35,34 +35,17 @@ public class ProfilePage extends JPanel {
     private JTextField emailAddressText = new JTextField();
     private JButton saveButton = new JButton();
 
-    private User userLoggedIn;
     private User profileToBeDrawn;
     private boolean profileOfLoggedIn;
-    private Application app;
 
     private final int LABEL_WIDTH = 700;
     private final int LABEL_HEIGHT = 50;
     private final int MARGIN_SIZE = 50;
     private final int SPACE_SIZE = 40;
 
-    public ProfilePage(Application app, User userLoggedIn, User userToBeDrawn){
-        super();
-        this.app = app;
-        this.profileToBeDrawn = userToBeDrawn;
-        this.userLoggedIn = userLoggedIn;
-        this.profileOfLoggedIn = (userLoggedIn.getUniversityID().equals(userToBeDrawn.getUniversityID()));
+    public ProfilePage(Application app, String userID){
+        super(app, userID);
         this.setLayout(null);
-
-        putGeneralInfo();
-        if (profileToBeDrawn instanceof Student) {
-            putStudentInfo();
-        }
-        if (profileToBeDrawn instanceof Professor) {
-            putProfessorInfo();
-        }
-        this.addTitle();
-        if (profileOfLoggedIn)
-            this.addSaveButton();
     }
 
     public void putGeneralInfo(){
@@ -90,6 +73,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addTitle(){
+        this.titleLabel = new JLabel();
         this.titleLabel.setFont(normalBoldFont);
         String labelText = "";
         if (profileToBeDrawn instanceof Student){
@@ -104,6 +88,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addName(){
+        this.nameLabel = new JLabel();
         this.nameLabel.setFont(bigBoldFont);
         this.nameLabel.setText(profileToBeDrawn.getFirstName() + " " + profileToBeDrawn.getLastName());
         this.nameLabel.setBounds(MARGIN_SIZE, getCoor(1), LABEL_WIDTH, LABEL_HEIGHT);
@@ -111,6 +96,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addNationalID(){
+        this.nationalIDLabel = new JLabel();
         this.nationalIDLabel.setFont(normalPlainFont);
         this.nationalIDLabel.setText("National ID: " + profileToBeDrawn.getNationalID());
         this.nationalIDLabel.setBounds(MARGIN_SIZE, getCoor(3), LABEL_WIDTH, LABEL_HEIGHT);
@@ -118,6 +104,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addUniversityID(){
+        this.universityIDLabel = new JLabel();
         this.universityIDLabel.setFont(normalPlainFont);
         this.universityIDLabel.setText("University ID: " + profileToBeDrawn.getUniversityID());
         this.universityIDLabel.setBounds(MARGIN_SIZE, getCoor(4), LABEL_WIDTH, LABEL_HEIGHT);
@@ -125,11 +112,13 @@ public class ProfilePage extends JPanel {
     }
 
     public void addPhoneNumber(){
+        this.phoneNumberLabel = new JLabel();
         this.phoneNumberLabel.setFont(normalPlainFont);
         this.phoneNumberLabel.setText("Phone Number: ");
         this.phoneNumberLabel.setBounds(MARGIN_SIZE, getCoor(5), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.phoneNumberLabel);
 
+        this.phoneNumberText = new JTextField();
         this.phoneNumberText.setFont(normalPlainFont);
         this.phoneNumberText.setBorder(null);
         this.phoneNumberText.setBackground(Color.WHITE);
@@ -142,14 +131,16 @@ public class ProfilePage extends JPanel {
     }
 
     public void addEmailAddress(){
+        this.emailAddressLabel = new JLabel();
         this.emailAddressLabel.setFont(normalPlainFont);
         this.emailAddressLabel.setText("Email Address: ");
         this.emailAddressLabel.setBounds(MARGIN_SIZE, getCoor(6), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.emailAddressLabel);
 
+        this.emailAddressText = new JTextField();
         this.emailAddressText.setFont(normalPlainFont);
         this.emailAddressText.setBorder(null);
-        this.phoneNumberText.setBackground(Color.WHITE);
+        this.emailAddressText.setBackground(Color.WHITE);
         this.emailAddressText.setText(profileToBeDrawn.getEmailAddress());
         this.emailAddressText.setBounds(MARGIN_SIZE + 175, getCoor(6), 400, 50);
         this.add(this.emailAddressText);
@@ -159,6 +150,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addCollege(){
+        this.collegeLabel = new JLabel();
         this.collegeLabel.setFont(normalPlainFont);
         this.collegeLabel.setText("College: " + profileToBeDrawn.getCollege());
         this.collegeLabel.setBounds(MARGIN_SIZE, getCoor(7), LABEL_WIDTH, LABEL_HEIGHT);
@@ -166,6 +158,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addScore(){
+        this.scoreLabel = new JLabel();
         this.scoreLabel.setFont(normalPlainFont);
         this.scoreLabel.setText("Total Score: " + ((Student) profileToBeDrawn).getTotalScore());
         this.scoreLabel.setBounds(MARGIN_SIZE, getCoor(8), LABEL_WIDTH, LABEL_HEIGHT);
@@ -173,6 +166,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addEntryYear(){
+        this.yearAddedLabel = new JLabel();
         this.yearAddedLabel.setFont(normalPlainFont);
         this.yearAddedLabel.setText("Year Joined: " + profileToBeDrawn.getFirstYear());
         this.yearAddedLabel.setBounds(MARGIN_SIZE, getCoor(9), LABEL_WIDTH, LABEL_HEIGHT);
@@ -180,6 +174,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addCounsellor(){
+        this.counsellorLabel = new JLabel();
         this.counsellorLabel.setFont(normalPlainFont);
         this.counsellorLabel.setText("Counsellor: " + ((Student) profileToBeDrawn).getCounsellor());
         this.counsellorLabel.setBounds(MARGIN_SIZE, getCoor(10), LABEL_WIDTH, LABEL_HEIGHT);
@@ -187,6 +182,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addGraduationStatus(){
+        this.graduationStatusLabel = new JLabel();
         this.graduationStatusLabel.setFont(normalPlainFont);
         String labelText = "Graduation Status: ";
         switch (((Student) profileToBeDrawn).getEducationalStatus()){
@@ -206,6 +202,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addRoomNumber(){
+        this.roomNumberLabel = new JLabel();
         this.roomNumberLabel.setFont(normalPlainFont);
         this.roomNumberLabel.setText("Room No: " + ((Professor) profileToBeDrawn).getRoomNumber());
         this.roomNumberLabel.setBounds(MARGIN_SIZE, getCoor(8), LABEL_WIDTH, LABEL_HEIGHT);
@@ -213,6 +210,7 @@ public class ProfilePage extends JPanel {
     }
 
     public void addSaveButton(){
+        this.saveButton = new JButton();
         this.saveButton.setText("Save");
         this.saveButton.setBounds(850, 600, 100, 40);
         this.saveButton.setBackground(Color.GREEN);
@@ -238,5 +236,24 @@ public class ProfilePage extends JPanel {
             }
         });
         this.add(this.saveButton);
+    }
+
+    @Override
+    public void refreshPanel(String info) {
+        this.removeAll();
+
+        this.profileToBeDrawn = app.unpackUser(info);
+        this.profileOfLoggedIn = (userID.equals(profileToBeDrawn.getUniversityID()));
+
+        putGeneralInfo();
+        if (profileToBeDrawn instanceof Student) {
+            putStudentInfo();
+        }
+        if (profileToBeDrawn instanceof Professor) {
+            putProfessorInfo();
+        }
+        this.addTitle();
+        if (profileOfLoggedIn)
+            this.addSaveButton();
     }
 }

@@ -1,7 +1,6 @@
 package client.graphical;
 
 import client.Application;
-import client.logic.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
-public class MainPage extends JFrame {
-
-    private Application app;
-    private User user;
+public class MainPage extends PageTemplate {
 
     private int BUTTON_SIZE = 100;
     private int TOOLBAR_HEIGHT = 100;
@@ -31,17 +27,13 @@ public class MainPage extends JFrame {
     private JComboBox<String> eduButton;
     private JComboBox<String> reportButton;
 
-    public MainPage(Application app, User user){
-        super();
-        this.app = app;
-        this.user = user;
+    public MainPage(Application app){
+        super(app);
         this.setTitle("Sharif EDU");
         this.setLayout(null);
         this.setResizable(false);
         this.setSize(1000, 800);
-
-        this.addTopToolbar();
-        this.addMainPanel();
+        System.err.println("main");
     }
 
     public int getCoor(double num){
@@ -49,6 +41,7 @@ public class MainPage extends JFrame {
     }
 
     public void addTopToolbar(){
+        this.topToolbar = new JToolBar();
         this.topToolbar.setLayout(new GridBagLayout());
         this.topToolbar.setFloatable(false);
         gbc.weightx = 0.0;
@@ -66,6 +59,7 @@ public class MainPage extends JFrame {
     }
 
     public void addBackButton(){
+        this.backButton = new JButton();
         this.backButton.setIcon(new ImageIcon("resources/icons/backarrow.png"));
         this.backButton.setOpaque(false);
         gbc.gridx = 0;
@@ -79,12 +73,13 @@ public class MainPage extends JFrame {
     }
 
     public void addHomeButton(){
+        this.homeButton = new JButton();
         this.homeButton.setIcon(new ImageIcon("resources/icons/home.png"));
         this.homeButton.setOpaque(false);
         this.homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.newPage(1);
+                app.askForInfo(1, app.getUserID());
             }
         });
         gbc.gridx = 1;
@@ -92,6 +87,7 @@ public class MainPage extends JFrame {
     }
 
     public void addLogOutButton(){
+        this.logOutButton = new JButton();
         this.logOutButton.setIcon(new ImageIcon("resources/icons/logout.png"));
         this.logOutButton.setOpaque(false);
         gbc.gridx = 2;
@@ -106,6 +102,7 @@ public class MainPage extends JFrame {
     }
 
     public void addTimeToolbar(){
+        this.timeToolbar = new JLabel();
         this.timeToolbar.setText(Calendar.getInstance().getTime().toString());
         this.timeToolbar.setHorizontalAlignment(SwingConstants.CENTER);
         this.timeToolbar.setSize(450, TOOLBAR_HEIGHT);
@@ -114,12 +111,13 @@ public class MainPage extends JFrame {
     }
 
     public void addProfileButton(){
+        this.profileButton = new JButton();
         this.profileButton.setText("My Profile");
         gbc.gridx = 7;
         this.profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.getPageInfo(2);
+                app.askForInfo(2, app.getUserID());
             }
         });
         this.topToolbar.add(this.profileButton, gbc);
@@ -133,10 +131,10 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (listsButton.getSelectedIndex()){
                     case 0:
-                        app.getPageInfo(3);
+                        //app.getPageInfo(3, "");
                         break;
                     case 1:
-                        app.newPage(4);
+                        //app.newPage(4);
                         break;
                     default:
                 }
@@ -155,13 +153,13 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (eduButton.getSelectedIndex()){
                     case 0:
-                        app.newPage(5);
+                        //app.newPage(5);
                         break;
                     case 1:
-                        app.newPage(6);
+                        //app.newPage(6);
                         break;
                     case 2:
-                        app.newPage(7);
+                        //app.newPage(7);
                     default:
                 }
                 eduButton.setSelectedIndex(-1);
@@ -173,18 +171,18 @@ public class MainPage extends JFrame {
 
     public void addReportButton(){
         this.reportButton = new JComboBox<>(new String[] {"Temporary Scores"});
-        if (this.user.isStudent())
-            this.reportButton.addItem("Report Card");
+        //if (this.user.isStudent())
+        //    this.reportButton.addItem("Report Card");
         this.reportButton.setSelectedIndex(-1);
         this.reportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (reportButton.getSelectedIndex()){
                     case 0:
-                        app.newPage(8);
+                        //app.newPage(8);
                         break;
                     case 1:
-                        app.newPage(9);
+                        //app.newPage(9);
                         break;
                     default:
                 }
@@ -203,5 +201,12 @@ public class MainPage extends JFrame {
     public void setMainPanel(JPanel mainPanel) {
         this.remove(this.mainPanel);
         this.mainPanel = mainPanel;
+    }
+
+    @Override
+    public void refreshPage(String info) {
+        this.getContentPane().removeAll();
+        this.addTopToolbar();
+        this.addMainPanel();
     }
 }

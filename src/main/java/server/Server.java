@@ -6,7 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,22 +13,20 @@ import java.util.Random;
 
 public class Server {
     private static Server server;
-    private final Clock clock;
     private CaptchaLoader captchaLoader;
     private DatabaseHandler db;
     private Random random;
     private int port = 9000;
-    private long lastUpdateTime = 0;
-    private long threshold = 50;
     private ServerSocket serverSocket;
     private List<ClientHandler> handlers;
+    private List<Thread> handlerThreads;
 
     private Server(){
-        clock = Clock.systemDefaultZone();
         db = DatabaseHandler.getInstance();
         random = new Random();
         captchaLoader = CaptchaLoader.getInstance();
         handlers = new ArrayList<>();
+        handlerThreads = new ArrayList<>();
     }
 
     public static Server getInstance(){
@@ -61,7 +58,9 @@ public class Server {
         ClientHandler handler = new ClientHandler(socket);
         authenticate(handler);
         handlers.add(handler);
-        handler.run();
+        Thread thread = new Thread(handler);
+        handlerThreads.add(thread);
+        thread.start();
     }
 
     public int getRandomCaptcha(int x){

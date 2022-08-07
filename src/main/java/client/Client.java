@@ -1,14 +1,12 @@
 package client;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Scanner;
 
@@ -35,24 +33,18 @@ public class Client implements Runnable{
         while (!socket.isClosed()) {
             String message = receive();
             String[] S = message.split("/");
-            if (!S[0].equals("CAPTCHA"))
-                System.err.println(message);
+            //if (!S[0].equals("CAPTCHA"))
+            //   System.err.println(message);
             switch (S[0]) {
-                case "CAPTCHA":
-                    int x = Integer.parseInt(S[1]);
-                    receiveCaptcha(message);
-                    app.setCaptcha(x, new ImageIcon("captchaTest.jpg"));
-                    System.err.println(S[0] + " " + S[1]);
-                    break;
                 case "START":
-                    this.guiThread.run();
+                    this.guiThread.start();
                     break;
                 case "AUTH_TOKEN":
                     this.authToken = S[1];
                     break;
                 case "LOGIN":
                     if (S[2].equals("true")){
-                        send("INFO/" + S[1] + "/1");
+                        app.goodLogIn(S[1]);
                     }
                     else{
                         app.badLogIn();
@@ -61,8 +53,7 @@ public class Client implements Runnable{
                 case "INFO":
                     int pageNumber = Integer.parseInt(S[1]);
                     String info = message.substring(8);
-                    app.unpackUser(info);
-                    app.newPage(pageNumber);
+                    app.unpackMessage(pageNumber, info);
                     break;
             }
         }
@@ -78,7 +69,7 @@ public class Client implements Runnable{
     }
 
     public void receiveCaptcha(String fileEncoded){
-        byte[] bytes =  Base64.getDecoder().decode(fileEncoded.substring(13));
+        byte[] bytes =  Base64.getDecoder().decode(fileEncoded);
         try{
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             BufferedImage image = ImageIO.read(bais);
@@ -87,12 +78,10 @@ public class Client implements Runnable{
                 file.delete();
             file.createNewFile();
             ImageIO.write(image, "jpg", file);
-        } catch (IOException e) {
-            return;
-        }
+        } catch (IOException ignored) {}
     }
 
-    public ImageIcon fetchCaptcha(int size) throws IOException {
+    /*public ImageIcon fetchCaptcha(int size) throws IOException {
         byte[] imageAr = new byte[size];
         System.err.println(socket.getInputStream().read(imageAr));
         System.err.println(Arrays.toString(imageAr));
@@ -102,7 +91,7 @@ public class Client implements Runnable{
             return null;
         }
         return new ImageIcon(image);
-    }
+    }*/
 
     @Override
     public void run() {

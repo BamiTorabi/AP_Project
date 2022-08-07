@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #2">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captchaTest.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/captchaTest.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/LoginPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ProfilePage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" afterDir="false" />
@@ -92,7 +94,7 @@
       <recent name="client.graphical" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ServerMain">
+  <component name="RunManager" selected="Application.client.ClientMain">
     <configuration name="DataUploader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="data.DataUploader" />
       <module name="AP_Project.main" />
@@ -220,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659434775441</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Server and Client Development #3">
+      <created>1659646240252</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1659646240252</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,6 +261,7 @@
     <MESSAGE value="BranchTest" />
     <MESSAGE value="Server and Client Development #1" />
     <MESSAGE value="Server and Client Development #2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #2" />
+    <MESSAGE value="Server and Client Development #3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #3" />
   </component>
 </project>

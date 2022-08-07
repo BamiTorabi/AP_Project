@@ -3,7 +3,6 @@ package client.graphical;
 import client.Application;
 import client.logic.ClassLevel;
 import client.logic.CollegeType;
-import client.logic.User;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -12,12 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CoursesList extends JPanel {
+public class CoursesList extends PanelTemplate {
 
     private Font normalPlainFont = new Font("Arial", Font.PLAIN, 16);
 
-    private Application app;
-    private User userLoggedIn;
 
     private String[] tableColumnNames = {"Number", "Name", "Professor", "Units", "Enrolled", "Class Time", "Exam Time"};
     private Object[][] tableContents = null;
@@ -46,14 +43,10 @@ public class CoursesList extends JPanel {
     private final int LABEL_WIDTH = 150;
     private final int LABEL_HEIGHT = 30;
 
-    public CoursesList(Application app, User user) {
-        super();
-        this.app = app;
-        this.userLoggedIn = user;
+    public CoursesList(Application app, String userID) {
+        super(app, userID);
         this.setLayout(null);
 
-        addFilters();
-        updatePage();
         /*if (!this.userLoggedIn.isStudent() && ((Professor) this.userLoggedIn).isDeputy()){
             addDeputyButtons();
         }*/
@@ -230,6 +223,11 @@ public class CoursesList extends JPanel {
             }
         }
         this.tableContents = rows.toArray(new Object[0][]);*/
+    }
+
+    @Override
+    public void refreshPanel(String info) {
+
     }
 
     public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {

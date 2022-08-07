@@ -63,7 +63,7 @@ public class DatabaseHandler {
             }
         }
         message += ";";
-        //System.err.println("mysql> " + message);
+        System.err.println("mysql> " + message);
         Statement statement = connection.createStatement();
         statement.executeUpdate(message);
     }
