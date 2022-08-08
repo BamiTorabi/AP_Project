@@ -3,6 +3,7 @@ package client.graphical;
 import client.Application;
 import client.logic.ClassLevel;
 import client.logic.CollegeType;
+import client.logic.Course;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -10,11 +11,11 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CoursesList extends PanelTemplate {
 
     private Font normalPlainFont = new Font("Arial", Font.PLAIN, 16);
-
 
     private String[] tableColumnNames = {"Number", "Name", "Professor", "Units", "Enrolled", "Class Time", "Exam Time"};
     private Object[][] tableContents = null;
@@ -52,15 +53,12 @@ public class CoursesList extends PanelTemplate {
         }*/
     }
 
-    public void updatePage(){
-        addTable(classID, college, level, units);
-    }
 
     public int getCoor(double x) {
         return (int) (SPACE_SIZE * (x + 1) + LABEL_HEIGHT * 2 * x);
     }
 
-    public void updateTable(){
+    public void getFilterText(){
         classID = this.idFilter.getText();
         college = CollegeType.values()[this.collegeFilter.getSelectedIndex()];
         level = ClassLevel.values()[this.typeFilter.getSelectedIndex()];
@@ -68,16 +66,31 @@ public class CoursesList extends PanelTemplate {
         String unitsFilterText = this.unitsFilter.getText();
         try {
             units = Integer.parseInt(unitsFilterText);
-            addTable(classID, college, level, units);
-            app.repaintApp();
         } catch (Exception err) {
             if (!unitsFilterText.equals("")) {
                 JOptionPane.showMessageDialog(CoursesList.this, "Please enter a number for the units field, or leave it empty.");
+                units = -1;
             } else {
-                addTable(classID, college, level, 0);
-                app.repaintApp();
+                units = 0;
             }
         }
+    }
+
+    public void askForTable() {
+        if (units == -1)
+            return;
+        String message = "";
+        if (!classID.equals(""))
+            message += "/Courses.courseID=\"" + classID + "\"";
+        if (college != CollegeType.ALL)
+            message += "/college=\"" + college + "\"";
+        if (level != ClassLevel.ALL)
+            message += "/level=\"" + level + "\"";
+        if (units > 0)
+            message += "/units=" + units;
+        if (message.equals(""))
+            message += "/";
+        app.askForInfo(3, message.substring(1));
     }
 
     public void addFilters() {
@@ -88,8 +101,8 @@ public class CoursesList extends PanelTemplate {
         addFilterButton();
     }
 
-    public void addTable(String id, CollegeType college, ClassLevel level, int units) {
-        fillTable(id, college, level, units);
+    public void addTable(String info) {
+        fillTable(info);
         if (this.tableContents == null || this.tableContents.length == 0)
             this.tableContents = new Object[][]{{"", "", "", "", "", "", ""}};
         this.courseTable = new JTable(this.tableContents, this.tableColumnNames);
@@ -197,37 +210,33 @@ public class CoursesList extends PanelTemplate {
         this.add(this.filterButton);
     }
 
-    public void fillTable(String id, CollegeType college, ClassLevel level, int units) {
-        /*List<String[]> rows = new ArrayList<>();
-        for (CollegeType type : CollegeType.values()) {
-            if (college == CollegeType.ALL || college == type) {
-                College departmentChosen = College.getInstance(type);
-                for (Course course : departmentChosen.getCourseList()) {
-                    if (
-                            (level == ClassLevel.ALL || level == course.getLevel()) &&
-                                    (units == 0 || units == course.getUnits()) &&
-                                    (id.equals("") || id.equals(course.getCourseID()))
-                    ) {
-                        String[] row = {
-                                course.getCourseID(),
-                                course.getCourseName(),
-                                departmentChosen.getUser(course.getProfessorID()).giveName(),
-                                Integer.toString(course.getUnits()),
-                                Integer.toString(course.getScoreList().size()),
-                                course.getClassTimeStrings(),
-                                course.getExamTime()
-                        };
-                        rows.add(row);
-                    }
-                }
-            }
+    public void fillTable(String info) {
+        ArrayList<String[]> rows = new ArrayList<>();
+        ArrayList<Course> courses = (ArrayList<Course>) app.unpackCourseList(info);
+        if (courses == null) {
+            this.tableContents = null;
+            return;
         }
-        this.tableContents = rows.toArray(new Object[0][]);*/
+        for (Course course : courses) {
+            String[] row = {
+                    course.getCourseID(),
+                    course.getCourseName(),
+                    course.getProfessorID(),
+                    String.valueOf(course.getUnits()),
+                    String.valueOf(course.getEnrolled()),
+                    course.getClassTimeStrings(),
+                    course.getExamTime()
+            };
+            rows.add(row);
+        }
+        this.tableContents = rows.toArray(new Object[0][]);
     }
 
     @Override
     public void refreshPanel(String info) {
-
+        this.removeAll();
+        addFilters();
+        addTable(info);
     }
 
     public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {
@@ -249,7 +258,8 @@ public class CoursesList extends PanelTemplate {
     public class FilterListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            updateTable();
+            getFilterText();
+            askForTable();
         }
     }
 }

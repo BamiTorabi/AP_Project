@@ -33,7 +33,6 @@ public class MainPage extends PageTemplate {
         this.setLayout(null);
         this.setResizable(false);
         this.setSize(1000, 800);
-        System.err.println("main");
     }
 
     public int getCoor(double num){
@@ -131,7 +130,7 @@ public class MainPage extends PageTemplate {
             public void actionPerformed(ActionEvent e) {
                 switch (listsButton.getSelectedIndex()){
                     case 0:
-                        //app.getPageInfo(3, "");
+                        app.askForInfo(3, "");
                         break;
                     case 1:
                         //app.newPage(4);

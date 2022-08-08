@@ -31,7 +31,7 @@ public class DatabaseHandler {
         return db;
     }
 
-    public ResultSet getResult(String tableName, String ID, String[] conditions, String[] columns) throws SQLException {
+    public ResultSet getResult(String tableName, String[] conditions, String[] columns) throws SQLException {
         String message = "SELECT ";
         if (columns.length == 0)
             message += "*";
@@ -41,13 +41,39 @@ public class DatabaseHandler {
                 message += ", " + column;
         }
         message += " FROM " + databaseName + "." + tableName;
-        message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;
+        //message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;
         if (conditions.length > 0){
             for (int i = 0; i < conditions.length; i++){
-                message += " AND " + conditions[i] + " ";
+                message += (i == 0 ? " WHERE " : " AND ") + conditions[i] + " ";
             }
         }
         message += ";";
+        //System.err.println("mysql> " + message);
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(message);
+    }
+
+    public ResultSet getResult(String tableName, String[] conditions, String[] columns, String[] joins, String groupBy) throws SQLException {
+        String message = "SELECT ";
+        if (columns.length == 0)
+            message += "*";
+        else{
+            message += "universityID";
+            for (String column : columns)
+                message += ", " + column;
+        }
+        message += " FROM " + databaseName + "." + tableName;
+        for (String join : joins) {
+            message += " JOIN " + databaseName + "." + join;
+        }
+        //message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;
+        if (conditions.length > 0){
+            for (int i = 0; i < conditions.length; i++){
+                message += (i == 0 ? " WHERE " : " AND ") + conditions[i] + " ";
+            }
+        }
+        if (groupBy != null)
+            message += " GROUP BY " + groupBy + ";";
         //System.err.println("mysql> " + message);
         Statement statement = connection.createStatement();
         return statement.executeQuery(message);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Scanner;
 
@@ -74,7 +75,8 @@ public class ClientHandler implements Runnable{
                 return;
             case 1:
                 if (server.isStudent(S[3])) {
-                    info = server.getInfo("Students", S[3], new String[]{}, new String[]{
+                    info = server.getInfo("Students", new String[]{"universityID=" + S[3]}, new String[]{
+                            "universityID",
                             "student",
                             "firstName",
                             "lastName",
@@ -82,7 +84,9 @@ public class ClientHandler implements Runnable{
                             "counsellor"
                     });
                 } else {
-                    info = server.getInfo("Professors", S[3], new String[]{}, new String[]{"student",
+                    info = server.getInfo("Professors", new String[]{"universityID=" + S[3]}, new String[]{
+                            "universityID",
+                            "student",
                             "firstName",
                             "lastName",
                             "emailAddress",
@@ -92,7 +96,8 @@ public class ClientHandler implements Runnable{
                 break;
             case 2:
                 if (server.isStudent(S[3])) {
-                    info = server.getInfo("Students", S[3], new String[]{}, new String[]{
+                    info = server.getInfo("Students", new String[]{"universityID=" + S[3]}, new String[]{
+                            "universityID",
                             "student",
                             "firstName",
                             "lastName",
@@ -107,7 +112,8 @@ public class ClientHandler implements Runnable{
                             "educationalStatus"
                     });
                 } else {
-                    info = server.getInfo("Professors", S[3], new String[]{}, new String[]{
+                    info = server.getInfo("Professors", new String[]{"universityID=" + S[3]}, new String[]{
+                            "universityID",
                             "student",
                             "firstName",
                             "lastName",
@@ -119,6 +125,26 @@ public class ClientHandler implements Runnable{
                             "roomNumber"
                     });
                 }
+                break;
+            case 3:
+                ArrayList<String> T = new ArrayList<>();
+                for (int i = 3; i < S.length; i++){
+                    T.add(S[i]);
+                }
+                info = server.getInfoCourses("Courses", T.toArray(new String[0]), new String[]{
+                        "Courses.courseID",
+                        "courseName",
+                        "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                        "units",
+                        "COUNT(DISTINCT S.studentLinked) AS enrolled",
+                        "GROUP_CONCAT(DISTINCT CT.day, \" \", CT.startTime, \" \", CT.endTime) AS classTime",
+                        "examTime"
+                        }, new String[]{
+                        "Professors P on P.universityID = Courses.professorID",
+                        "Scores S on Courses.courseID = S.courseLinked",
+                        "ClassTimes CT on Courses.courseID = CT.courseID"
+                        },
+                        "Courses.courseID");
                 break;
         }
         send("INFO/" + String.format("%02d/", pageNumber) + info);
