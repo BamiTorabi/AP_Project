@@ -53,14 +53,13 @@ public class DatabaseHandler {
         return statement.executeQuery(message);
     }
 
-    public ResultSet getResult(String tableName, String[] conditions, String[] columns, String[] joins, String groupBy) throws SQLException {
+    public ResultSet getResult(String tableName, String[] conditions, String[] columns, String[] joins, String[] additionalCommands) throws SQLException {
         String message = "SELECT ";
         if (columns.length == 0)
             message += "*";
         else{
-            message += "universityID";
             for (String column : columns)
-                message += ", " + column;
+                message += (column.equals(columns[0]) ? "" : ", ") + column;
         }
         message += " FROM " + databaseName + "." + tableName;
         if (joins != null)
@@ -68,13 +67,16 @@ public class DatabaseHandler {
                 message += " JOIN " + databaseName + "." + join;
             }
         //message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;
-        if (conditions.length > 0){
+        if (conditions != null && conditions.length > 0){
             for (int i = 0; i < conditions.length; i++){
                 message += (i == 0 ? " WHERE " : " AND ") + conditions[i] + " ";
             }
         }
-        if (groupBy != null)
-            message += " GROUP BY " + groupBy + ";";
+        if (additionalCommands != null)
+            for (String command : additionalCommands){
+                message += " " + command;;
+            }
+        message += ";";
         //System.err.println("mysql> " + message);
         Statement statement = connection.createStatement();
         return statement.executeQuery(message);

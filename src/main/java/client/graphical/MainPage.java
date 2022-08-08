@@ -152,10 +152,10 @@ public class MainPage extends PageTemplate {
             public void actionPerformed(ActionEvent e) {
                 switch (eduButton.getSelectedIndex()){
                     case 0:
-                        //app.newPage(5);
+                        app.askForInfo(5, app.getUserID());
                         break;
                     case 1:
-                        //app.newPage(6);
+                        app.askForInfo(6, app.getUserID());
                         break;
                     case 2:
                         //app.newPage(7);

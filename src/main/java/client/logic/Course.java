@@ -134,7 +134,7 @@ public class Course {
         return S;
     }
 
-    public ClassTime[] giveClassTimes(){
+    public ClassTime[] getClassTimes(){
         return this.classTimes;
     }
 

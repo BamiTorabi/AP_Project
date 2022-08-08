@@ -105,9 +105,9 @@ public class Server {
         }
     }
 
-    public String getInfoList(String tableName, String[] conditions, String[] columns, String[] joins, String groupBy){
+    public String getInfoList(String tableName, String[] conditions, String[] columns, String[] joins, String[] additionalCommands){
         try{
-            ResultSet resultSet = db.getResult(tableName, conditions, columns, joins, groupBy);
+            ResultSet resultSet = db.getResult(tableName, conditions, columns, joins, additionalCommands);
             String answer = "";
             while (resultSet.next()) {
                 if (!answer.equals(""))

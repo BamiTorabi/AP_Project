@@ -144,8 +144,9 @@ public class ClientHandler implements Runnable{
                         "Professors P on P.universityID = Courses.professorID",
                         "Scores S on Courses.courseID = S.courseLinked",
                         "ClassTimes CT on Courses.courseID = CT.courseID"
-                        },
-                        "Courses.courseID");
+                        }, new String[]{
+                        "GROUP BY Courses.courseID"
+                });
                 break;
             case 4:
                 T = new ArrayList<>();
@@ -162,6 +163,71 @@ public class ClientHandler implements Runnable{
                         "emailAddress",
                         "roomNumber"
                 }, null, null);
+                break;
+            case 5:
+                if (server.isStudent(S[3])){
+                    info = server.getInfoList("Courses", new String[]{
+                            "ST.universityID=" + S[3]
+                    }, new String[]{
+                            "Courses.courseName",
+                            "GROUP_CONCAT(DISTINCT CT.day, \" \", CT.startTime, \" \", CT.endTime) AS classTime"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "ClassTimes CT on Courses.courseID = CT.courseID",
+                            "Students ST on S.studentLinked = ST.universityID"
+                    }, new String[]{
+                            "GROUP BY Courses.courseID"
+                    });
+                }
+                else {
+                    info = server.getInfoList("Courses", new String[]{
+                            "P.universityID=" + S[3]
+                    }, new String[]{
+                            "Courses.courseName",
+                            "GROUP_CONCAT(DISTINCT CT.day, \" \", CT.startTime, \" \", CT.endTime) AS classTime"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "ClassTimes CT on Courses.courseID = CT.courseID",
+                            "Professors P on P.universityID = Courses.professorID"
+                    }, new String[]{
+                            "GROUP BY Courses.courseID"
+                    });
+                }
+                break;
+            case 6:
+                if (server.isStudent(S[3])){
+                    info = server.getInfoList("Courses", new String[]{
+                            "ST.universityID=" + S[3]
+                    }, new String[]{
+                            "Courses.courseID",
+                            "courseName",
+                            "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                            "units",
+                            "examTime"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "Students ST on S.studentLinked = ST.universityID",
+                            "Professors P on P.universityID = Courses.professorID"
+                    }, new String[]{
+                            "ORDER BY examTime ASC"
+                    });
+                }
+                else{
+                    info = server.getInfoList("Courses", new String[]{
+                            "P.universityID=" + S[3]
+                    }, new String[]{
+                            "Courses.courseID",
+                            "courseName",
+                            "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                            "units",
+                            "examTime"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "Professors P on P.universityID = Courses.professorID"
+                    }, new String[]{
+                            "ORDER BY examTime ASC"
+                    });
+                }
                 break;
         }
         send("INFO/" + String.format("%02d/", pageNumber) + info);

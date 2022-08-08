@@ -69,40 +69,41 @@ public class Application implements Runnable {
         if (pageNumber == 0){
             if (!(page instanceof LoginPage))
                 page = new LoginPage(this);
-            //page.refreshPage("");
         }
         else {
             if (!(page instanceof MainPage))
                 page = new MainPage(this);
-            //page.refreshPage(pageInfo);
             switch (pageNumber) {
                 case 1:
                     if (!(panel instanceof MainPagePanel))
                         panel = new MainPagePanel(this, userID);
-                    panel.refreshPanel(pageInfo);
                     break;
                 case 2:
                     if (!(panel instanceof ProfilePage))
                         panel = new ProfilePage(this, userID);
-                    panel.refreshPanel(pageInfo);
                     break;
                 case 3:
                     if (!(panel instanceof CoursesList))
                         panel = new CoursesList(this, userID);
-                    panel.refreshPanel(pageInfo);
                     break;
                 case 4:
                     if (!(panel instanceof ProfsList))
                         panel = new ProfsList(this, userID);
-                    panel.refreshPanel(pageInfo);
                     break;
-        /*panelList[4] = new WeeklyPlanPage();
-        panelList[5] = new ExamPlanPage();
-        panelList[6] = new RequestsPage();
+                case 5:
+                    if (!(panel instanceof WeeklyPlanPage))
+                        panel = new WeeklyPlanPage(this, userID);
+                    break;
+                case 6:
+                    if (!(panel instanceof ExamPlanPage))
+                        panel = new ExamPlanPage(this, userID);
+                    break;
+        /*panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
             panelList[8] = new ReportCardPage(userLoggedIn);*/
             }
+            panel.refreshPanel(pageInfo);
         }
         page.refreshPage(pageInfo);
         repaintApp();
@@ -205,11 +206,12 @@ public class Application implements Runnable {
                         for (String R : sessions){
                             ClassTime time = new ClassTime();
                             String[] P = R.split(" ");
+                            System.err.println(R);
                             time.setDay(Integer.parseInt(P[0]));
                             time.setStartHours(Integer.parseInt(P[1].split(":")[0]));
-                            time.setStartHours(Integer.parseInt(P[1].split(":")[1]));
-                            time.setStartHours(Integer.parseInt(P[2].split(":")[0]));
-                            time.setStartHours(Integer.parseInt(P[2].split(":")[1]));
+                            time.setStartMins(Integer.parseInt(P[1].split(":")[1]));
+                            time.setEndHours(Integer.parseInt(P[2].split(":")[0]));
+                            time.setEndMins(Integer.parseInt(P[2].split(":")[1]));
                             times.add(time);
                         }
                         course.setClassTimes(times.toArray(new ClassTime[0]));
@@ -323,6 +325,10 @@ public class Application implements Runnable {
             case 2:
             case 3:
             case 4:
+            case 5:
+                break;
+            case 6:
+                System.err.println(info);
                 break;
         }
         newPage(pageNumber, info);
