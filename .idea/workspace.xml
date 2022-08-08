@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #5">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #6">
+      <change afterPath="$PROJECT_DIR$/captcha1494.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha3291.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha3348.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha4313.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha6639.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha7432.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/captcha8757.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ProfsList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/captchaTest.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/captchaTest.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/captcha5457.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" afterDir="false" />
@@ -231,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659952142921</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Server and Client Development #6">
+      <created>1659976127463</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1659976127463</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,6 +281,7 @@
     <MESSAGE value="Server and Client Development #3" />
     <MESSAGE value="Server and Client Development #4" />
     <MESSAGE value="Server and Client Development #5" />
-    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #5" />
+    <MESSAGE value="Server and Client Development #6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #6" />
   </component>
 </project>
