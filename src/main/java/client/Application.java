@@ -5,6 +5,8 @@ import client.logic.*;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Application implements Runnable {
@@ -54,14 +56,16 @@ public class Application implements Runnable {
 
     public void newPage(int pageNumber, String pageInfo) {
         String temp = String.format("%02d/%s", pageNumber, pageInfo);
+        if (!pageStack.isEmpty() && pageStack.peek().equals(temp))
+            return;
         if (!pageStack.isEmpty() && getPageNumber(pageStack.peek()) == pageNumber) {
             pageStack.pop();
         }
         pageStack.push(temp);
-        pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
+        /*pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
         System.out.println();
         updater.getPageStack().forEach(x -> System.out.print(x.substring(0, 2) + ", "));
-        System.out.println();
+        System.out.println();*/
         if (pageNumber == 0){
             if (!(page instanceof LoginPage))
                 page = new LoginPage(this);
@@ -83,10 +87,16 @@ public class Application implements Runnable {
                     panel.refreshPanel(pageInfo);
                     break;
                 case 3:
-                    panel = new CoursesList(this, userID);
+                    if (!(panel instanceof CoursesList))
+                        panel = new CoursesList(this, userID);
+                    panel.refreshPanel(pageInfo);
                     break;
-        /*panelList[3] = new ProfsList();
-        panelList[4] = new WeeklyPlanPage();
+                case 4:
+                    if (!(panel instanceof ProfsList))
+                        panel = new ProfsList(this, userID);
+                    panel.refreshPanel(pageInfo);
+                    break;
+        /*panelList[4] = new WeeklyPlanPage();
         panelList[5] = new ExamPlanPage();
         panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
@@ -102,7 +112,9 @@ public class Application implements Runnable {
         if (pageStack.size() > 2) {
             pageStack.pop();
             updater.popQuery();
+            pageStack.pop();
             String query = updater.getLastQuery();
+            updater.popQuery();
             askForInfo(getPageNumber(query), query.substring(3));
         }
     }
@@ -114,7 +126,7 @@ public class Application implements Runnable {
             updater.popQuery();
         }
         setUserID("");
-        repaintApp();
+        askForInfo(0, String.format("%04d", captchaNumber));
     }
 
     public String getUserID() {
@@ -160,6 +172,56 @@ public class Application implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Course> unpackCourseList(String info){
+        if (info.equals(""))
+            return null;
+        ArrayList<Course> courses = new ArrayList<>();
+        String[] S = info.split("\\$");
+        for (String row : S){
+            Course course = new Course();
+            for (String entry : row.split("/")){
+                String[] T = entry.split(":");
+                switch (T[0]){
+                    case "courseID":
+                        course.setCourseID(T[1]);
+                        break;
+                    case "courseName":
+                        course.setCourseName(T[1]);
+                        break;
+                    case "professorName":
+                        course.setProfessorID(T[1]);
+                        break;
+                    case "units":
+                        course.setUnits(Integer.parseInt(T[1]));
+                        break;
+                    case "enrolled":
+                        course.setEnrolled(Integer.parseInt(T[1]));
+                        break;
+                    case "classTime":
+                        String[] sessions = entry.substring(10).split(",");
+                        List<ClassTime> times = new ArrayList<>();
+                        for (String R : sessions){
+                            ClassTime time = new ClassTime();
+                            String[] P = R.split(" ");
+                            time.setDay(Integer.parseInt(P[0]));
+                            time.setStartHours(Integer.parseInt(P[1].split(":")[0]));
+                            time.setStartHours(Integer.parseInt(P[1].split(":")[1]));
+                            time.setStartHours(Integer.parseInt(P[2].split(":")[0]));
+                            time.setStartHours(Integer.parseInt(P[2].split(":")[1]));
+                            times.add(time);
+                        }
+                        course.setClassTimes(times.toArray(new ClassTime[0]));
+                        break;
+                    case "examTime":
+                        course.setExamTime(String.join(" ", entry.substring(9).split("T")));
+                        break;
+                }
+            }
+            courses.add(course);
+        }
+        return courses;
     }
 
     public User unpackUser(String info){
@@ -236,18 +298,31 @@ public class Application implements Runnable {
         return user;
     }
 
+    public List<Professor> unpackProfessorList(String info){
+        if (info.equals(""))
+            return null;
+        ArrayList<Professor> professors = new ArrayList<>();
+        String[] S = info.split("\\$");
+        for (String row : S){
+            User user = unpackUser(row);
+            if (user instanceof Professor)
+                professors.add((Professor) user);
+        }
+        return professors;
+    }
+
     public void unpackMessage(int pageNumber, String info){
         String[] S = info.split("/");
         switch (pageNumber){
             case 0:
                 int x = Integer.parseInt(S[0]);
-                client.receiveCaptcha(info.substring(5));
-                setCaptcha(x, new ImageIcon("captchaTest.jpg"));
+                client.receiveCaptcha(x, info.substring(5));
+                setCaptcha(x, new ImageIcon(String.format("captcha%04d.jpg", x)));
                 break;
             case 1:
             case 2:
-                break;
             case 3:
+            case 4:
                 break;
         }
         newPage(pageNumber, info);

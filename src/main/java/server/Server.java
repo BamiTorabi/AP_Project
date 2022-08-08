@@ -72,10 +72,10 @@ public class Server {
     }
 
     public boolean checkLogIn(String userID, String password){
-        String[] S = {"password=" + password};
+        String[] S = {"universityID=" + userID, "password=" + password};
         try {
             String tableName = (isStudent(userID) ? "Students" : "Professors");
-            ResultSet resultSet = db.getResult(tableName, userID, S, new String[]{"password"});
+            ResultSet resultSet = db.getResult(tableName, S, new String[]{"password"});
             return resultSet.next();
         } catch (SQLException e) {
             return false;
@@ -84,23 +84,43 @@ public class Server {
 
     public boolean isStudent(String userID){
         try {
-            ResultSet resultSet = db.getResult("Students", userID, new String[]{}, new String[]{});
+            ResultSet resultSet = db.getResult("Students", new String[]{"universityID=" + userID}, new String[]{});
             return resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String getInfo(String tableName, String userID, String[] conditions, String[] columns){
+    public String getInfo(String tableName, String[] conditions, String[] columns){
         try{
-            ResultSet resultSet = db.getResult(tableName, userID, conditions, columns);
+            ResultSet resultSet = db.getResult(tableName, conditions, columns);
             resultSet.next();
-            String answer = "universityID:" + userID;
+            String answer = "";
             for (String column : columns){
-                answer += "/" + column + ":" + resultSet.getObject(column);
+                answer += (answer.equals("") ? "" : "/") + column + ":" + resultSet.getObject(column);
             }
             return answer;
         } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public String getInfoList(String tableName, String[] conditions, String[] columns, String[] joins, String groupBy){
+        try{
+            ResultSet resultSet = db.getResult(tableName, conditions, columns, joins, groupBy);
+            String answer = "";
+            while (resultSet.next()) {
+                if (!answer.equals(""))
+                    answer += "$";
+                for (String column : columns) {
+                    String[] splitUp = column.split("[ .]+");
+                    String alias = splitUp[splitUp.length - 1];
+                    answer += (column.equals(columns[0]) ? "" : "/") + alias + ":" + resultSet.getObject(alias);
+                }
+            }
+            return answer;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }

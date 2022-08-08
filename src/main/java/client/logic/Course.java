@@ -13,6 +13,7 @@ public class Course {
     private List<Score> scoreList;
     private double meanScore;
     private int units;
+    private int enrolled;
     private ClassTime[] classTimes;
     private String examTime;
     private ClassLevel level;
@@ -53,6 +54,14 @@ public class Course {
 
     public void setUnits(int units) {
         this.units = units;
+    }
+
+    public int getEnrolled() {
+        return enrolled;
+    }
+
+    public void setEnrolled(int enrolled) {
+        this.enrolled = enrolled;
     }
 
     public String getCourseID() {
@@ -129,4 +138,7 @@ public class Course {
         return this.classTimes;
     }
 
+    public void setClassTimes(ClassTime[] classTimes) {
+        this.classTimes = classTimes;
+    }
 }

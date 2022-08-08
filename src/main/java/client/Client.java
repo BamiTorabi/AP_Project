@@ -68,12 +68,12 @@ public class Client implements Runnable{
         return this.input.nextLine();
     }
 
-    public void receiveCaptcha(String fileEncoded){
+    public void receiveCaptcha(int num, String fileEncoded){
         byte[] bytes =  Base64.getDecoder().decode(fileEncoded);
         try{
             ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             BufferedImage image = ImageIO.read(bais);
-            File file = new File("captchaTest.jpg");
+            File file = new File(String.format("captcha%04d.jpg", num));
             if (file.exists())
                 file.delete();
             file.createNewFile();
