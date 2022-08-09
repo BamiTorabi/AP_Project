@@ -1,6 +1,7 @@
 package client.graphical;
 
 import client.Application;
+import client.logic.Professor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class MainPage extends PageTemplate {
     private JButton backButton = new JButton();
     private JButton homeButton = new JButton();
     private JButton logOutButton = new JButton();
+    private JButton chatButton = new JButton();
     private JButton profileButton = new JButton();
     private JLabel timeToolbar = new JLabel();
     private JPanel mainPanel = new JPanel();
@@ -26,6 +28,7 @@ public class MainPage extends PageTemplate {
     private JComboBox<String> listsButton;
     private JComboBox<String> eduButton;
     private JComboBox<String> reportButton;
+    private JComboBox<String> customizeButton;
 
     public MainPage(Application app){
         super(app);
@@ -45,6 +48,12 @@ public class MainPage extends PageTemplate {
         this.topToolbar.setFloatable(false);
         gbc.weightx = 0.0;
         gbc.insets = new Insets(5, 5, 5, 5);
+        addButtons();
+        this.topToolbar.setBounds(0, 0, this.getWidth(), TOOLBAR_HEIGHT);
+        this.add(this.topToolbar);
+    }
+
+    public void addButtons(){
         addBackButton();
         addHomeButton();
         addLogOutButton();
@@ -52,9 +61,8 @@ public class MainPage extends PageTemplate {
         addListsButton();
         addEduButton();
         addReportButton();
-        addProfileButton();
-        this.topToolbar.setBounds(0, 0, this.getWidth(), TOOLBAR_HEIGHT);
-        this.add(this.topToolbar);
+        addCustomButton();
+        //addProfileButton();
     }
 
     public void addBackButton(){
@@ -109,18 +117,28 @@ public class MainPage extends PageTemplate {
         this.topToolbar.add(this.timeToolbar, gbc);
     }
 
-    public void addProfileButton(){
-        this.profileButton = new JButton();
-        this.profileButton.setText("My Profile");
-        gbc.gridx = 7;
-        this.profileButton.addActionListener(new ActionListener() {
+    public void addCustomButton(){
+        this.customizeButton = new JComboBox<>(new String[] {"My Profile", "Chat", "Notifications"});
+        this.customizeButton.setSelectedIndex(-1);
+        this.customizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.askForInfo(2, app.getUserID());
+                switch (customizeButton.getSelectedIndex()){
+                    case 0:
+                        app.askForInfo(2, app.getUserID());
+                        break;
+                    case 1:
+                    case 2:
+                        break;
+                    default:
+                }
+                listsButton.setSelectedIndex(-1);
             }
         });
-        this.topToolbar.add(this.profileButton, gbc);
+        gbc.gridx = 7;
+        this.topToolbar.add(this.customizeButton, gbc);
     }
+
 
     public void addListsButton(){
         this.listsButton = new JComboBox<>(new String[] {"Courses List", "Professors List"});
@@ -145,7 +163,7 @@ public class MainPage extends PageTemplate {
     }
 
     public void addEduButton(){
-        this.eduButton = new JComboBox<>(new String[] {"Weekly Plan", "Exam Plan", "Requests"});
+        this.eduButton = new JComboBox<>(new String[] {"Weekly Plan", "Exam Plan"});
         this.eduButton.setSelectedIndex(-1);
         this.eduButton.addActionListener(new ActionListener() {
             @Override
@@ -170,18 +188,23 @@ public class MainPage extends PageTemplate {
 
     public void addReportButton(){
         this.reportButton = new JComboBox<>(new String[] {"Temporary Scores"});
-        //if (this.user.isStudent())
-        //    this.reportButton.addItem("Report Card");
+        if (app.getUserLoggedIn().isStudent() || (app.getUserLoggedIn() instanceof Professor && ((Professor) app.getUserLoggedIn()).isDeputy()))
+           this.reportButton.addItem("Report Card");
         this.reportButton.setSelectedIndex(-1);
         this.reportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (reportButton.getSelectedIndex()){
                     case 0:
-                        //app.newPage(8);
+                        app.askForInfo(8, app.getUserID());
                         break;
                     case 1:
-                        //app.newPage(9);
+                        if (app.getUserLoggedIn().isStudent())
+                            app.askForInfo(9, app.getUserID());
+                        else{
+                            String ID = JOptionPane.showInputDialog("Enter student ID:");
+                            app.askForInfo(9, ID);
+                        }
                         break;
                     default:
                 }

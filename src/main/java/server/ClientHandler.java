@@ -82,6 +82,7 @@ public class ClientHandler implements Runnable{
                             "firstName",
                             "lastName",
                             "emailAddress",
+                            "college",
                             "counsellor"
                     });
                 } else {
@@ -91,6 +92,7 @@ public class ClientHandler implements Runnable{
                             "firstName",
                             "lastName",
                             "emailAddress",
+                            "college",
                             "deputy"
                     });
                 }
@@ -222,11 +224,70 @@ public class ClientHandler implements Runnable{
                             "units",
                             "examTime"
                     }, new String[]{
-                            "Scores S on Courses.courseID = S.courseLinked",
                             "Professors P on P.universityID = Courses.professorID"
                     }, new String[]{
                             "ORDER BY examTime ASC"
                     });
+                }
+                break;
+            case 8:
+                if (server.isStudent(S[3])){
+                    info = server.getInfoList("Scores", new String[]{
+                            "studentLinked=\"" + S[3] + "\""
+                    }, new String[]{
+                            "courseLinked",
+                            "C.courseName",
+                            "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                            "CONCAT(ST.firstName, \" \", ST.lastName) AS studentName",
+                            "ST.universityID",
+                            "value",
+                            "status",
+                            "studentProtest",
+                            "professorAnswer"
+                    }, new String[]{
+                            "Courses C on C.courseID = Scores.courseLinked",
+                            "Students ST on Scores.studentLinked = ST.universityID",
+                            "Professors P on P.universityID = C.professorID"
+                    }, null);
+                }
+                else{
+                    info = server.getInfoList("Scores", new String[]{
+                            "C.professorID=\"" + S[3] + "\""
+                    }, new String[]{
+                            "courseLinked",
+                            "C.courseName",
+                            "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                            "CONCAT(ST.firstName, \" \", ST.lastName) AS studentName",
+                            "ST.universityID",
+                            "value",
+                            "status",
+                            "studentProtest",
+                            "professorAnswer"
+                    }, new String[]{
+                            "Courses C on C.courseID = Scores.courseLinked",
+                            "Students ST on Scores.studentLinked = ST.universityID",
+                            "Professors P on P.universityID = C.professorID"
+                    }, null);
+                }
+                break;
+            case 9:
+                if (server.isStudent(S[3])){
+                    info = server.getInfoList("Courses", new String[]{
+                            "S.studentLinked=\"" + S[3] + "\""
+                    }, new String[]{
+                            "S.courseLinked",
+                            "courseName",
+                            "CONCAT(P.firstName, \" \", P.lastName) AS professorName",
+                            "units",
+                            "S.value",
+                            "S.status"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "Professors P on P.universityID = Courses.professorID"
+                    }, null);
+                }
+                else{
+
                 }
                 break;
         }

@@ -4,7 +4,11 @@ package client.logic;
 public class Score{
 
     private String studentLinked;
+    private String studentName;
     private String courseLinked;
+    private String courseName;
+    private String professorName;
+    private int units;
     private double value;
     private ScoreStatus status;
 
@@ -80,5 +84,37 @@ public class Score{
 
     public void setProfessorAnswer(String professorAnswer) {
         this.professorAnswer = professorAnswer;
+    }
+
+    public String getProfessorName() {
+        return professorName;
+    }
+
+    public void setProfessorName(String professorName) {
+        this.professorName = professorName;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public int getUnits() {
+        return units;
+    }
+
+    public void setUnits(int units) {
+        this.units = units;
     }
 }

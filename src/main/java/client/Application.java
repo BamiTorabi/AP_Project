@@ -13,6 +13,7 @@ public class Application implements Runnable {
 
     private final Client client;
     private String userID = "";
+    private User userLoggedIn = null;
     private final Stack<String> pageStack;
     private PanelTemplate panel;
     private PageTemplate page;
@@ -20,7 +21,6 @@ public class Application implements Runnable {
     private ImageIcon captchaIcon;
     private Updater updater;
     private Thread updateThread;
-    //private List<Score> temporaryScoreList;
 
     public Application(Client client) {
         this.client = client;
@@ -98,6 +98,14 @@ public class Application implements Runnable {
                     if (!(panel instanceof ExamPlanPage))
                         panel = new ExamPlanPage(this, userID);
                     break;
+                case 8:
+                    if (!(panel instanceof TemporaryScoresPage))
+                        panel = new TemporaryScoresPage(this, userID);
+                    break;
+                case 9:
+                    if (!(panel instanceof ReportCardPage))
+                        panel = new ReportCardPage(this, userID);
+                    break;
         /*panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
@@ -119,7 +127,6 @@ public class Application implements Runnable {
             askForInfo(getPageNumber(query), query.substring(3));
         }
     }
-    
 
     public void logOut(){
         while (pageStack.size() > 1) {
@@ -155,12 +162,12 @@ public class Application implements Runnable {
         return captchaIcon;
     }
 
-    public void setCaptchaNumber(int captchaNumber) {
-        this.captchaNumber = captchaNumber;
+    public User getUserLoggedIn() {
+        return userLoggedIn;
     }
 
-    public void setCaptchaIcon(ImageIcon captchaIcon) {
-        this.captchaIcon = captchaIcon;
+    public void setUserLoggedIn(User userLoggedIn) {
+        this.userLoggedIn = userLoggedIn;
     }
 
     public void logIn(String username, String password){
@@ -206,7 +213,6 @@ public class Application implements Runnable {
                         for (String R : sessions){
                             ClassTime time = new ClassTime();
                             String[] P = R.split(" ");
-                            System.err.println(R);
                             time.setDay(Integer.parseInt(P[0]));
                             time.setStartHours(Integer.parseInt(P[1].split(":")[0]));
                             time.setStartMins(Integer.parseInt(P[1].split(":")[1]));
@@ -313,6 +319,56 @@ public class Application implements Runnable {
         return professors;
     }
 
+    public List<Score> unpackScoreList(String info){
+        if (info.equals(""))
+            return null;
+        ArrayList<Score> scores = new ArrayList<>();
+        String[] S = info.split("\\$");
+        for (String row : S){
+            Score score = new Score();
+            for (String entry : row.split("/")){
+                String[] T = entry.split(":");
+                if (T.length == 1){
+                    T = new String[]{T[0], ""};
+                }
+                switch (T[0]){
+                    case "courseLinked":
+                        score.setCourseLinked(T[1]);
+                        break;
+                    case "courseName":
+                        score.setCourseName(T[1]);
+                        break;
+                    case "professorName":
+                        score.setProfessorName(T[1]);
+                        break;
+                    case "studentName":
+                        score.setStudentName(T[1]);
+                        break;
+                    case "universityID":
+                        score.setStudentLinked(T[1]);
+                        break;
+                    case "status":
+                        score.setStatus(ScoreStatus.valueOf(T[1]));
+                        break;
+                    case "value":
+                        score.setValue(Double.parseDouble(T[1]));
+                        break;
+                    case "studentProtest":
+                        score.setStudentProtest(T[1]);
+                        break;
+                    case "professorAnswer":
+                        score.setProfessorAnswer(T[1]);
+                        break;
+                    case "units":
+                        score.setUnits(Integer.parseInt(T[1]));
+                        break;
+                }
+            }
+            scores.add(score);
+        }
+        return scores;
+    }
+
     public void unpackMessage(int pageNumber, String info){
         String[] S = info.split("/");
         switch (pageNumber){
@@ -322,12 +378,15 @@ public class Application implements Runnable {
                 setCaptcha(x, new ImageIcon(String.format("captcha%04d.jpg", x)));
                 break;
             case 1:
+                userLoggedIn = unpackUser(info);
             case 2:
             case 3:
             case 4:
             case 5:
-                break;
             case 6:
+            case 8:
+                break;
+            case 9:
                 System.err.println(info);
                 break;
         }
