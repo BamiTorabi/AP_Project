@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #7">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ExamPlanPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ExamPlanPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/Score.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Score.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ProfsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ProfsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ReportCardPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ReportCardPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/TemporaryScoresPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/TemporaryScoresPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659991506332</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Server and Client Development #8">
+      <created>1660066536778</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1660066536778</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,6 +297,7 @@
     <MESSAGE value="Server and Client Development #6" />
     <MESSAGE value="fixup! Server and Client Development #6" />
     <MESSAGE value="Server and Client Development #7" />
-    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #7" />
+    <MESSAGE value="Server and Client Development #8" />
+    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #8" />
   </component>
 </project>

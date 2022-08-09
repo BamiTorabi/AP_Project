@@ -7,7 +7,6 @@ import client.logic.ScoreStatus;
 import client.logic.User;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -80,7 +79,7 @@ public class ReportCardPage extends PanelTemplate {
         TableColumnModel model = this.courseTable.getColumnModel();
         for (int i = 0; i < columnWidths.length; i++){
             model.getColumn(i).setPreferredWidth(columnWidths[i]);
-            model.getColumn(i).setCellRenderer(new ReportCardPage.WrappableTableRenderer() );
+            model.getColumn(i).setCellRenderer(new WrappableTableRenderer() );
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
@@ -162,21 +161,6 @@ public class ReportCardPage extends PanelTemplate {
         addTable(info);
         if (!app.getUserLoggedIn().isStudent())
             addFilters();
-    }
-
-    public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {
-        WrappableTableRenderer(){
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) != getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
     }
 
     public class FilterListener implements ActionListener {

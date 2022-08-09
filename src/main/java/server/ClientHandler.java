@@ -290,6 +290,19 @@ public class ClientHandler implements Runnable{
 
                 }
                 break;
+            case 10:
+                info = server.getInfoList("Notifications", new String[]{
+                        "userID=\"" + S[3] + "\""
+                }, new String[]{
+                        "ID",
+                        "sent",
+                        "title",
+                        "message",
+                        "seen"
+                }, null, new String[]{
+                        "ORDER BY sent DESC"
+                });
+                break;
         }
         send("INFO/" + String.format("%02d/", pageNumber) + info);
     }

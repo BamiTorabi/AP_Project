@@ -1,10 +1,12 @@
 package client.graphical;
 
 import client.Application;
-import client.logic.*;
+import client.logic.CollegeType;
+import client.logic.Professor;
+import client.logic.ProfessorType;
+import client.logic.User;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -160,21 +162,6 @@ public class ProfsList extends PanelTemplate {
         this.removeAll();
         addFilters();
         addTable(info);
-    }
-
-    public class WrappableTableRenderer extends JTextArea implements TableCellRenderer{
-        WrappableTableRenderer(){
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) < getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
     }
 
     public class FilterListener implements ActionListener{

@@ -118,17 +118,19 @@ public class MainPage extends PageTemplate {
     }
 
     public void addCustomButton(){
-        this.customizeButton = new JComboBox<>(new String[] {"My Profile", "Chat", "Notifications"});
+        this.customizeButton = new JComboBox<>(new String[] {"Chat", "Notifications", "Profile"});
         this.customizeButton.setSelectedIndex(-1);
         this.customizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (customizeButton.getSelectedIndex()){
                     case 0:
-                        app.askForInfo(2, app.getUserID());
                         break;
                     case 1:
+                        app.askForInfo(10, app.getUserID());
+                        break;
                     case 2:
+                        app.askForInfo(2, app.getUserID());
                         break;
                     default:
                 }

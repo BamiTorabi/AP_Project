@@ -4,9 +4,7 @@ import client.Application;
 import client.logic.Course;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ExamPlanPage extends PanelTemplate {
@@ -65,7 +63,7 @@ public class ExamPlanPage extends PanelTemplate {
         TableColumnModel model = this.examTable.getColumnModel();
         for (int i = 0; i < columnWidths.length; i++){
             model.getColumn(i).setPreferredWidth(columnWidths[i]);
-            model.getColumn(i).setCellRenderer(new ExamPlanPage.WrappableTableRenderer() );
+            model.getColumn(i).setCellRenderer(new WrappableTableRenderer() );
         }
         this.examTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.examTable);
@@ -77,21 +75,6 @@ public class ExamPlanPage extends PanelTemplate {
     public void refreshPanel(String info) {
         this.removeAll();
         addTable(info);
-    }
-
-    public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {
-        WrappableTableRenderer(){
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) < getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
     }
 
 }

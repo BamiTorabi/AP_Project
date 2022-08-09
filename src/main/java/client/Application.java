@@ -106,6 +106,10 @@ public class Application implements Runnable {
                     if (!(panel instanceof ReportCardPage))
                         panel = new ReportCardPage(this, userID);
                     break;
+                case 10:
+                    if (!(panel instanceof NotificationPage))
+                        panel = new NotificationPage(this, userID);
+                    break;
         /*panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
@@ -369,6 +373,38 @@ public class Application implements Runnable {
         return scores;
     }
 
+    public List<Notif> unpackNotifList(String info) {
+        if (info.equals(""))
+            return null;
+        ArrayList<Notif> notifs = new ArrayList<>();
+        String[] S = info.split("\\$");
+        for (String row : S) {
+            Notif notif = new Notif();
+            for (String entry : row.split("/")) {
+                String[] T = entry.split(":");
+                if (T.length == 1) {
+                    T = new String[]{T[0], ""};
+                }
+                switch (T[0]) {
+                    case "sent":
+                        notif.setSent(T[1]);
+                        break;
+                    case "seen":
+                        notif.setSeen(Boolean.parseBoolean(T[1]));
+                        break;
+                    case "title":
+                        notif.setTitle(T[1]);
+                        break;
+                    case "message":
+                        notif.setMessage(T[1]);
+                        break;
+                }
+            }
+            notifs.add(notif);
+        }
+        return notifs;
+    }
+
     public void unpackMessage(int pageNumber, String info){
         String[] S = info.split("/");
         switch (pageNumber){
@@ -389,6 +425,8 @@ public class Application implements Runnable {
             case 9:
                 System.err.println(info);
                 break;
+            case 10:
+                break;
         }
         newPage(pageNumber, info);
     }
@@ -396,6 +434,17 @@ public class Application implements Runnable {
     public void askForInfo(int pageNumber, String infoNeeded) {
         String message = String.format("INFO/%02d/%s", pageNumber, infoNeeded);
         this.updater.addQuery(message.substring(5));
+        try{
+            this.client.send(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void messageRead(int pageNumber, String ID, boolean read){
+        String table = (pageNumber == 10 ? "Notifications" : "Chats");
+        String message = String.format("UPDATE/%s/%s/%s", table, ID, read);
+        this.updater.addQuery(String.format("INFO/%02d/%s", pageNumber, userID));
         try{
             this.client.send(message);
         } catch (IOException e) {

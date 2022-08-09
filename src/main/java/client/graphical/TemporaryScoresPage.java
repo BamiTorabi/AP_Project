@@ -1,10 +1,10 @@
 package client.graphical;
 
 import client.Application;
-import client.logic.*;
+import client.logic.Score;
+import client.logic.ScoreStatus;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -54,7 +54,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         TableColumnModel model = this.courseTable.getColumnModel();
         for (int i = 0; i < columnWidths.length; i++) {
             model.getColumn(i).setPreferredWidth(columnWidths[i]);
-            model.getColumn(i).setCellRenderer(new TemporaryScoresPage.WrappableTableRenderer());
+            model.getColumn(i).setCellRenderer(new WrappableTableRenderer());
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
@@ -168,22 +168,6 @@ public class TemporaryScoresPage extends PanelTemplate {
         if (!app.getUserLoggedIn().isStudent())
             addConfirmButton();
         addTable(info);
-    }
-
-    public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {
-        WrappableTableRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) < getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
     }
 
     public class SaveListener implements ActionListener {
