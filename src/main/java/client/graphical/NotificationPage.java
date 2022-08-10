@@ -26,18 +26,20 @@ public class NotificationPage extends PanelTemplate{
         this.setLayout(null);
     }
 
-    public void addTable(String info){
+    public void addTable(String info) {
         fillTable(info);
         if (this.tableContents == null || this.tableContents.length == 0)
             this.tableContents = new Object[][]{{"", "", "", "", ""}};
         this.notifTable = new JTable(this.tableContents, this.tableColumnNames);
-        this.notifTable.setDefaultEditor(Object.class, null);
         this.notifTable.setRowHeight(40);
-        int[] columnWidths = {50, 100, 200, 600, 50};
+        int[] columnWidths = {50, 150, 150, 600, 50};
         TableColumnModel model = this.notifTable.getColumnModel();
-        for (int i = 0; i < columnWidths.length; i++){
+        for (int i = 0; i < columnWidths.length; i++) {
             model.getColumn(i).setPreferredWidth(columnWidths[i]);
-            model.getColumn(i).setCellRenderer(new WrappableTableRenderer() );
+            model.getColumn(i).setCellRenderer(new WrappableTableRenderer());
+        }
+        for (int i = 0; i < this.tableContents.length; i++){
+
         }
         this.notifTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.notifTable);
@@ -71,7 +73,7 @@ public class NotificationPage extends PanelTemplate{
                     notif.getSent(),
                     notif.getTitle(),
                     notif.getMessage(),
-                    box
+                    ""
             };
             rows.add(row);
         }
@@ -83,4 +85,6 @@ public class NotificationPage extends PanelTemplate{
         this.removeAll();
         addTable(info);
     }
+
+
 }

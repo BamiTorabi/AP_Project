@@ -72,7 +72,7 @@ public class Server {
     }
 
     public boolean checkLogIn(String userID, String password){
-        String[] S = {"universityID=" + userID, "password=" + password};
+        String[] S = {"universityID=\"" + userID + "\"", "password=\"" + password + "\""};
         try {
             String tableName = (isStudent(userID) ? "Students" : "Professors");
             ResultSet resultSet = db.getResult(tableName, S, new String[]{"password"});
@@ -84,7 +84,7 @@ public class Server {
 
     public boolean isStudent(String userID){
         try {
-            ResultSet resultSet = db.getResult("Students", new String[]{"universityID=" + userID}, new String[]{});
+            ResultSet resultSet = db.getResult("Students", new String[]{"universityID=\"" + userID + "\""}, new String[]{});
             return resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -118,6 +118,7 @@ public class Server {
                     answer += (column.equals(columns[0]) ? "" : "/") + alias + ":" + resultSet.getObject(alias);
                 }
             }
+            System.err.println(answer);
             return answer;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,9 +126,30 @@ public class Server {
         }
     }
 
-    public boolean updateInfo(String tableName, String userID, String[] conditions, String fieldName, String newValue){
+    public boolean addCompleteRow(String tableName, String[] values){
         try{
-            db.updateTable(tableName, userID, conditions, fieldName, newValue);
+            db.addCompleteRow(tableName, values);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean updateCompleteRow(String tableName, String[] values, String[] conditions){
+        try{
+            String[] columnNames = db.getColumnNames(tableName);
+            for (int i = 0; i < values.length; i++)
+                values[i] = columnNames[i] + " = " + values[i];
+            db.updateTable(tableName, values, conditions);
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
+    }
+
+    public boolean updateUserInfo(String tableName, String[] values, String[] conditions){
+        try{
+            db.updateTable(tableName, values, conditions);
             return true;
         } catch (SQLException e) {
             return false;

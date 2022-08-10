@@ -100,10 +100,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         this.confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ConfirmScoreDialog dialog = new ConfirmScoreDialog(userLoggedIn, scoreList);
-                //saveScoreChanges();
-                //remove(scrollPane);
-                //updateTable();
+                ConfirmScoreDialog dialog = new ConfirmScoreDialog(app, scoreList);
             }
         });
         this.add(this.confirmButton);
@@ -208,11 +205,8 @@ public class TemporaryScoresPage extends PanelTemplate {
                         }
                     }
                 }
+                app.updateScore(score);
             }
-            saveScoreChanges();
-            JOptionPane.showMessageDialog(TemporaryScoresPage.this, "Changes saved successfully.");
-            remove(scrollPane);
-            //updateTable();
         }
     }
 }

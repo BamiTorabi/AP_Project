@@ -20,8 +20,6 @@ public class MainPage extends PageTemplate {
     private JButton backButton = new JButton();
     private JButton homeButton = new JButton();
     private JButton logOutButton = new JButton();
-    private JButton chatButton = new JButton();
-    private JButton profileButton = new JButton();
     private JLabel timeToolbar = new JLabel();
     private JPanel mainPanel = new JPanel();
 
@@ -62,7 +60,6 @@ public class MainPage extends PageTemplate {
         addEduButton();
         addReportButton();
         addCustomButton();
-        //addProfileButton();
     }
 
     public void addBackButton(){

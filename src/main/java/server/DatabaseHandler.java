@@ -53,6 +53,17 @@ public class DatabaseHandler {
         return statement.executeQuery(message);
     }
 
+    public String[] getColumnNames(String tableName) throws SQLException {
+        String message = "SELECT * FROM " + tableName + ";";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(message);
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        String[] columnNames = new String[metaData.getColumnCount()];
+        for (int i = 1; i <= metaData.getColumnCount(); i++)
+            columnNames[i - 1] = metaData.getColumnName(i);
+        return columnNames;
+    }
+
     public ResultSet getResult(String tableName, String[] conditions, String[] columns, String[] joins, String[] additionalCommands) throws SQLException {
         String message = "SELECT ";
         if (columns.length == 0)
@@ -82,13 +93,27 @@ public class DatabaseHandler {
         return statement.executeQuery(message);
     }
 
-    public void updateTable(String tableName, String ID, String[] conditions, String fieldName, String newValue) throws SQLException {
+    public void addCompleteRow(String tableName, String[] values) throws SQLException{
+        String message = "INSERT INTO " + tableName;
+        message += " VALUES (";
+        for (String value : values){
+            message += (value.equals(values[0]) ? "" : ", ") + value;
+        }
+        message += ");";
+        System.out.println("mysql> " + message);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(message);
+    }
+
+    public void updateTable(String tableName, String[] values, String[] conditions) throws SQLException {
         String message = "UPDATE " + tableName;
-        message += " SET " + fieldName + " = \"" + newValue + "\"";
-        message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=\"" + ID + "\"";
+        message += " SET ";
+        for (String value : values){
+            message += (value.equals(values[0]) ? "" : ", ") + value;
+        }
         if (conditions.length > 0){
             for (int i = 0; i < conditions.length; i++){
-                message += " AND " + conditions[i] + " ";
+                message += (i == 0 ? " WHERE " : " AND ") + conditions[i] + " ";
             }
         }
         message += ";";

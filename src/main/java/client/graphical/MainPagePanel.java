@@ -94,7 +94,7 @@ public class MainPagePanel extends PanelTemplate {
         this.newUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //UserDialog dialog = new UserDialog(user);
+                UserDialog dialog = new UserDialog(app, user);
             }
         });
         this.add(this.newUserButton);

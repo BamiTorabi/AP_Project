@@ -55,6 +55,9 @@ public class Client implements Runnable{
                     String info = message.substring(8);
                     app.unpackMessage(pageNumber, info);
                     break;
+                case "ERROR":
+                    app.raiseError(S[1]);
+                    break;
             }
         }
     }

@@ -11,9 +11,9 @@ public class Student extends User{
         super();
     }
 
-    public Student(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType college, Professor counsellor, StudentType type){
+    public Student(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType college, String counsellor, StudentType type){
         super(firstName, lastName, ID, phoneNumber, emailAddress, college, true);
-        this.counsellor = counsellor.getUniversityID();
+        this.counsellor = counsellor;
         this.type = type;
         this.educationalStatus = 0;
         this.totalScore = 0;

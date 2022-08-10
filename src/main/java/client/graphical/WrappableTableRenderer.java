@@ -5,7 +5,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 public class WrappableTableRenderer extends JTextArea implements TableCellRenderer {
-    WrappableTableRenderer(){
+    public WrappableTableRenderer(){
         setLineWrap(true);
         setWrapStyleWord(true);
     }

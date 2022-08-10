@@ -150,7 +150,7 @@ public class Application implements Runnable {
     }
 
     public void sendUserUpdate(String userID, String fieldName, String newValue) throws IOException {
-        client.send("UPDATE/USER/" + userID + "/" + fieldName + "/" + newValue);
+        client.send("UPDATE/USER/\"" + userID + "\"/" + fieldName + "/\"" + newValue + "\"");
     }
 
     public void setCaptcha(int x, ImageIcon icon){
@@ -387,7 +387,7 @@ public class Application implements Runnable {
                 }
                 switch (T[0]) {
                     case "sent":
-                        notif.setSent(T[1]);
+                        notif.setSent(String.join(" ", entry.substring(5).split("T")));
                         break;
                     case "seen":
                         notif.setSeen(Boolean.parseBoolean(T[1]));
@@ -423,9 +423,8 @@ public class Application implements Runnable {
             case 8:
                 break;
             case 9:
-                System.err.println(info);
-                break;
             case 10:
+                System.err.println(info);
                 break;
         }
         newPage(pageNumber, info);
@@ -452,6 +451,67 @@ public class Application implements Runnable {
         }
     }
 
+    public void addNewStudent(Student student){
+        String message = "";
+        message += "\"" + student.getFirstName() + "\"/";
+        message += "\"" + student.getLastName() + "\"/";
+        message += "\"" + student.getNationalID() + "\"/";
+        message += "\"" + student.getPhoneNumber() + "\"/";
+        message += "\"" + student.getEmailAddress() + "\"/";
+        message += "\"" + student.getUniversityID() + "\"/";
+        message += "\"" + student.getPassword() + "\"/";
+        message += student.getFirstYear() + "/";
+        message += "\"" + student.getCollege() + "\"/";
+        message += "\"" + student.getType() +"\"/";
+        message += student.getTotalScore() + "/";
+        message += student.getEducationalStatus() + "/";
+        message += student.isStudent() + "/";
+        message += "\"" + student.getCounsellor() + "\"";
+        try{
+            this.client.send("ADD/STUDENT/" + message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addNewProfessor(Professor professor){
+        String message = "";
+        message += "\"" + professor.getFirstName() + "\"/";
+        message += "\"" + professor.getLastName() + "\"/";
+        message += "\"" + professor.getNationalID() + "\"/";
+        message += "\"" + professor.getPhoneNumber() + "\"/";
+        message += "\"" + professor.getEmailAddress() + "\"/";
+        message += "\"" + professor.getUniversityID() + "\"/";
+        message += "\"" + professor.getPassword() + "\"/";
+        message += professor.getFirstYear() + "/";
+        message += "\"" + professor.getCollege() + "\"/";
+        message += "\"" + professor.getType() + "\"/";
+        message += professor.getRoomNumber() + "/";
+        message += professor.isDeputy() + "/";
+        message += professor.isHead() + "/";
+        message += professor.isStudent();
+        try{
+            this.client.send("ADD/PROFESSOR/" + message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateScore(Score score){
+        String message = "";
+        message += "\"" + score.getCourseLinked() + "\"/";
+        message += "\"" + score.getStudentLinked() + "\"/";
+        message += score.getValue() + "/";
+        message += "\"" + score.getStatus() + "\"/";
+        message += "\"" + score.getStudentProtest() + "\"/";
+        message += "\"" + score.getProfessorAnswer() + "\"";
+        try{
+            this.client.send("UPDATE/SCORE/" + message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void goodLogIn(String userID){
         this.userID = userID;
         askForInfo(1, userID);
@@ -463,6 +523,10 @@ public class Application implements Runnable {
         askForInfo(0, String.format("%04d", captchaNumber));
     }
 
+    public void raiseError(String errorMessage){
+        JOptionPane.showMessageDialog(page, errorMessage);
+    }
+    
     @Override
     public void run() {
         askForInfo(0, "0000");
