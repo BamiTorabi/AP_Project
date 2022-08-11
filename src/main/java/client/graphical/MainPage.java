@@ -121,7 +121,8 @@ public class MainPage extends PageTemplate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (customizeButton.getSelectedIndex()){
-                    case 0: // 11
+                    case 0:
+                        app.askForInfo(11, app.getUserID());
                         break;
                     case 1:
                         app.askForInfo(10, app.getUserID());

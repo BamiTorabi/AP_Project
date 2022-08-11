@@ -309,6 +309,22 @@ public class ClientHandler implements Runnable{
                         "ORDER BY sent DESC"
                 });
                 break;
+            case 11:
+                info = server.getInfoList("Chats", new String[]{
+                        "sender=\"" + S[3] + "\" OR receiver=\"" + S[3] + "\""
+                }, new String[]{
+                        "sender",
+                        "receiver",
+                        "CONCAT(S.name, \",\", R.name) AS names",
+                        "timeSent",
+                        "message"
+                }, new String[]{
+                        "Users S on Chats.sender = S.userID",
+                        "Users R on Chats.receiver = R.userID"
+                }, new String[]{
+                        "ORDER BY timeSent DESC"
+                });
+                break;
             case 12:
                 if (S.length == 3){
                     info = "";

@@ -5,9 +5,8 @@ import client.logic.*;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Application implements Runnable {
 
@@ -115,6 +114,10 @@ public class Application implements Runnable {
                 case 10:
                     if (!(panel instanceof NotificationPage))
                         panel = new NotificationPage(this, userID);
+                    break;
+                case 11:
+                    if (!(panel instanceof ChatPage))
+                        panel = new ChatPage(this, userID);
                     break;
                 case 12:
                     if (!(dialog instanceof AddCourseDialog)) {
@@ -345,6 +348,33 @@ public class Application implements Runnable {
         return user;
     }
 
+    public Chat unpackChat(String info){
+        Chat chat = new Chat();
+        for (String entry : info.split("/")){
+            String[] S = entry.split(":");
+            switch (S[0]){
+                case "sender":
+                    chat.setSender(S[1]);
+                    break;
+                case "receiver":
+                    chat.setReceiver(S[1]);
+                    break;
+                case "message":
+                    chat.setMessage(S[1]);
+                    break;
+                case "names":
+                    String[] T = S[1].split(",");
+                    chat.setSenderName(T[0]);
+                    chat.setReceiverName(T[1]);
+                    break;
+                case "timeSent":
+                    chat.setTimeSent(LocalDateTime.parse(entry.substring(9)));
+                    break;
+            }
+        }
+        return chat;
+    }
+
     public List<Professor> unpackProfessorList(String info){
         if (info.equals(""))
             return null;
@@ -451,6 +481,32 @@ public class Application implements Runnable {
         return users;
     }
 
+    public List<Conversation> unpackConversations(String info) {
+        if (info == null || info.equals(""))
+            return null;
+        Map<String, Conversation> map = new HashMap<>();
+        String[] S = info.split("\\$&\\$");
+        for (String row : S){
+            Chat chat = unpackChat(row);
+            String otherUser = chat.getSender();
+            if (otherUser.equals(userID))
+                otherUser = chat.getReceiver();
+            if (map.get(otherUser) == null){
+                Conversation convo = new Conversation();
+                convo.addChat(chat);
+                map.put(otherUser, convo);
+            }
+            else{
+                map.get(otherUser).addChat(chat);
+            }
+            map.get(otherUser).setOtherID(otherUser);
+            map.get(otherUser).setUserID(userID);
+        }
+        ArrayList<Conversation> conversations = new ArrayList<>(map.values());
+        Collections.sort(conversations);
+        return conversations;
+    }
+
     public void unpackMessage(int pageNumber, String info){
         String[] S = info.split("/");
         switch (pageNumber){
@@ -467,11 +523,12 @@ public class Application implements Runnable {
             case 5:
             case 6:
             case 8:
-                break;
             case 9:
             case 10:
             case 12:
             case 13:
+                break;
+            case 11:
                 System.err.println(info);
                 break;
         }
@@ -608,4 +665,6 @@ public class Application implements Runnable {
         this.updateThread = new Thread(this.updater);
         this.updateThread.start();
     }
+
+
 }
