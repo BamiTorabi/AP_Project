@@ -17,6 +17,7 @@ public class Application implements Runnable {
     private final Stack<String> pageStack;
     private PanelTemplate panel;
     private PageTemplate page;
+    private DialogTemplate dialog;
     private int captchaNumber = 0;
     private ImageIcon captchaIcon;
     private Updater updater;
@@ -37,6 +38,12 @@ public class Application implements Runnable {
     public void repaintApp() {
         int pageNumber = getPageNumber(pageStack.peek());
         if (pageNumber > 0) {
+            if (pageNumber == 12){
+                dialog.setVisible(true);
+                dialog.revalidate();
+                dialog.repaint();
+                return;
+            }
             if (page instanceof MainPage) {
                 ((MainPage) page).setMainPanel(this.panel);
                 ((MainPage) page).addMainPanel();
@@ -62,10 +69,10 @@ public class Application implements Runnable {
             pageStack.pop();
         }
         pageStack.push(temp);
-        /*pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
+        pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
         System.out.println();
         updater.getPageStack().forEach(x -> System.out.print(x.substring(0, 2) + ", "));
-        System.out.println();*/
+        System.out.println();
         if (pageNumber == 0){
             if (!(page instanceof LoginPage))
                 page = new LoginPage(this);
@@ -110,6 +117,13 @@ public class Application implements Runnable {
                     if (!(panel instanceof NotificationPage))
                         panel = new NotificationPage(this, userID);
                     break;
+                case 12:
+                    if (!(dialog instanceof AddCourseDialog)) {
+                        dialog = new AddCourseDialog(this, userID);
+                    }
+                    dialog.refreshDialog(pageInfo);
+                    repaintApp();
+                    return;
         /*panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
@@ -187,7 +201,7 @@ public class Application implements Runnable {
     }
 
     public List<Course> unpackCourseList(String info){
-        if (info.equals(""))
+        if (info == null || info.equals(""))
             return null;
         ArrayList<Course> courses = new ArrayList<>();
         String[] S = info.split("\\$");
@@ -203,6 +217,7 @@ public class Application implements Runnable {
                         course.setCourseName(T[1]);
                         break;
                     case "professorName":
+                    case "professorID":
                         course.setProfessorID(T[1]);
                         break;
                     case "units":
@@ -228,6 +243,17 @@ public class Application implements Runnable {
                         break;
                     case "examTime":
                         course.setExamTime(String.join(" ", entry.substring(9).split("T")));
+                        break;
+                    case "studentList":
+                        String[] IDs = entry.substring(12).split(",");
+                        for (String id : IDs){
+                            Score score = new Score();
+                            score.setStudentLinked(id);
+                            course.addScore(score);
+                        }
+                        break;
+                    case "level":
+                        course.setLevel(ClassLevel.valueOf(T[1]));
                         break;
                 }
             }
@@ -424,6 +450,7 @@ public class Application implements Runnable {
                 break;
             case 9:
             case 10:
+            case 12:
                 System.err.println(info);
                 break;
         }
@@ -512,6 +539,30 @@ public class Application implements Runnable {
         }
     }
 
+    public void updateCourse(Course course){
+        String message = "";
+        message += "\"" + course.getCourseName() + "\"/";
+        message += "\"" + course.getCollegeLinked() + "\"/";
+        message += "\"" + course.getLevel() + "\"/";
+        message += "\"" + course.getCourseID() + "\"/";
+        message += "\"" + course.getExamTime() + "\"/";
+        message += course.getUnits() + "/";
+        message += "\"" + course.getProfessorID() + "\"";
+        ClassTime[] times =  course.getClassTimes();
+        for (ClassTime time : times){
+            message += (time == times[0] ? "/" : ",") + time.getDay() + " \"" + time.getStartTime() + "\" \"" + time.getEndTime() + "\"";
+        }
+        ArrayList<Score> scores = (ArrayList<Score>) course.getScoreList();
+        for (Score score : scores){
+            message += (score.equals(scores.get(0)) ? "/\"" : ",\"") + score.getStudentLinked() + "\"";
+        }
+        try{
+            this.client.send("UPDATE/COURSE/" + message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void goodLogIn(String userID){
         this.userID = userID;
         askForInfo(1, userID);
@@ -524,7 +575,10 @@ public class Application implements Runnable {
     }
 
     public void raiseError(String errorMessage){
-        JOptionPane.showMessageDialog(page, errorMessage);
+        if (getPageNumber(pageStack.peek()) == 12)
+            JOptionPane.showMessageDialog(dialog, errorMessage);
+        else
+            JOptionPane.showMessageDialog(page, errorMessage);
     }
     
     @Override

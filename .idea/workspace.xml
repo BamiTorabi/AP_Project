@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #9">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Server and Client Development #A">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/NotificationPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/NotificationPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/TemporaryScoresPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/TemporaryScoresPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/WrappableTableRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/WrappableTableRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/ClassTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/ClassTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Course.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
@@ -269,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660072821605</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Server and Client Development #A">
+      <created>1660167722810</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1660167722810</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -309,7 +313,8 @@
     <MESSAGE value="Server and Client Development #7" />
     <MESSAGE value="Server and Client Development #8" />
     <MESSAGE value="Server and Client Development #9" />
-    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #9" />
+    <MESSAGE value="Server and Client Development #A" />
+    <option name="LAST_COMMIT_MESSAGE" value="Server and Client Development #A" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AP_Project$client_ClientMain.ic" NAME="client.ClientMain Coverage Results" MODIFIED="1660119255146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

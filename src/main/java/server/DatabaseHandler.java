@@ -105,6 +105,19 @@ public class DatabaseHandler {
         statement.executeUpdate(message);
     }
 
+    public void deleteCompleteRow(String tableName, String[] conditions) throws SQLException{
+        String message = "DELETE FROM " + tableName;
+        if (conditions != null && conditions.length > 0){
+            for (int i = 0; i < conditions.length; i++){
+                message += (i == 0 ? " WHERE " : " AND ") + conditions[i] + " ";
+            }
+        }
+        message += ";";
+        System.out.println("mysql> " + message);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(message);
+    }
+
     public void updateTable(String tableName, String[] values, String[] conditions) throws SQLException {
         String message = "UPDATE " + tableName;
         message += " SET ";

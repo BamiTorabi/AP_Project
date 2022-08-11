@@ -79,6 +79,14 @@ public class ClassTime {
         this.endMins = endMins;
     }
 
+    public String getStartTime(){
+        return String.format("%02d:%02d:00", startHours, startMins);
+    }
+
+    public String getEndTime(){
+        return String.format("%02d:%02d:00", endHours, endMins);
+    }
+
     @Override
     public String toString() {
         return weekNames[day] + ", " +

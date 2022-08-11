@@ -294,6 +294,34 @@ public class ClientHandler implements Runnable{
                         "ORDER BY sent DESC"
                 });
                 break;
+            case 12:
+                if (S.length == 3){
+                    info = "";
+                }
+                else {
+                    info = server.getInfoList("Courses", new String[]{
+                            "Courses.courseID=\"" + S[3] + "\""
+                    }, new String[]{
+                            "Courses.courseID",
+                            "courseName",
+                            "professorID",
+                            "units",
+                            "GROUP_CONCAT(DISTINCT S.studentLinked) AS studentList",
+                            "GROUP_CONCAT(DISTINCT CT.day, \" \", CT.startTime, \" \", CT.endTime) AS classTime",
+                            "examTime",
+                            "level"
+                    }, new String[]{
+                            "Scores S on Courses.courseID = S.courseLinked",
+                            "ClassTimes CT on Courses.courseID = CT.courseID"
+                    }, new String[]{
+                            "GROUP BY Courses.courseID"
+                    });
+                    if (info == null) {
+                        sendError("Course with ID " + S[3] + " doesn't exist.");
+                        return;
+                    }
+                }
+                break;
         }
         send("INFO/" + String.format("%02d/", pageNumber) + info);
     }
@@ -301,6 +329,7 @@ public class ClientHandler implements Runnable{
     public void handleUpdateQuery(String message) throws IOException{
         String S[] = message.split("/");
         boolean flag;
+        String query;
         ArrayList<String> values;
         switch (S[2]) {
             case "USER":
@@ -316,6 +345,61 @@ public class ClientHandler implements Runnable{
                 sendError("Profile updated successfully.");
                 break;
             case "COURSE":
+                values = new ArrayList<>();
+                for (int i = 3; i < S.length - 2; i++)
+                    values.add(S[i]);
+                query = server.getInfoList("Professors", new String[]{"universityID=" + S[9]}, new String[]{"universityID"}, null, null);
+                if (query == null || query.equals("")){
+                    sendError("Professor with ID " + S[9] + " doesn't exist.");
+                    return;
+                }
+                query = server.getInfoList("Courses", new String[]{"courseID=" + S[6]}, new String[]{"courseID"}, null, null);
+                boolean add = false;
+                if (query == null || query.equals("")) { // add course
+                    flag = server.addCompleteRow("Courses", values.toArray(new String[0]));
+                    add = true;
+                } else { // edit course
+                    flag = server.updateCompleteRow("Courses", values.toArray(new String[0]), new String[]{"courseID=" + S[6]});
+                }
+                if (!flag) {
+                    sendError("Bad information.");
+                    return;
+                }
+                server.deleteCompleteRow("Scores", new String[]{"courseLinked=" + S[6]});
+                for (String id : S[11].split(",")){
+                    query = server.getInfoList("Students", new String[]{"universityID=" + id}, new String[]{"universityID"}, null, null);
+                    if (query == null || query.equals("")){
+                        sendError("Student with ID " + id + " doesn't exist.");
+                        return;
+                    }
+                    flag = server.addCompleteRow("Scores", new String[]{
+                            S[6],
+                            id,
+                            "0",
+                            "\"PENDING\"",
+                            "\"\"",
+                            "\"\""
+                    });
+                    if (!flag) {
+                        sendError("Bad information.");
+                        return;
+                    }
+                }
+                server.deleteCompleteRow("ClassTimes", new String[]{"courseID=" + S[6]});
+                for (String time : S[10].split(",")){
+                    String[] parts = time.split(" ");
+                    flag = server.addCompleteRow("ClassTimes", new String[]{
+                            S[6],
+                            parts[0],
+                            parts[1],
+                            parts[2]
+                    });
+                    if (!flag) {
+                        sendError("Bad information.");
+                        return;
+                    }
+                }
+                sendError("Course " + (add ? "added" : "updated") + " successfully.");
                 break;
             case "SCORE":
                 values = new ArrayList<>();

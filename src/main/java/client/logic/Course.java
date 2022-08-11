@@ -20,7 +20,9 @@ public class Course {
 
     private String courseID;
 
-    public Course(){}
+    public Course(){
+        this.scoreList = new ArrayList<>();
+    }
 
     public Course(String courseName, String prof, int units, CollegeType college, ClassTime[] times, String examDate, String examTime, ClassLevel level){
         this.courseName = courseName;

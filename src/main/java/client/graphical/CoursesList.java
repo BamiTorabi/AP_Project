@@ -4,6 +4,7 @@ import client.Application;
 import client.logic.ClassLevel;
 import client.logic.CollegeType;
 import client.logic.Course;
+import client.logic.Professor;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -46,10 +47,6 @@ public class CoursesList extends PanelTemplate {
     public CoursesList(Application app, String userID) {
         super(app, userID);
         this.setLayout(null);
-
-        /*if (!this.userLoggedIn.isStudent() && ((Professor) this.userLoggedIn).isDeputy()){
-            addDeputyButtons();
-        }*/
     }
 
 
@@ -119,17 +116,13 @@ public class CoursesList extends PanelTemplate {
     }
 
     public void addDeputyButtons(){
-        /*
         this.deputyAddButton.setText("Add Course");
         this.deputyAddButton.setBounds(250, 610, 300, 50);
         this.deputyAddButton.setBackground(Color.CYAN);
         this.deputyAddButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddCourseDialog dialog = new AddCourseDialog(userLoggedIn, null);
-                remove(scrollPane);
-                updateTable();
-                Application.getInstance().repaintApp();
+                app.askForInfo(12, "");
             }
         });
         this.add(this.deputyAddButton);
@@ -141,17 +134,15 @@ public class CoursesList extends PanelTemplate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = JOptionPane.showInputDialog(CoursesList.this, "Enter course ID: ");
-                Course course = University.getCourse(id);
-                if (course == null || course.getCollegeLinked() != userLoggedIn.getCollege()){
+                if (id.equals("")){
                     JOptionPane.showMessageDialog(CoursesList.this, "Invalid course ID.");
                     return;
                 }
-                AddCourseDialog dialog = new AddCourseDialog(userLoggedIn, course);
-                updateTable();
+                app.askForInfo(12, id);
             }
         });
         this.add(this.deputyEditButton);
-         */
+
     }
 
     public void addIDFilter() {
@@ -235,6 +226,9 @@ public class CoursesList extends PanelTemplate {
         this.removeAll();
         addFilters();
         addTable(info);
+        if (!app.getUserLoggedIn().isStudent() && ((Professor) app.getUserLoggedIn()).isDeputy()){
+            addDeputyButtons();
+        }
     }
 
     public class FilterListener implements ActionListener {

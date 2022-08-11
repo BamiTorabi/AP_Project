@@ -147,6 +147,15 @@ public class Server {
         }
     }
 
+    public boolean deleteCompleteRow(String tableName, String[] conditions){
+        try{
+            db.deleteCompleteRow(tableName, conditions);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public boolean updateUserInfo(String tableName, String[] values, String[] conditions){
         try{
             db.updateTable(tableName, values, conditions);
