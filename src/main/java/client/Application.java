@@ -38,8 +38,7 @@ public class Application implements Runnable {
     public void repaintApp() {
         int pageNumber = getPageNumber(pageStack.peek());
         if (pageNumber > 0) {
-            if (pageNumber == 12){
-                dialog.setVisible(true);
+            if (pageNumber == 12 || pageNumber == 13){
                 dialog.revalidate();
                 dialog.repaint();
                 return;
@@ -124,6 +123,13 @@ public class Application implements Runnable {
                     dialog.refreshDialog(pageInfo);
                     repaintApp();
                     return;
+                case 13:
+                    if (!(dialog instanceof StudentsPickerDialog)) {
+                        dialog = new StudentsPickerDialog(this, userID);
+                    }
+                    dialog.refreshDialog(pageInfo);
+                    repaintApp();
+                    return;
         /*panelList[6] = new RequestsPage();
         panelList[7] = new TemporaryScoresPage();
         if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
@@ -204,7 +210,7 @@ public class Application implements Runnable {
         if (info == null || info.equals(""))
             return null;
         ArrayList<Course> courses = new ArrayList<>();
-        String[] S = info.split("\\$");
+        String[] S = info.split("\\$&\\$");
         for (String row : S){
             Course course = new Course();
             for (String entry : row.split("/")){
@@ -265,22 +271,25 @@ public class Application implements Runnable {
     public User unpackUser(String info){
         boolean isStudent = true;
         String ID = null;
-        User user = new User();
+        User user = new Special();
         for (String entry : info.split("/")){
             String[] S = entry.split(":");
             switch (S[0]){
+                case "userID":
                 case "universityID":
                     if (ID == null)
                         ID = S[1];
                     break;
-                case "student":
-                    isStudent = Boolean.parseBoolean(S[1]);
-                    if (isStudent)
+                case "userType":
+                    if (S[1].equals("Student"))
                         user = new Student();
-                    else
+                    else if (S[1].equals("Professor"))
                         user = new Professor();
-                    user.setStudent(isStudent);
+                    else
+                        user = new Special();
+                    user.setUserType(S[1]);
                     break;
+                case "name":
                 case "firstName":
                     user.setFirstName(S[1]);
                     break;
@@ -300,10 +309,10 @@ public class Application implements Runnable {
                     user.setCollegeType(CollegeType.valueOf(S[1]));
                     break;
                 case "type":
-                    if (user.isStudent()){
+                    if (user.getUserType().equals("Student")){
                         ((Student) user).setType(StudentType.valueOf(S[1]));
                     }
-                    else{
+                    else if (user.getUserType().equals("Professor")){
                         ((Professor) user).setType(ProfessorType.valueOf(S[1]));
                     }
                     break;
@@ -340,7 +349,7 @@ public class Application implements Runnable {
         if (info.equals(""))
             return null;
         ArrayList<Professor> professors = new ArrayList<>();
-        String[] S = info.split("\\$");
+        String[] S = info.split("\\$&\\$");
         for (String row : S){
             User user = unpackUser(row);
             if (user instanceof Professor)
@@ -353,7 +362,7 @@ public class Application implements Runnable {
         if (info.equals(""))
             return null;
         ArrayList<Score> scores = new ArrayList<>();
-        String[] S = info.split("\\$");
+        String[] S = info.split("\\$&\\$");
         for (String row : S){
             Score score = new Score();
             for (String entry : row.split("/")){
@@ -403,7 +412,7 @@ public class Application implements Runnable {
         if (info.equals(""))
             return null;
         ArrayList<Notif> notifs = new ArrayList<>();
-        String[] S = info.split("\\$");
+        String[] S = info.split("\\$&\\$");
         for (String row : S) {
             Notif notif = new Notif();
             for (String entry : row.split("/")) {
@@ -431,6 +440,17 @@ public class Application implements Runnable {
         return notifs;
     }
 
+    public List<User> unpackUserList(String info){
+        if (info.equals(""))
+            return null;
+        ArrayList<User> users = new ArrayList<>();
+        for (String row : info.split("\\$&\\$")){
+            User user = unpackUser(row);
+            users.add(user);
+        }
+        return users;
+    }
+
     public void unpackMessage(int pageNumber, String info){
         String[] S = info.split("/");
         switch (pageNumber){
@@ -451,6 +471,7 @@ public class Application implements Runnable {
             case 9:
             case 10:
             case 12:
+            case 13:
                 System.err.println(info);
                 break;
         }
@@ -492,7 +513,7 @@ public class Application implements Runnable {
         message += "\"" + student.getType() +"\"/";
         message += student.getTotalScore() + "/";
         message += student.getEducationalStatus() + "/";
-        message += student.isStudent() + "/";
+        message += "\"" + student.getUserType() + "\"/";
         message += "\"" + student.getCounsellor() + "\"";
         try{
             this.client.send("ADD/STUDENT/" + message);
@@ -516,7 +537,7 @@ public class Application implements Runnable {
         message += professor.getRoomNumber() + "/";
         message += professor.isDeputy() + "/";
         message += professor.isHead() + "/";
-        message += professor.isStudent();
+        message += "\"" + professor.getUserType() + "\"";
         try{
             this.client.send("ADD/PROFESSOR/" + message);
         } catch (IOException e) {

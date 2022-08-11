@@ -226,7 +226,7 @@ public class CoursesList extends PanelTemplate {
         this.removeAll();
         addFilters();
         addTable(info);
-        if (!app.getUserLoggedIn().isStudent() && ((Professor) app.getUserLoggedIn()).isDeputy()){
+        if (app.getUserLoggedIn().getUserType().equals("Professor") && ((Professor) app.getUserLoggedIn()).isDeputy()){
             addDeputyButtons();
         }
     }

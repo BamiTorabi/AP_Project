@@ -51,6 +51,7 @@ public class Client implements Runnable{
                     }
                     break;
                 case "INFO":
+                    System.err.println(message);
                     int pageNumber = Integer.parseInt(S[1]);
                     String info = message.substring(8);
                     app.unpackMessage(pageNumber, info);

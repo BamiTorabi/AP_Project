@@ -37,7 +37,7 @@ public class AddCourseDialog extends DialogTemplate {
     public AddCourseDialog(Application app, String userID){
         super(app, userID);
         this.userLoggedIn = app.getUserLoggedIn();
-        this.setModal(true);
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setLayout(null);
         this.setTitle("Add Course");
         this.setSize(WIDTH, HEIGHT);
@@ -67,6 +67,9 @@ public class AddCourseDialog extends DialogTemplate {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
+
+        addLabels();
+        addButtons();
     }
 
     public int getCoor(double x){
@@ -175,8 +178,6 @@ public class AddCourseDialog extends DialogTemplate {
 
     @Override
     public void refreshDialog(String info) {
-        addLabels();
-        addButtons();
         if (info != null && !info.equals("")){
             fillFields(info);
         }

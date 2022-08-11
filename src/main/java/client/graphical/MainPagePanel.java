@@ -107,10 +107,11 @@ public class MainPagePanel extends PanelTemplate {
         lastUpdate = info;
         this.removeAll();
         this.user = app.unpackUser(info);
+
         addGeneralLabels();
-        if (this.user.isStudent())
+        if (this.user.getUserType().equals("Student"))
             addStudentLabels();
-        else if (((Professor)this.user).isDeputy())
+        else if (this.user.getUserType().equals("Professor") && ((Professor)this.user).isDeputy())
             addNewUserButton();
     }
 }

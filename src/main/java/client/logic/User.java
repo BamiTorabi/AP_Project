@@ -15,14 +15,14 @@ public class User {
     private String password;
     private int firstYear;
     private CollegeType college;
-    private boolean student; // true = student. false = professor.
+    private String userType;
     private List<Score> courseList;
 
     public User(){
         this.courseList = new ArrayList<>();
     }
 
-    public User(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType type, boolean isStudent){
+    public User(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType type, String userType){
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalID = ID;
@@ -30,7 +30,7 @@ public class User {
         this.emailAddress = emailAddress;
         this.college = type;
         //College col = College.getInstance(type);
-        this.student = isStudent;
+        this.userType = userType;
         this.firstYear = Calendar.getInstance().get(Calendar.YEAR);
         /*this.universityID = ("" + firstYear) +
                 String.format("%02d", type.ordinal()) +
@@ -73,8 +73,8 @@ public class User {
         return college;
     }
 
-    public boolean isStudent() {
-        return student;
+    public String getUserType() {
+        return userType;
     }
 
     public void setFirstName(String firstName) {
@@ -109,8 +109,8 @@ public class User {
         this.college = college;
     }
 
-    public void setStudent(boolean student) {
-        this.student = student;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getPassword() {

@@ -72,20 +72,31 @@ public class Server {
     }
 
     public boolean checkLogIn(String userID, String password){
-        String[] S = {"universityID=\"" + userID + "\"", "password=\"" + password + "\""};
         try {
-            String tableName = (isStudent(userID) ? "Students" : "Professors");
-            ResultSet resultSet = db.getResult(tableName, S, new String[]{"password"});
+            String tableName = getUserType("\"" + userID + "\"") + "s";
+            String[] S = {(tableName.equals("Specials") ? "userID" : "universityID") + "=\"" + userID + "\"", "password=\"" + password + "\""};
+            ResultSet resultSet = db.getResult(tableName, S, new String[]{});
             return resultSet.next();
         } catch (SQLException e) {
             return false;
         }
     }
 
-    public boolean isStudent(String userID){
-        try {
-            ResultSet resultSet = db.getResult("Students", new String[]{"universityID=\"" + userID + "\""}, new String[]{});
-            return resultSet.next();
+    public String getUserType(String userID){
+        try{
+            ResultSet resultSet = db.getResult("Users", new String[]{"userID=" + userID}, new String[]{});
+            resultSet.next();
+            return resultSet.getString("userType");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getCollege(String userID){
+        try{
+            ResultSet resultSet = db.getResult("Users", new String[]{"userID=" + userID}, new String[]{});
+            resultSet.next();
+            return resultSet.getString("college");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -101,6 +112,7 @@ public class Server {
             }
             return answer;
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -111,7 +123,7 @@ public class Server {
             String answer = "";
             while (resultSet.next()) {
                 if (!answer.equals(""))
-                    answer += "$";
+                    answer += "$&$";
                 for (String column : columns) {
                     String[] splitUp = column.split("[ .]+");
                     String alias = splitUp[splitUp.length - 1];

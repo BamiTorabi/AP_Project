@@ -36,9 +36,8 @@ public class DatabaseHandler {
         if (columns.length == 0)
             message += "*";
         else{
-            message += "universityID";
             for (String column : columns)
-                message += ", " + column;
+                message += (column.equals(columns[0]) ? "" : ", ") + column;
         }
         message += " FROM " + databaseName + "." + tableName;
         //message += " WHERE " + (tableName.equals("Courses") ? "courseID" : "universityID") + "=" + ID;

@@ -49,7 +49,7 @@ public class ReportCardPage extends PanelTemplate {
     }
 
     public void updateTable(){
-        if (app.getUserLoggedIn().isStudent()) {
+        if (app.getUserLoggedIn().getUserType().equals("Student")) {
             String id = courseIDFilter.getText();
             CollegeType college = CollegeType.values()[collegeFilter.getSelectedIndex()];
             remove(scrollPane);
@@ -62,11 +62,6 @@ public class ReportCardPage extends PanelTemplate {
 
     }
 
-    public void addFilters(){
-        //addCourseIDFilter();
-        //addCollegeFilter();
-        addFilterButton();
-    }
 
     public void addTable(String info){
         fillTable(info);
@@ -83,42 +78,8 @@ public class ReportCardPage extends PanelTemplate {
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
-        if (app.getUserLoggedIn().isStudent())
-            this.scrollPane.setBounds(0, 0, 1000, 700);
-        else
-            this.scrollPane.setBounds(200, 0, 800, 700);
+        this.scrollPane.setBounds(0, 0, 1000, 700);
         this.add(this.scrollPane);
-    }
-
-    public void addStudentNameFilter(){
-        this.courseIDLabel = new JLabel("Student name:");
-        this.courseIDLabel.setFont(normalPlainFont);
-        this.courseIDLabel.setBounds(SPACE_SIZE, getCoor(0), LABEL_WIDTH, LABEL_HEIGHT);
-        this.add(courseIDLabel);
-
-        this.courseIDFilter = new JTextField();
-        this.courseIDFilter.setBounds(SPACE_SIZE, getCoor(0) + LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-        this.add(courseIDFilter);
-    }
-
-    public void addStudentIDFilter(){
-        this.collegeLabel = new JLabel("Student ID:");
-        this.collegeLabel.setFont(normalPlainFont);
-        this.collegeLabel.setBounds(SPACE_SIZE, getCoor(1), LABEL_WIDTH, LABEL_HEIGHT);
-        this.add(collegeLabel);
-
-        this.collegeFilter = new JComboBox<>(CollegeType.list());
-        this.collegeFilter.setBounds(SPACE_SIZE, getCoor(1) + LABEL_HEIGHT, LABEL_WIDTH, LABEL_HEIGHT);
-        this.collegeFilter.setSelectedIndex(0);
-        this.add(collegeFilter);
-    }
-
-    public void addFilterButton(){
-        this.filterButton = new JButton("Filter");
-        this.filterButton.setBounds(SPACE_SIZE, getCoor(6), LABEL_WIDTH, 2 * LABEL_HEIGHT);
-        this.filterButton.setBackground(Color.GREEN);
-        this.filterButton.addActionListener(new ReportCardPage.FilterListener());
-        this.add(this.filterButton);
     }
 
     public void fillTable(String info){
@@ -159,8 +120,6 @@ public class ReportCardPage extends PanelTemplate {
     public void refreshPanel(String info) {
         this.removeAll();
         addTable(info);
-        if (!app.getUserLoggedIn().isStudent())
-            addFilters();
     }
 
     public class FilterListener implements ActionListener {

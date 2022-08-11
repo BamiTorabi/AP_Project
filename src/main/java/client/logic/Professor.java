@@ -16,7 +16,7 @@ public class Professor extends User{
     }
 
     public Professor(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType college, int room, ProfessorType type, boolean isDeputy, boolean isHead){
-        super(firstName, lastName, ID, phoneNumber, emailAddress, college, false);
+        super(firstName, lastName, ID, phoneNumber, emailAddress, college, "Professor");
         this.roomNumber = room;
         this.type = type;
         this.deputy = isDeputy;

@@ -187,8 +187,11 @@ public class MainPage extends PageTemplate {
 
     public void addReportButton(){
         this.reportButton = new JComboBox<>(new String[] {"Temporary Scores"});
-        if (app.getUserLoggedIn().isStudent() || (app.getUserLoggedIn() instanceof Professor && ((Professor) app.getUserLoggedIn()).isDeputy()))
+        if (app.getUserLoggedIn().getUserType().equals("Student"))
            this.reportButton.addItem("Report Card");
+        else if ((app.getUserLoggedIn().getUserType().equals("Special")) || (app.getUserLoggedIn() instanceof Professor && ((Professor) app.getUserLoggedIn()).isDeputy())){
+            this.reportButton.addItem("Students Info");
+        }
         this.reportButton.setSelectedIndex(-1);
         this.reportButton.addActionListener(new ActionListener() {
             @Override
@@ -198,11 +201,10 @@ public class MainPage extends PageTemplate {
                         app.askForInfo(8, app.getUserID());
                         break;
                     case 1:
-                        if (app.getUserLoggedIn().isStudent())
+                        if (app.getUserLoggedIn().getUserType().equals("Student"))
                             app.askForInfo(9, app.getUserID());
                         else{
-                            String ID = JOptionPane.showInputDialog("Enter student ID:");
-                            app.askForInfo(9, ID);
+                            app.askForInfo(13, app.getUserID() + "/\"%\"");
                         }
                         break;
                     default:

@@ -22,7 +22,6 @@ public class ClientHandler implements Runnable{
     }
 
     public void init() throws IOException {
-
         this.input = new Scanner(this.socket.getInputStream());
         this.output = new PrintWriter(this.socket.getOutputStream());
         send("AUTH_TOKEN/" + authToken);
@@ -57,6 +56,7 @@ public class ClientHandler implements Runnable{
         int pageNumber = Integer.parseInt(S[2]);
         String info = "";
         ArrayList<String> T;
+        String userType = "";
         switch (pageNumber) {
             case 0:
                 int prev = Integer.parseInt(S[3]);
@@ -66,20 +66,22 @@ public class ClientHandler implements Runnable{
                 sendCaptcha(response, file);
                 return;
             case 1:
-                if (server.isStudent(S[3])) {
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")) {
                     info = server.getInfo("Students", new String[]{"universityID=" + S[3]}, new String[]{
                             "universityID",
-                            "student",
+                            "userType",
                             "firstName",
                             "lastName",
                             "emailAddress",
                             "college",
                             "counsellor"
                     });
-                } else {
+                }
+                else if (userType.equals("Professor")) {
                     info = server.getInfo("Professors", new String[]{"universityID=" + S[3]}, new String[]{
                             "universityID",
-                            "student",
+                            "userType",
                             "firstName",
                             "lastName",
                             "emailAddress",
@@ -87,12 +89,20 @@ public class ClientHandler implements Runnable{
                             "deputy"
                     });
                 }
+                else{
+                    info = server.getInfo("Specials", new String[]{"userID=\"" + S[3] + "\""}, new String[]{
+                            "userType",
+                            "userID",
+                            "name"
+                    });
+                }
                 break;
             case 2:
-                if (server.isStudent(S[3])) {
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")) {
                     info = server.getInfo("Students", new String[]{"universityID=" + S[3]}, new String[]{
                             "universityID",
-                            "student",
+                            "userType",
                             "firstName",
                             "lastName",
                             "nationalID",
@@ -105,10 +115,11 @@ public class ClientHandler implements Runnable{
                             "counsellor",
                             "educationalStatus"
                     });
-                } else {
+                }
+                else if (userType.equals("Professor")){
                     info = server.getInfo("Professors", new String[]{"universityID=" + S[3]}, new String[]{
                             "universityID",
-                            "student",
+                            "userType",
                             "firstName",
                             "lastName",
                             "nationalID",
@@ -147,7 +158,7 @@ public class ClientHandler implements Runnable{
                     T.add(S[i]);
                 }
                 info = server.getInfoList("Professors", T.toArray(new String[0]), new String[]{
-                        "student",
+                        "userType",
                         "firstName",
                         "lastName",
                         "college",
@@ -158,7 +169,8 @@ public class ClientHandler implements Runnable{
                 }, null, null);
                 break;
             case 5:
-                if (server.isStudent(S[3])){
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")){
                     info = server.getInfoList("Courses", new String[]{
                             "ST.universityID=" + S[3]
                     }, new String[]{
@@ -172,7 +184,7 @@ public class ClientHandler implements Runnable{
                             "GROUP BY Courses.courseID"
                     });
                 }
-                else {
+                else if (userType.equals("Professor")) {
                     info = server.getInfoList("Courses", new String[]{
                             "P.universityID=" + S[3]
                     }, new String[]{
@@ -188,7 +200,8 @@ public class ClientHandler implements Runnable{
                 }
                 break;
             case 6:
-                if (server.isStudent(S[3])){
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")){
                     info = server.getInfoList("Courses", new String[]{
                             "ST.universityID=" + S[3]
                     }, new String[]{
@@ -205,7 +218,7 @@ public class ClientHandler implements Runnable{
                             "ORDER BY examTime ASC"
                     });
                 }
-                else{
+                else if (userType.equals("Professor")){
                     info = server.getInfoList("Courses", new String[]{
                             "P.universityID=" + S[3]
                     }, new String[]{
@@ -222,7 +235,8 @@ public class ClientHandler implements Runnable{
                 }
                 break;
             case 8:
-                if (server.isStudent(S[3])){
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")){
                     info = server.getInfoList("Scores", new String[]{
                             "studentLinked=\"" + S[3] + "\""
                     }, new String[]{
@@ -241,7 +255,7 @@ public class ClientHandler implements Runnable{
                             "Professors P on P.universityID = C.professorID"
                     }, null);
                 }
-                else{
+                else if (userType.equals("Professor")){
                     info = server.getInfoList("Scores", new String[]{
                             "C.professorID=\"" + S[3] + "\""
                     }, new String[]{
@@ -262,7 +276,8 @@ public class ClientHandler implements Runnable{
                 }
                 break;
             case 9:
-                if (server.isStudent(S[3])){
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")){
                     info = server.getInfoList("Courses", new String[]{
                             "S.studentLinked=\"" + S[3] + "\""
                     }, new String[]{
@@ -277,7 +292,7 @@ public class ClientHandler implements Runnable{
                             "Professors P on P.universityID = Courses.professorID"
                     }, null);
                 }
-                else{
+                else if (userType.equals("Professor")){
 
                 }
                 break;
@@ -322,6 +337,33 @@ public class ClientHandler implements Runnable{
                     }
                 }
                 break;
+            case 13:
+                userType = server.getUserType(S[3]);
+                System.err.println(S[4]);
+                if (userType.equals("Special")){
+                    info = server.getInfoList("Users", new String[]{
+                            "userID LIKE " + S[4],
+                            "userType=\"Student\""
+                    }, new String[]{
+                            "userType",
+                            "userID",
+                            "name"
+                    }, null, null);
+                }
+                else{
+                    String college = server.getCollege(S[3]);
+                    System.err.println(S[4]);
+                    info = server.getInfoList("Users", new String[]{
+                            "userID LIKE " + S[4],
+                            "userType=\"Student\"",
+                            "college=\"" + college + "\""
+                    }, new String[]{
+                            "userType",
+                            "userID",
+                            "name"
+                    }, null, null);
+                }
+                break;
         }
         send("INFO/" + String.format("%02d/", pageNumber) + info);
     }
@@ -329,15 +371,17 @@ public class ClientHandler implements Runnable{
     public void handleUpdateQuery(String message) throws IOException{
         String S[] = message.split("/");
         boolean flag;
-        String query;
+        String query, userType;
         ArrayList<String> values;
         switch (S[2]) {
             case "USER":
-                if (server.isStudent(S[3])) {
+                userType = server.getUserType(S[3]);
+                if (userType.equals("Student")) {
                     flag = server.updateUserInfo("Students", new String[]{S[4] + " = " + S[5]}, new String[]{"universityID = " + S[3]});
-                } else {
+                } else if (userType.equals("Professor")) {
                     flag = server.updateUserInfo("Professors", new String[]{S[4] + " = " + S[5]}, new String[]{"universityID = " + S[3]});
                 }
+                else flag = false;
                 if (!flag) {
                     sendError("Bad information.");
                     return;
@@ -443,7 +487,7 @@ public class ClientHandler implements Runnable{
                     sendError("Bad information.");
                     return;
                 }
-                flag = server.addCompleteRow("Users", new String[]{S[8], "\"Student\""});
+                flag = server.addCompleteRow("Users", new String[]{S[8], "\"Student\"", "\"" + S[3] + " " + S[4] + "\""});
                 break;
             case "PROFESSOR":
                 values = new ArrayList<>();
@@ -454,7 +498,7 @@ public class ClientHandler implements Runnable{
                     sendError("Bad information.");
                     return;
                 }
-                flag = server.addCompleteRow("Users", new String[]{S[8], "\"Professor\""});
+                flag = server.addCompleteRow("Users", new String[]{S[8], "\"Professor\"", "\"" + S[3] + " " + S[4] + "\""});
                 break;
         }
         if (!flag){

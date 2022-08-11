@@ -12,7 +12,7 @@ public class Student extends User{
     }
 
     public Student(String firstName, String lastName, String ID, String phoneNumber, String emailAddress, CollegeType college, String counsellor, StudentType type){
-        super(firstName, lastName, ID, phoneNumber, emailAddress, college, true);
+        super(firstName, lastName, ID, phoneNumber, emailAddress, college, "Student");
         this.counsellor = counsellor;
         this.type = type;
         this.educationalStatus = 0;

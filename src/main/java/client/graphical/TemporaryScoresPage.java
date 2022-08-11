@@ -37,7 +37,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         this.courseTable = new JTable(this.tableContents, this.tableColumnNames){
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (app.getUserLoggedIn().isStudent()){
+                if (app.getUserLoggedIn().getUserType().equals("Student")){
                     if (column == 4 && scoreList.get(row).getStatus() == ScoreStatus.TEMPORARY)
                         return true;
                 }
@@ -84,7 +84,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         this.saveButton = new JButton();
         this.saveButton.setText("Save");
         this.saveButton.setBackground(Color.GREEN);
-        if (app.getUserLoggedIn().isStudent())
+        if (app.getUserLoggedIn().getUserType().equals("Student"))
             this.saveButton.setBounds(350, 610, 300, 50);
         else
             this.saveButton.setBounds(100, 610, 300, 50);
@@ -162,7 +162,7 @@ public class TemporaryScoresPage extends PanelTemplate {
     public void refreshPanel(String info) {
         this.removeAll();
         addSaveButton();
-        if (!app.getUserLoggedIn().isStudent())
+        if (!app.getUserLoggedIn().getUserType().equals("Student"))
             addConfirmButton();
         addTable(info);
     }
