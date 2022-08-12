@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
 import client.logic.Professor;
 import client.logic.Student;
 import client.logic.User;
@@ -38,10 +40,11 @@ public class ProfilePage extends PanelTemplate {
     private User profileToBeDrawn;
     private boolean profileOfLoggedIn;
 
-    private final int LABEL_WIDTH = 700;
-    private final int LABEL_HEIGHT = 50;
-    private final int MARGIN_SIZE = 50;
-    private final int SPACE_SIZE = 40;
+    private final int LABEL_WIDTH = DataLoader.getConstraint("profilePanel", "labelWidth");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("profilePanel", "labelHeight");
+    private final int MARGIN_SIZE = DataLoader.getConstraint("profilePanel", "marginSize");
+    private final int SPACE_SIZE = DataLoader.getConstraint("profilePanel", "spaceSize");
+    private final int BUTTON_WIDTH = DataLoader.getConstraint("profilePanel", "buttonWidth");
 
     public ProfilePage(Application app, String userID){
         super(app, userID);
@@ -123,7 +126,7 @@ public class ProfilePage extends PanelTemplate {
         this.phoneNumberText.setBorder(null);
         this.phoneNumberText.setBackground(Color.WHITE);
         this.phoneNumberText.setText(profileToBeDrawn.getPhoneNumber());
-        this.phoneNumberText.setBounds(MARGIN_SIZE + 175, getCoor(5), 400, 50);
+        this.phoneNumberText.setBounds(MARGIN_SIZE + 175, getCoor(5), 400, LABEL_HEIGHT);
         this.add(this.phoneNumberText);
 
         if (!profileOfLoggedIn)
@@ -142,7 +145,7 @@ public class ProfilePage extends PanelTemplate {
         this.emailAddressText.setBorder(null);
         this.emailAddressText.setBackground(Color.WHITE);
         this.emailAddressText.setText(profileToBeDrawn.getEmailAddress());
-        this.emailAddressText.setBounds(MARGIN_SIZE + 175, getCoor(6), 400, 50);
+        this.emailAddressText.setBounds(MARGIN_SIZE + 175, getCoor(6), 400, LABEL_HEIGHT);
         this.add(this.emailAddressText);
 
         if (!profileOfLoggedIn)
@@ -212,7 +215,7 @@ public class ProfilePage extends PanelTemplate {
     public void addSaveButton(){
         this.saveButton = new JButton();
         this.saveButton.setText("Save");
-        this.saveButton.setBounds(850, 600, 100, 40);
+        this.saveButton.setBounds(WIDTH - MARGIN_SIZE - BUTTON_WIDTH, HEIGHT - MARGIN_SIZE - LABEL_HEIGHT, BUTTON_WIDTH, LABEL_HEIGHT);
         this.saveButton.setBackground(Color.GREEN);
         this.saveButton.addActionListener(new ActionListener() {
             @Override

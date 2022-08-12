@@ -1,6 +1,10 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
+import client.graphical.dialogs.ConfirmScoreDialog;
 import client.logic.Score;
 import client.logic.ScoreStatus;
 
@@ -24,6 +28,12 @@ public class TemporaryScoresPage extends PanelTemplate {
     private JButton saveButton = new JButton();
     private JButton confirmButton = new JButton();
     private List<Score> scoreList = new ArrayList<>();
+
+    private final int BUTTON_WIDTH = DataLoader.getConstraint("tablePanel", "buttonWidth");
+    private final int BUTTON_HEIGHT = DataLoader.getConstraint("tablePanel", "buttonHeight");
+    private final int BUTTON_SPACE = DataLoader.getConstraint("tablePanel", "buttonSpace");
+    private final int TABLE_HEIGHT = DataLoader.getConstraint("tablePanel", "tableHeight");
+    private final int MARGIN_SIZE = DataLoader.getConstraint("tablePanel", "marginSize");
 
     public TemporaryScoresPage(Application app, String userID){
         super(app, userID);
@@ -58,7 +68,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
-        this.scrollPane.setBounds(0, 0, 1000, 600);
+        this.scrollPane.setBounds(0, 0, WIDTH, TABLE_HEIGHT);
         this.add(this.scrollPane);
     }
 
@@ -85,9 +95,9 @@ public class TemporaryScoresPage extends PanelTemplate {
         this.saveButton.setText("Save");
         this.saveButton.setBackground(Color.GREEN);
         if (app.getUserLoggedIn().getUserType().equals("Student"))
-            this.saveButton.setBounds(350, 610, 300, 50);
+            this.saveButton.setBounds((WIDTH - BUTTON_WIDTH) / 2, HEIGHT - MARGIN_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         else
-            this.saveButton.setBounds(100, 610, 300, 50);
+            this.saveButton.setBounds((WIDTH - BUTTON_SPACE) / 2 - BUTTON_WIDTH, HEIGHT - MARGIN_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.saveButton.addActionListener(new SaveListener());
         this.add(this.saveButton);
     }
@@ -96,7 +106,7 @@ public class TemporaryScoresPage extends PanelTemplate {
         this.confirmButton = new JButton();
         this.confirmButton.setText("Confirm");
         this.confirmButton.setBackground(Color.CYAN);
-        this.confirmButton.setBounds(600, 610, 300, 50);
+        this.confirmButton.setBounds((WIDTH + BUTTON_SPACE) / 2, HEIGHT - MARGIN_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,58 +114,6 @@ public class TemporaryScoresPage extends PanelTemplate {
             }
         });
         this.add(this.confirmButton);
-    }
-
-    public void saveScoreChanges(){
-        /*if (this.userLoggedIn.isStudent()){
-            for (Score score : this.scoreList){
-                Course course = University.getCourse(score.getCourseLinked());
-                for (int i = 0; i < course.getScoreList().size(); i++){
-                    Score courseScore = course.getScoreList().get(i);
-                    if (this.userLoggedIn.getUniversityID().equals(courseScore.getStudentLinked())){
-                        course.getScoreList().set(i, score);
-                        break;
-                    }
-                }
-                Data.writeCourse(course);
-                Data.writeToLog(userLoggedIn.getUniversityID(), " SCORE_LIST_UPDATE FOR COURSE " + course.getCourseID());
-                for (int i = 0; i < this.userLoggedIn.getCourseList().size(); i++){
-                    Score studentScore = this.userLoggedIn.getCourseList().get(i);
-                    if (score.getCourseLinked().equals(studentScore.getCourseLinked())){
-                        this.userLoggedIn.getCourseList().set(i, score);
-                        Data.writeToLog(userLoggedIn.getUniversityID(), " SCORE_UPDATE FOR USER " + score.getStudentLinked());
-                        break;
-                    }
-                }
-            }
-            Data.writeUser(this.userLoggedIn);
-        }
-        else{
-            for (Score score : this.scoreList){
-                Course course = University.getCourse(score.getCourseLinked());
-                User student = University.getUser(score.getStudentLinked());
-                for (int i = 0; i < course.getScoreList().size(); i++){
-                    Score courseScore = course.getScoreList().get(i);
-                    if (student.getUniversityID().equals(courseScore.getStudentLinked())){
-                        course.getScoreList().set(i, score);
-                        break;
-                    }
-                }
-                for (int i = 0; i < student.getCourseList().size(); i++){
-                    Score studentScore = student.getCourseList().get(i);
-                    if (score.getCourseLinked().equals(studentScore.getCourseLinked())){
-                        student.getCourseList().set(i, score);
-                        break;
-                    }
-                }
-                Data.writeUser(student);
-            }
-            for (Score score : this.userLoggedIn.getCourseList()){
-                Course course = University.getCourse(score.getCourseLinked());
-                Data.writeCourse(course);
-                Data.writeToLog(userLoggedIn.getUniversityID(), " SCORE_LIST_UPDATE FOR COURSE " + course.getCourseID());
-            }
-        }*/
     }
 
     @Override

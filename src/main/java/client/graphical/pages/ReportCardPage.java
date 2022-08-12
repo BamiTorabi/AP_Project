@@ -1,7 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
-import client.logic.CollegeType;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.Score;
 import client.logic.ScoreStatus;
 import client.logic.User;
@@ -9,8 +11,6 @@ import client.logic.User;
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,20 +24,9 @@ public class ReportCardPage extends PanelTemplate {
     private Object[][] tableContents = null;
     private JTable courseTable;
     private JScrollPane scrollPane;
-
-    private JLabel courseIDLabel;
-    private JTextField courseIDFilter;
-    private JLabel studentIDLabel;
-    private JTextField studentIDFilter;
-    private JLabel studentNameLabel;
-    private JTextField studentNameFilter;
-    private JLabel collegeLabel;
-    private JComboBox<String> collegeFilter;
-    private JButton filterButton;
     
-    private final int SPACE_SIZE = 30;
-    private final int LABEL_WIDTH = 150;
-    private final int LABEL_HEIGHT = 30;
+    private final int SPACE_SIZE = DataLoader.getConstraint("tablePanel", "spaceSize");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("tablePanel", "labelHeight");
 
     public ReportCardPage(Application app, String userID){
         super(app, userID);
@@ -47,21 +36,6 @@ public class ReportCardPage extends PanelTemplate {
     public int getCoor(double x){
         return (int)(SPACE_SIZE * (x + 1) + LABEL_HEIGHT * 2 * x);
     }
-
-    public void updateTable(){
-        if (app.getUserLoggedIn().getUserType().equals("Student")) {
-            String id = courseIDFilter.getText();
-            CollegeType college = CollegeType.values()[collegeFilter.getSelectedIndex()];
-            remove(scrollPane);
-            addTable(id);
-            app.repaintApp();
-        }
-    }
-
-    public void getFilterText(){
-
-    }
-
 
     public void addTable(String info){
         fillTable(info);
@@ -78,7 +52,7 @@ public class ReportCardPage extends PanelTemplate {
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
-        this.scrollPane.setBounds(0, 0, 1000, 700);
+        this.scrollPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(this.scrollPane);
     }
 
@@ -122,11 +96,4 @@ public class ReportCardPage extends PanelTemplate {
         addTable(info);
     }
 
-    public class FilterListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            getFilterText();
-            //askForTable();
-        }
-    }
 }

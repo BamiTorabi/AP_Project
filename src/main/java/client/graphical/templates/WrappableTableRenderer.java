@@ -1,4 +1,4 @@
-package client.graphical;
+package client.graphical.templates;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;

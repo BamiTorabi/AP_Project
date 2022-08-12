@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.dialogs;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.DialogTemplate;
 import client.logic.*;
 
 import javax.swing.*;
@@ -30,17 +32,21 @@ public class AddCourseDialog extends DialogTemplate {
     private JButton okButton = new JButton();
     private List<ClassTime> classTimeList = new ArrayList<>();
 
-    private int WIDTH = 450;
-    private int HEIGHT = 600;
-    private int MARGIN_SIZE = 25;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height");
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
+
     public AddCourseDialog(Application app, String userID){
         super(app, userID);
         this.userLoggedIn = app.getUserLoggedIn();
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setVisible(true);
+        this.setModalityType(ModalityType.DOCUMENT_MODAL);
+        this.setSize(WIDTH, HEIGHT);
         this.setLayout(null);
         this.setTitle("Add Course");
-        this.setSize(WIDTH, HEIGHT);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowListener() {
             @Override
@@ -73,34 +79,34 @@ public class AddCourseDialog extends DialogTemplate {
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addLabels(){
         for (int i = 0; i < this.fields.length; i++){
             this.labels[i] = new JLabel();
             this.labels[i].setText(this.fieldNames[i]);
-            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + (int)(i / 4)), 125, LABEL_HEIGHT);
+            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + (int)(i / 4)), LABEL_WIDTH, ROW_HEIGHT);
             this.add(this.labels[i]);
 
             if (i == 3 || i >= 6)
                 continue;
 
             this.fields[i] = new JTextField();
-            this.fields[i].setBounds(MARGIN_SIZE + 125, getCoor(i + (int)(i / 4)), 275, LABEL_HEIGHT);
+            this.fields[i].setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(i + (int)(i / 4)), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
             this.add(this.fields[i]);
         }
         this.idLabel = new JLabel();
         this.idLabel.setText(String.format("%02d", this.userLoggedIn.getCollege().ordinal()));
-        this.idLabel.setBounds(MARGIN_SIZE + 125, getCoor(8), 50, LABEL_HEIGHT);
+        this.idLabel.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(8), 2 * MARGIN_SIZE, ROW_HEIGHT);
         this.add(this.idLabel);
 
         this.fields[7] = new JTextField();
-        this.fields[7].setBounds(MARGIN_SIZE + 150, getCoor(8), 50, LABEL_HEIGHT);
+        this.fields[7].setBounds(MARGIN_SIZE * 2 + LABEL_WIDTH, getCoor(8), 2 * MARGIN_SIZE, ROW_HEIGHT);
         this.add(this.fields[7]);
 
         this.studentField = new JTextArea();
-        this.studentField.setBounds(MARGIN_SIZE + 125, getCoor(9), 275, getCoor(12) - getCoor(9));
+        this.studentField.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(9), ROW_WIDTH - LABEL_WIDTH, getCoor(12) - getCoor(9));
         this.add(this.studentField);
     }
 
@@ -110,7 +116,7 @@ public class AddCourseDialog extends DialogTemplate {
             text += time.toString() + " / ";
         this.classTimeLabel = new JLabel();
         this.classTimeLabel.setText(text);
-        this.classTimeLabel.setBounds(MARGIN_SIZE, getCoor(4), 400, LABEL_HEIGHT);
+        this.classTimeLabel.setBounds(MARGIN_SIZE, getCoor(4), ROW_WIDTH, ROW_HEIGHT);
         this.add(this.classTimeLabel);
     }
 
@@ -118,20 +124,20 @@ public class AddCourseDialog extends DialogTemplate {
         String[] levels = {"UNDERGRADUATE", "GRADUATE", "SHARED"};
         this.typeComboBox = new JComboBox<>(levels);
         this.typeComboBox.setSelectedIndex(-1);
-        this.typeComboBox.setBounds(MARGIN_SIZE + 125, getCoor(7), 275, LABEL_HEIGHT);
+        this.typeComboBox.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(7), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
         this.add(this.typeComboBox);
 
         this.addTimeButton = new JButton();
         this.addTimeButton.setText("Add time");
         this.addTimeButton.setBackground(Color.GREEN);
-        this.addTimeButton.setBounds(MARGIN_SIZE + 125, getCoor(3), 125, LABEL_HEIGHT);
+        this.addTimeButton.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(3), LABEL_WIDTH, ROW_HEIGHT);
         this.addTimeButton.addActionListener(new ClassTimeListener());
         this.add(this.addTimeButton);
 
         this.removeTimeButton = new JButton();
         this.removeTimeButton.setText("Remove time");
         this.removeTimeButton.setBackground(Color.RED);
-        this.removeTimeButton.setBounds(MARGIN_SIZE + 250, getCoor(3), 125, LABEL_HEIGHT);
+        this.removeTimeButton.setBounds(MARGIN_SIZE + 2 * LABEL_WIDTH, getCoor(3), LABEL_WIDTH, ROW_HEIGHT);
         this.removeTimeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +155,7 @@ public class AddCourseDialog extends DialogTemplate {
         this.okButton = new JButton();
         this.okButton.setText("Add");
         this.okButton.setBackground(Color.CYAN);
-        this.okButton.setBounds((WIDTH - 150) / 2, getCoor(12), 150, LABEL_HEIGHT);
+        this.okButton.setBounds((WIDTH - LABEL_WIDTH - MARGIN_SIZE) / 2, getCoor(12), LABEL_WIDTH + MARGIN_SIZE, ROW_HEIGHT);
         this.okButton.addActionListener(new ConfirmCourseListener());
         this.add(this.okButton);
     }
@@ -172,7 +178,6 @@ public class AddCourseDialog extends DialogTemplate {
         for (Score score : this.courseChosen.getScoreList()){
             text += score.getStudentLinked() + " ";
         }
-        System.err.println("text: " + text);
         this.studentField.setText(text);
     }
 
@@ -181,6 +186,8 @@ public class AddCourseDialog extends DialogTemplate {
         if (info != null && !info.equals("")){
             fillFields(info);
         }
+        revalidate();
+        repaint();
     }
 
     public class ClassTimeListener implements ActionListener{
@@ -189,6 +196,8 @@ public class AddCourseDialog extends DialogTemplate {
             ClassTimeDialog dialog = new ClassTimeDialog();
             ClassTime time = dialog.getTime();
             dialog.dispose();
+            if (time == null)
+                return;
             remove(classTimeLabel);
             classTimeList.add(time);
             addClassTimes();

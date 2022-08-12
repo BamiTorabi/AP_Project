@@ -1,6 +1,7 @@
-package client.graphical;
+package client.graphical.dialogs;
 
 import client.Application;
+import client.DataLoader;
 import client.logic.*;
 
 import javax.swing.*;
@@ -22,11 +23,12 @@ public class ConfirmScoreDialog extends JDialog {
     private JLabel[] labels = new JLabel[labelNames.length];
     private JButton confirmButton = new JButton();
 
-    private int WIDTH = 450;
-    private int HEIGHT = 600;
-    private int MARGIN_SIZE = 25;
-    private int LABEL_WIDTH = 400;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height");
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
 
     public ConfirmScoreDialog(Application app, List<Score> scoreList){
         super();
@@ -44,7 +46,7 @@ public class ConfirmScoreDialog extends JDialog {
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addScoreComboBox(){
@@ -55,7 +57,7 @@ public class ConfirmScoreDialog extends JDialog {
         }
         this.scoreComboBox = new JComboBox<>(choices);
         this.scoreComboBox.setSelectedIndex(-1);
-        this.scoreComboBox.setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH, LABEL_HEIGHT);
+        this.scoreComboBox.setBounds(MARGIN_SIZE, getCoor(0), ROW_WIDTH, ROW_HEIGHT);
         this.scoreComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +95,7 @@ public class ConfirmScoreDialog extends JDialog {
         for (int i = 0; i < this.labelNames.length; i++){
             String text = this.labelNames[i] + ": " + this.scoreDetails[i];
             this.labels[i] = new JLabel(text);
-            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + 1 + (int)(i / 6)), LABEL_WIDTH, LABEL_HEIGHT);
+            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + 1 + (int)(i / 6)), ROW_WIDTH, ROW_HEIGHT);
             this.add(this.labels[i]);
         }
     }
@@ -106,7 +108,7 @@ public class ConfirmScoreDialog extends JDialog {
     public void addConfirmButton(){
         this.confirmButton.setText("Confirm score");
         this.confirmButton.setBackground(Color.CYAN);
-        this.confirmButton.setBounds((WIDTH - 150) / 2, getCoor(11), 150, LABEL_HEIGHT);
+        this.confirmButton.setBounds((WIDTH - MARGIN_SIZE - LABEL_WIDTH) / 2, getCoor(11), MARGIN_SIZE + LABEL_WIDTH, ROW_HEIGHT);
         this.confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

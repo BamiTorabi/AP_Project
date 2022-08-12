@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.CollegeType;
 import client.logic.Professor;
 import client.logic.ProfessorType;
@@ -36,9 +39,11 @@ public class ProfsList extends PanelTemplate {
     private CollegeType college = CollegeType.ALL;
     private ProfessorType type = ProfessorType.ALL;
 
-    private final int SPACE_SIZE = 30;
-    private final int LABEL_WIDTH = 150;
-    private final int LABEL_HEIGHT = 30;
+    private final int SPACE_SIZE = DataLoader.getConstraint("tablePanel", "spaceSize");
+    private final int LABEL_WIDTH = DataLoader.getConstraint("tablePanel", "labelWidth");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("tablePanel", "labelHeight");
+    private final int TABLE_HEIGHT = DataLoader.getConstraint("tablePanel", "tableHeight");
+    private final int FILTER_WIDTH = DataLoader.getConstraint("tablePanel", "filterWidth");
 
     public ProfsList(Application app, String userID){
         super(app, userID);
@@ -89,7 +94,7 @@ public class ProfsList extends PanelTemplate {
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
-        this.scrollPane.setBounds(200, 0, 800, 600);
+        this.scrollPane.setBounds(FILTER_WIDTH, 0, WIDTH - FILTER_WIDTH, TABLE_HEIGHT);
         this.add(this.scrollPane);
     }
 

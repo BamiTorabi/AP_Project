@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.dialogs;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.DialogTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.User;
 
 import javax.swing.*;
@@ -14,7 +17,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
-public class StudentsPickerDialog extends DialogTemplate{
+public class StudentsPickerDialog extends DialogTemplate {
 
     private JButton profileButton;
     private JButton reportCardButton;
@@ -26,11 +29,13 @@ public class StudentsPickerDialog extends DialogTemplate{
     private JTable userTable;
     private JScrollPane scrollPane;
 
-    private int WIDTH = 450;
-    private int HEIGHT = 600;
-    private int MARGIN_SIZE = 25;
-    private int LABEL_WIDTH = 200;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height");
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
+    private int BUTTON_WIDTH = DataLoader.getConstraint("dialogs", "buttonWidth");
 
     public StudentsPickerDialog(Application app, String userID){
         super(app, userID);
@@ -70,17 +75,17 @@ public class StudentsPickerDialog extends DialogTemplate{
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addLabel(){
         this.userIDLabel = new JLabel();
         this.userIDLabel.setText("User ID:");
-        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(0), 125, LABEL_HEIGHT);
+        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH, ROW_HEIGHT);
         this.add(this.userIDLabel);
 
         this.userIDField = new JTextField();
-        this.userIDField.setBounds(MARGIN_SIZE + 125, getCoor(0), 275, LABEL_HEIGHT);
+        this.userIDField.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(0), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
         this.userIDField.getDocument().addDocumentListener(new UserIDListener());
         this.add(this.userIDField);
     }
@@ -89,7 +94,7 @@ public class StudentsPickerDialog extends DialogTemplate{
         this.profileButton = new JButton();
         this.profileButton.setText("Show profile");
         this.profileButton.setBackground(Color.CYAN);
-        this.profileButton.setBounds(MARGIN_SIZE, getCoor(12), LABEL_WIDTH, LABEL_HEIGHT);
+        this.profileButton.setBounds(MARGIN_SIZE, getCoor(12), BUTTON_WIDTH, ROW_HEIGHT);
         this.profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +108,7 @@ public class StudentsPickerDialog extends DialogTemplate{
         this.reportCardButton = new JButton();
         this.reportCardButton.setText("Show report card");
         this.reportCardButton.setBackground(Color.BLUE);
-        this.reportCardButton.setBounds(WIDTH - MARGIN_SIZE - LABEL_WIDTH, getCoor(12), LABEL_WIDTH, LABEL_HEIGHT);
+        this.reportCardButton.setBounds(WIDTH - MARGIN_SIZE - BUTTON_WIDTH, getCoor(12), BUTTON_WIDTH, ROW_HEIGHT);
         this.reportCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -1,21 +1,21 @@
-package client.graphical;
+package client.graphical.templates;
 
 import client.Application;
 
 import javax.swing.*;
 
-public abstract class PanelTemplate extends JPanel {
+public abstract class DialogTemplate extends JDialog {
 
     protected String userID;
     protected Application app;
     protected String lastUpdate;
 
-    public PanelTemplate(Application app, String userID){
+    public DialogTemplate(Application app, String userID){
         this.app = app;
         this.userID = userID;
         this.lastUpdate = "";
     }
 
-    public abstract void refreshPanel(String info);
+    public abstract void refreshDialog(String info);
 
 }

@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.ClassLevel;
 import client.logic.CollegeType;
 import client.logic.Course;
@@ -40,15 +43,19 @@ public class CoursesList extends PanelTemplate {
     private ClassLevel level = ClassLevel.ALL;
     private int units = 0;
 
-    private final int SPACE_SIZE = 30;
-    private final int LABEL_WIDTH = 150;
-    private final int LABEL_HEIGHT = 30;
+    private final int SPACE_SIZE = DataLoader.getConstraint("tablePanel", "spaceSize");
+    private final int LABEL_WIDTH = DataLoader.getConstraint("tablePanel", "labelWidth");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("tablePanel", "labelHeight");
+    private final int TABLE_HEIGHT = DataLoader.getConstraint("tablePanel", "tableHeight");
+    private final int FILTER_WIDTH = DataLoader.getConstraint("tablePanel", "filterWidth");
+    private final int MARGIN_SIZE = DataLoader.getConstraint("tablePanel", "marginSize");
+    private final int BUTTON_WIDTH = DataLoader.getConstraint("tablePanel", "buttonWidth");
+    private final int BUTTON_HEIGHT = DataLoader.getConstraint("tablePanel", "buttonHeight");
 
     public CoursesList(Application app, String userID) {
         super(app, userID);
         this.setLayout(null);
     }
-
 
     public int getCoor(double x) {
         return (int) (SPACE_SIZE * (x + 1) + LABEL_HEIGHT * 2 * x);
@@ -111,13 +118,13 @@ public class CoursesList extends PanelTemplate {
         }
         this.courseTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.courseTable);
-        this.scrollPane.setBounds(200, 0, 800, 600);
+        this.scrollPane.setBounds(FILTER_WIDTH, 0, WIDTH - FILTER_WIDTH, TABLE_HEIGHT);
         this.add(this.scrollPane);
     }
 
     public void addDeputyButtons(){
         this.deputyAddButton.setText("Add Course");
-        this.deputyAddButton.setBounds(250, 610, 300, 50);
+        this.deputyAddButton.setBounds(FILTER_WIDTH + MARGIN_SIZE, HEIGHT - SPACE_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.deputyAddButton.setBackground(Color.CYAN);
         this.deputyAddButton.addActionListener(new ActionListener() {
             @Override
@@ -128,7 +135,7 @@ public class CoursesList extends PanelTemplate {
         this.add(this.deputyAddButton);
 
         this.deputyEditButton.setText("Edit Course");
-        this.deputyEditButton.setBounds(650, 610, 300, 50);
+        this.deputyEditButton.setBounds(WIDTH - BUTTON_WIDTH - MARGIN_SIZE, HEIGHT - SPACE_SIZE - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.deputyEditButton.setBackground(Color.BLUE);
         this.deputyEditButton.addActionListener(new ActionListener() {
             @Override

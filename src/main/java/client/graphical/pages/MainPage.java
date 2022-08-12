@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PageTemplate;
 import client.logic.Professor;
 
 import javax.swing.*;
@@ -11,8 +13,10 @@ import java.util.Calendar;
 
 public class MainPage extends PageTemplate {
 
-    private int BUTTON_SIZE = 100;
-    private int TOOLBAR_HEIGHT = 100;
+    private int BUTTON_SIZE = DataLoader.getConstraint("mainPage", "buttonSize");
+    private int TOOLBAR_HEIGHT = DataLoader.getConstraint("mainPage", "toolbarHeight");
+    private int WIDTH = DataLoader.getConstraint("mainPage", "width");
+    private int HEIGHT = DataLoader.getConstraint("mainPage", "height");
 
     private JToolBar topToolbar = new JToolBar();
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -33,7 +37,7 @@ public class MainPage extends PageTemplate {
         this.setTitle("Sharif EDU");
         this.setLayout(null);
         this.setResizable(false);
-        this.setSize(1000, 800);
+        this.setSize(WIDTH, HEIGHT);
     }
 
     public int getCoor(double num){

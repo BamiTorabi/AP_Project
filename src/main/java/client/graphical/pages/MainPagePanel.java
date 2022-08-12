@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.dialogs.UserDialog;
+import client.graphical.templates.PanelTemplate;
 import client.logic.*;
 //import graphics.UserDialog;
 
@@ -23,8 +26,9 @@ public class MainPagePanel extends PanelTemplate {
     private JLabel eduStatusLabel = new JLabel();
     private JButton newUserButton = new JButton();
 
-    private int MARGIN_HEIGHT = 50;
-    private int LABEL_HEIGHT = 50;
+    private int MARGIN_SIZE = DataLoader.getConstraint("profilePanel", "marginSize");
+    private int LABEL_HEIGHT = DataLoader.getConstraint("profilePanel", "labelHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("profilePanel", "labelWidth");
 
     public MainPagePanel(Application app, String userID){
         super(app, userID);
@@ -32,26 +36,26 @@ public class MainPagePanel extends PanelTemplate {
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_HEIGHT + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
     }
 
     public void addGeneralLabels(){
         this.lastEntryLabel = new JLabel();
         this.lastEntryLabel.setFont(normalPlainFont);
         this.lastEntryLabel.setText("Last entry time: " + Calendar.getInstance().getTime());
-        this.lastEntryLabel.setBounds(50, getCoor(2), 600, LABEL_HEIGHT);
+        this.lastEntryLabel.setBounds(MARGIN_SIZE, getCoor(2), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.lastEntryLabel);
 
         this.nameLabel = new JLabel();
         this.nameLabel.setFont(normalPlainFont);
         this.nameLabel.setText("Welcome, " + this.user.giveName() + "!");
-        this.nameLabel.setBounds(50, getCoor(0), 600, LABEL_HEIGHT);
+        this.nameLabel.setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.nameLabel);
 
         this.emailLabel = new JLabel();
         this.emailLabel.setFont(normalPlainFont);
         this.emailLabel.setText("Email: " + this.user.getEmailAddress());
-        this.emailLabel.setBounds(50, getCoor(3), 600, LABEL_HEIGHT);
+        this.emailLabel.setBounds(MARGIN_SIZE, getCoor(3), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.emailLabel);
     }
 
@@ -61,7 +65,7 @@ public class MainPagePanel extends PanelTemplate {
         this.counsellorLabel = new JLabel();
         this.counsellorLabel.setFont(normalPlainFont);
         this.counsellorLabel.setText("Counsellor: ");
-        this.counsellorLabel.setBounds(50, getCoor(4), 600, LABEL_HEIGHT);
+        this.counsellorLabel.setBounds(MARGIN_SIZE, getCoor(4), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.counsellorLabel);
 
         String text = "";
@@ -81,7 +85,7 @@ public class MainPagePanel extends PanelTemplate {
         this.eduStatusLabel = new JLabel();
         this.eduStatusLabel.setFont(normalPlainFont);
         this.eduStatusLabel.setText("Educational status: " + text);
-        this.eduStatusLabel.setBounds(50, getCoor(5), 600, LABEL_HEIGHT);
+        this.eduStatusLabel.setBounds(MARGIN_SIZE, getCoor(5), LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.eduStatusLabel);
     }
 
@@ -90,7 +94,7 @@ public class MainPagePanel extends PanelTemplate {
         this.newUserButton.setFont(normalPlainFont);
         this.newUserButton.setText("New User");
         this.newUserButton.setBackground(Color.GREEN);
-        this.newUserButton.setBounds(350, 610, 300, 50);
+        this.newUserButton.setBounds((WIDTH - LABEL_WIDTH) / 2, 610, LABEL_WIDTH / 2, LABEL_HEIGHT);
         this.newUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

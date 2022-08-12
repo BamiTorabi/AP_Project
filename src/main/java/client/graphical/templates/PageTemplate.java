@@ -1,4 +1,4 @@
-package client.graphical;
+package client.graphical.templates;
 
 import client.Application;
 

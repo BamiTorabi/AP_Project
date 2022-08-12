@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.Chatbox;
+import client.graphical.templates.PanelTemplate;
 import client.logic.Chat;
 import client.logic.Conversation;
 
@@ -11,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.*;
 
-public class ChatPage extends PanelTemplate{
+public class ChatPage extends PanelTemplate {
 
     private Font bigBoldFont = new Font("Arial", Font.BOLD, 30);
 
@@ -24,13 +27,13 @@ public class ChatPage extends PanelTemplate{
     private JTextArea messageArea;
     private JLabel nameLabel;
 
-    private final int SCROLL_WIDTH = 250;
-    private final int CHAT_HEIGHT = 500;
-    private final int WIDTH = 1000;
-    private final int HEIGHT = 600;
-    private final int LABEL_WIDTH = 150;
-    private final int LABEL_HEIGHT = 50;
-    private final int MARGIN_SIZE = 25;
+    private final int LABEL_WIDTH = DataLoader.getConstraint("chatPanel", "labelWidth");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("chatPanel", "labelHeight");
+
+    private final int FILTER_WIDTH = DataLoader.getConstraint("chatPanel", "filterWidth");
+    private final int CHAT_HEIGHT = DataLoader.getConstraint("chatPanel", "chatHeight");
+    private final int MARGIN_SIZE = DataLoader.getConstraint("chatPanel", "marginSize");
+    private final int BUTTON_SIZE = DataLoader.getConstraint("chatPanel", "buttonSize");
 
     public ChatPage(Application app, String userID) {
         super(app, userID);
@@ -67,7 +70,7 @@ public class ChatPage extends PanelTemplate{
             remove(this.nameLabel);
         this.nameLabel = new JLabel(conversation.getOtherName());
         this.nameLabel.setFont(bigBoldFont);
-        this.nameLabel.setBounds(SCROLL_WIDTH + MARGIN_SIZE, 0, WIDTH - SCROLL_WIDTH - 2 * MARGIN_SIZE, LABEL_HEIGHT);
+        this.nameLabel.setBounds(FILTER_WIDTH + MARGIN_SIZE, 0, WIDTH - FILTER_WIDTH - 2 * MARGIN_SIZE, LABEL_HEIGHT);
         this.add(this.nameLabel);
 
         this.chatPanel = new JPanel(new GridBagLayout());
@@ -78,7 +81,7 @@ public class ChatPage extends PanelTemplate{
         gbc.gridy = 0;
         for (Chat chat : chats){
             Chatbox box = new Chatbox(userID, chat);
-            box.setSize(600, getHeight());
+            box.setSize(WIDTH - MARGIN_SIZE - FILTER_WIDTH, getHeight());
             gbc.anchor = GridBagConstraints.FIRST_LINE_START;
             this.chatPanel.add(box, gbc);
             gbc.gridy++;
@@ -86,7 +89,7 @@ public class ChatPage extends PanelTemplate{
         Collections.reverse(chats);
         this.chatPane = new JScrollPane(this.chatPanel);
         this.chatPane.setAlignmentX(LEFT_ALIGNMENT);
-        this.chatPane.setBounds(SCROLL_WIDTH + MARGIN_SIZE, LABEL_HEIGHT, WIDTH - SCROLL_WIDTH - 2 * MARGIN_SIZE, CHAT_HEIGHT);
+        this.chatPane.setBounds(FILTER_WIDTH + MARGIN_SIZE, LABEL_HEIGHT, WIDTH - FILTER_WIDTH - 2 * MARGIN_SIZE, CHAT_HEIGHT);
         this.add(this.chatPane);
         revalidate();
         repaint();
@@ -94,7 +97,7 @@ public class ChatPage extends PanelTemplate{
 
     public void addMessageBox(){
         this.messageArea = new JTextArea();
-        this.messageArea.setBounds(SCROLL_WIDTH + 2 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, WIDTH - SCROLL_WIDTH - 5 * MARGIN_SIZE, HEIGHT - MARGIN_SIZE - CHAT_HEIGHT);
+        this.messageArea.setBounds(FILTER_WIDTH + 2 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, WIDTH - FILTER_WIDTH - 5 * MARGIN_SIZE, HEIGHT - MARGIN_SIZE - CHAT_HEIGHT);
         this.messageArea.setEditable(false);
         this.add(this.messageArea);
 
@@ -102,7 +105,7 @@ public class ChatPage extends PanelTemplate{
         this.sendButton.setIcon(new ImageIcon("resources/icons/send.png"));
         this.sendButton.setBorderPainted(false);
         this.sendButton.setBackground(Color.CYAN);
-        this.sendButton.setBounds(WIDTH - 3 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, 40, 40);
+        this.sendButton.setBounds(WIDTH - 3 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, BUTTON_SIZE, BUTTON_SIZE);
         this.sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +134,7 @@ public class ChatPage extends PanelTemplate{
             if (lastMessage.length() > 20)
                 lastMessage = lastMessage.substring(0, 17) + "...";
             button.setText("<HTML>" + conversation.getOtherName() + "<BR>" + lastMessage + "</HTML>");
-            button.setSize(SCROLL_WIDTH, 50);
+            button.setSize(FILTER_WIDTH, BUTTON_SIZE);
             button.setContentAreaFilled(false);
             button.addActionListener(new ChatListener());
             map.put(button, conversation);
@@ -141,7 +144,7 @@ public class ChatPage extends PanelTemplate{
         }
         this.convosPane = new JScrollPane(this.convosPanel);
         this.convosPane.setOpaque(true);
-        this.convosPane.setBounds(10, LABEL_HEIGHT + 2 * MARGIN_SIZE, SCROLL_WIDTH, HEIGHT - LABEL_HEIGHT - 2 * MARGIN_SIZE);
+        this.convosPane.setBounds(MARGIN_SIZE, LABEL_HEIGHT + 2 * MARGIN_SIZE, FILTER_WIDTH, HEIGHT - LABEL_HEIGHT - 2 * MARGIN_SIZE);
         this.add(this.convosPane);
     }
 

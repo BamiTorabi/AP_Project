@@ -1,6 +1,7 @@
-package client.graphical;
+package client.graphical.dialogs;
 
 import client.Application;
+import client.DataLoader;
 import client.logic.*;
 
 import javax.swing.*;
@@ -26,16 +27,19 @@ public class UserDialog extends JDialog {
     private JButton createButton = new JButton();
     private Application app;
 
-    private int WIDTH = 450;
-    private int HEIGHT = 600;
-    private int MARGIN_SIZE = 25;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height");
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
 
     public UserDialog(Application app, User user){
         super();
         this.app = app;
         this.userLoggedIn = user;
-        this.setModal(true);
+        this.setVisible(true);
+        this.setModalityType(ModalityType.DOCUMENT_MODAL);
         this.setLayout(null);
         this.setTitle("Add User");
         this.setSize(WIDTH, HEIGHT);
@@ -44,24 +48,23 @@ public class UserDialog extends JDialog {
         addTextFields();
         addUserID();
         addCreateButton();
-        this.setVisible(true);
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addUserRadioButton(){
         this.studentRadioButton.setText("Student");
         this.studentRadioButton.setSelected(true);
-        this.studentRadioButton.setBounds(MARGIN_SIZE, getCoor(0), 100, LABEL_HEIGHT);
+        this.studentRadioButton.setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH - MARGIN_SIZE, ROW_HEIGHT);
         this.studentRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 remove(typeComboBox);
                 typeComboBox = new JComboBox<>(StudentType.list());
                 typeComboBox.setSelectedIndex(-1);
-                typeComboBox.setBounds(MARGIN_SIZE + 125, getCoor(7), 275, LABEL_HEIGHT);
+                typeComboBox.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(7), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
                 add(typeComboBox);
 
                 fieldNames[7] = "Counsellor ID";
@@ -81,7 +84,7 @@ public class UserDialog extends JDialog {
 
         this.professorRadioButton.setText("Professor");
         this.professorRadioButton.setSelected(false);
-        this.professorRadioButton.setBounds(MARGIN_SIZE + 200, getCoor(0), 100, LABEL_HEIGHT);
+        this.professorRadioButton.setBounds(WIDTH / 2, getCoor(0), WIDTH / 2 - MARGIN_SIZE, ROW_HEIGHT);
         this.professorRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,7 +92,7 @@ public class UserDialog extends JDialog {
                 String[] profTypes = {ProfessorType.ASSISTANT.toString(), ProfessorType.ASSOCIATE.toString(), ProfessorType.FULL.toString()};
                 typeComboBox = new JComboBox<>(profTypes);
                 typeComboBox.setSelectedIndex(-1);
-                typeComboBox.setBounds(MARGIN_SIZE + 125, getCoor(7), 275, LABEL_HEIGHT);
+                typeComboBox.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(7), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
                 add(typeComboBox);
 
                 fieldNames[7] = "Room No.";
@@ -112,19 +115,19 @@ public class UserDialog extends JDialog {
         for (int i = 0; i < this.fields.length; i++){
             this.labels[i] = new JLabel();
             this.labels[i].setText(this.fieldNames[i]);
-            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + 1), 125, LABEL_HEIGHT);
+            this.labels[i].setBounds(MARGIN_SIZE, getCoor(i + 1), LABEL_WIDTH, ROW_HEIGHT);
             this.add(this.labels[i]);
 
             if (i == 6)
                 continue;
 
             this.fields[i] = new JTextField();
-            this.fields[i].setBounds(MARGIN_SIZE + 125, getCoor(i + 1), 275, LABEL_HEIGHT);
+            this.fields[i].setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(i + 1), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
             this.add(this.fields[i]);
         }
         this.typeComboBox = new JComboBox<>(StudentType.list());
         this.typeComboBox.setSelectedIndex(-1);
-        this.typeComboBox.setBounds(MARGIN_SIZE + 125, getCoor(7), 275, LABEL_HEIGHT);
+        this.typeComboBox.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(7), ROW_WIDTH - LABEL_WIDTH, ROW_HEIGHT);
         this.add(this.typeComboBox);
     }
 
@@ -135,17 +138,17 @@ public class UserDialog extends JDialog {
         String id = year + collegeNum + userType;
 
         this.userIDLabel.setText("User ID: " + id);
-        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(9), 125, LABEL_HEIGHT);
+        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(9), LABEL_WIDTH, ROW_HEIGHT);
         this.add(this.userIDLabel);
 
-        this.userIDField.setBounds(MARGIN_SIZE + 125, getCoor(9), 50, LABEL_HEIGHT);
+        this.userIDField.setBounds(MARGIN_SIZE + LABEL_WIDTH, getCoor(9), 2 * MARGIN_SIZE, ROW_HEIGHT);
         this.add(this.userIDField);
     }
 
     public void addCreateButton(){
         this.createButton.setBackground(Color.GREEN);
         this.createButton.setText("Create");
-        this.createButton.setBounds((WIDTH - 150) / 2, getCoor(11), 150, LABEL_HEIGHT);
+        this.createButton.setBounds((WIDTH - LABEL_WIDTH - MARGIN_SIZE) / 2, getCoor(11), MARGIN_SIZE + LABEL_WIDTH, ROW_HEIGHT);
         this.createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

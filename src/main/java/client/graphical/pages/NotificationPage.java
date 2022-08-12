@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.Notif;
 
 import javax.swing.*;
@@ -12,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationPage extends PanelTemplate{
+public class NotificationPage extends PanelTemplate {
 
     private String[] tableColumnNames = {"#", "When", "Title", "Message", "Seen?"};
     private Object[][] tableContents = null;
@@ -43,7 +45,7 @@ public class NotificationPage extends PanelTemplate{
         }
         this.notifTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.notifTable);
-        this.scrollPane.setBounds(0, 0, 1000, 700);
+        this.scrollPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(this.scrollPane);
     }
 

@@ -1,5 +1,6 @@
-package client.graphical;
+package client.graphical.dialogs;
 
+import client.DataLoader;
 import client.logic.*;
 
 import javax.swing.*;
@@ -17,11 +18,14 @@ public class ClassTimeDialog extends JDialog {
     private JComboBox<String> typeComboBox;
     private JButton button = new JButton();
 
-    private int WIDTH = 450;
-    private int HEIGHT = 300;
-    private int MARGIN_SIZE = 15;
-    private int LABEL_WIDTH = 100;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height") / 2;
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
+    private int BUTTON_WIDTH = DataLoader.getConstraint("dialogs", "buttonWidth") / 2;
+
 
     public ClassTimeDialog(){
         super();
@@ -32,38 +36,40 @@ public class ClassTimeDialog extends JDialog {
 
         addLabels();
         addButton();
+        revalidate();
+        repaint();
         this.setVisible(true);
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addLabels(){
         for (int i = 0; i < 4; i++){
             this.labels[i] = new JLabel();
             this.labels[i].setText(this.fieldNames[i]);
-            this.labels[i].setBounds(MARGIN_SIZE + (i % 2) * 225, getCoor(1 + (int) (i / 2)), LABEL_WIDTH, LABEL_HEIGHT);
+            this.labels[i].setBounds(MARGIN_SIZE + (i % 2) * WIDTH / 2, getCoor(1 + (int) (i / 2)), BUTTON_WIDTH, ROW_HEIGHT);
             this.add(this.labels[i]);
 
             this.fields[i] = new JTextField();
-            this.fields[i].setBounds(100 + MARGIN_SIZE + (i % 2) * 225, getCoor(1 + (int) (i / 2)), LABEL_WIDTH, LABEL_HEIGHT);
+            this.fields[i].setBounds((1 + i % 2) * WIDTH / 2 - BUTTON_WIDTH, getCoor(1 + (int) (i / 2)), BUTTON_WIDTH, ROW_HEIGHT);
             this.add(this.fields[i]);
         }
         this.labels[4] = new JLabel(this.fieldNames[4]);
-        this.labels[4].setBounds(MARGIN_SIZE, getCoor(0), LABEL_WIDTH, LABEL_HEIGHT);
+        this.labels[4].setBounds(MARGIN_SIZE, getCoor(0), ROW_WIDTH, ROW_HEIGHT);
         this.add(this.labels[4]);
 
         this.typeComboBox = new JComboBox<>(ClassTime.weekNames);
         this.typeComboBox.setSelectedIndex(-1);
-        this.typeComboBox.setBounds(MARGIN_SIZE + 100, getCoor(0), 150, LABEL_HEIGHT);
+        this.typeComboBox.setBounds(MARGIN_SIZE + BUTTON_WIDTH, getCoor(0), BUTTON_WIDTH, ROW_HEIGHT);
         this.add(this.typeComboBox);
     }
 
     public void addButton(){
         this.button.setText("Add time");
         this.button.setBackground(Color.GREEN);
-        this.button.setBounds((WIDTH - 150) / 2, getCoor(5), 150, LABEL_HEIGHT);
+        this.button.setBounds((WIDTH - BUTTON_WIDTH) / 2, getCoor(5), BUTTON_WIDTH, ROW_HEIGHT);
         this.button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

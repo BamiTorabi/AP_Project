@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PageTemplate;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,18 +22,18 @@ public class LoginPage extends PageTemplate {
     private JButton cancelButton = new JButton();
     private JButton captchaPicture;
 
-    private final int HEIGHT = 300;
-    private final int WIDTH = 450;
-    private final int HORIZONTAL_MARGIN = 50;
-    private final int VERTICAL_MARGIN = 10;
-    private final int HORIZONTAL_SPACE = 5;
-    private final int VERTICAL_SPACE = 10;
-    private final int TOP_LABEL_WIDTH = 400;
-    private final int FIELD_WIDTH = 250;
-    private final int LABEL_WIDTH = 100;
-    private final int LABEL_HEIGHT = 20;
-    private final int BUTTON_WIDTH = 100;
-    private final int BUTTON_HEIGHT = 50;
+    private final int HEIGHT = DataLoader.getConstraint("loginPage", "height");
+    private final int WIDTH = DataLoader.getConstraint("loginPage", "width");
+    private final int HORIZONTAL_MARGIN = DataLoader.getConstraint("loginPage", "hMargin");
+    private final int VERTICAL_MARGIN = DataLoader.getConstraint("loginPage", "vMargin");
+    private final int HORIZONTAL_SPACE = DataLoader.getConstraint("loginPage", "hSpace");
+    private final int VERTICAL_SPACE = DataLoader.getConstraint("loginPage", "vSpace");
+    private final int TOP_LABEL_WIDTH = DataLoader.getConstraint("loginPage", "topLabelWidth");
+    private final int FIELD_WIDTH = DataLoader.getConstraint("loginPage", "fieldWidth");
+    private final int LABEL_WIDTH = DataLoader.getConstraint("loginPage", "labelWidth");
+    private final int LABEL_HEIGHT = DataLoader.getConstraint("loginPage", "labelHeight");
+    private final int BUTTON_WIDTH = DataLoader.getConstraint("loginPage", "buttonWidth");
+    private final int BUTTON_HEIGHT = DataLoader.getConstraint("loginPage", "buttonHeight");
     private String topText;
 
     public LoginPage(Application app){

@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
 import client.logic.*;
 
 import javax.swing.*;
@@ -8,10 +10,10 @@ import java.util.ArrayList;
 
 public class WeeklyPlanPage extends PanelTemplate {
 
-    private int MARGIN_WIDTH = 100;
-    private int MARGIN_HEIGHT = 35;
-    private int LABEL_WIDTH = 32;
-    private int LABEL_HEIGHT = 95;
+    private int MARGIN_WIDTH = DataLoader.getConstraint("planPanel", "marginWidth");
+    private int MARGIN_HEIGHT = DataLoader.getConstraint("planPanel", "marginHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("planPanel", "labelWidth");
+    private int LABEL_HEIGHT = DataLoader.getConstraint("planPanel", "labelHeight");
 
     private JTextArea timeText;
 

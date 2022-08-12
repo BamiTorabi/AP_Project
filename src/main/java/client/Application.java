@@ -1,6 +1,12 @@
 package client;
 
-import client.graphical.*;
+import client.graphical.dialogs.AddCourseDialog;
+import client.graphical.templates.DialogTemplate;
+import client.graphical.dialogs.NewChatDialog;
+import client.graphical.dialogs.StudentsPickerDialog;
+import client.graphical.pages.*;
+import client.graphical.templates.PageTemplate;
+import client.graphical.templates.PanelTemplate;
 import client.logic.*;
 
 import javax.swing.*;
@@ -678,7 +684,7 @@ public class Application implements Runnable {
     }
 
     public void raiseError(String errorMessage){
-        if (getPageNumber(pageStack.peek()) == 12)
+        if (getPageNumber(pageStack.peek()) > 11)
             JOptionPane.showMessageDialog(dialog, errorMessage);
         else
             JOptionPane.showMessageDialog(page, errorMessage);

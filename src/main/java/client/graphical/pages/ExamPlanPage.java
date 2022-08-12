@@ -1,6 +1,9 @@
-package client.graphical;
+package client.graphical.pages;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.PanelTemplate;
+import client.graphical.templates.WrappableTableRenderer;
 import client.logic.Course;
 
 import javax.swing.*;
@@ -9,10 +12,10 @@ import java.util.ArrayList;
 
 public class ExamPlanPage extends PanelTemplate {
 
-    private int MARGIN_WIDTH = 100;
-    private int MARGIN_HEIGHT = 35;
-    private int LABEL_WIDTH = 32;
-    private int LABEL_HEIGHT = 95;
+    private int MARGIN_WIDTH = DataLoader.getConstraint("planPanel", "marginWidth");
+    private int MARGIN_HEIGHT = DataLoader.getConstraint("planPanel", "marginHeight");
+    private int LABEL_WIDTH = DataLoader.getConstraint("planPanel", "labelWidth");
+    private int LABEL_HEIGHT = DataLoader.getConstraint("planPanel", "labelHeight");
 
     private String[] tableHeaders = {"Course ID", "Course name", "Units", "Professor", "Exam date and time"};
     private Object[][] tableContents = null;
@@ -67,7 +70,7 @@ public class ExamPlanPage extends PanelTemplate {
         }
         this.examTable.getTableHeader().setResizingAllowed(false);
         this.scrollPane = new JScrollPane(this.examTable);
-        this.scrollPane.setBounds(0, 0, 1000, 700);
+        this.scrollPane.setBounds(0, 0, WIDTH, HEIGHT);
         this.add(this.scrollPane);
     }
 

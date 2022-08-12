@@ -4,13 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Chat and minor debugs and debuffs #2">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Chat and minor debugs and debuffs #3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ChatPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ChatPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/AddCourseDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/AddCourseDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ChatPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/ChatPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/Chatbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/templates/Chatbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ClassTimeDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/ClassTimeDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ConfirmScoreDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/ConfirmScoreDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/CoursesList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/CoursesList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/DialogTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/templates/DialogTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ExamPlanPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/ExamPlanPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/LoginPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/MainPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/MainPagePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/MainPagePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/NewChatDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/NewChatDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/NotificationPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/NotificationPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/PageTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/templates/PageTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/PanelTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/templates/PanelTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ProfilePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/ProfilePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ProfsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/ProfsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ReportCardPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/ReportCardPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/StudentsPickerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/StudentsPickerDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/TemporaryScoresPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/TemporaryScoresPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/dialogs/UserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/WeeklyPlanPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/pages/WeeklyPlanPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/WrappableTableRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/templates/WrappableTableRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,10 +91,15 @@
       <recent name="$PROJECT_DIR$/src/test/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/client/graphical/properties" />
+      <recent name="$PROJECT_DIR$/src/main/java/client/graphical" />
       <recent name="$PROJECT_DIR$/resources" />
       <recent name="$PROJECT_DIR$/src/main" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="client.graphical.templates" />
+      <recent name="client.graphical.pages" />
+      <recent name="client.graphical.dialogs" />
       <recent name="client.graphical" />
     </key>
   </component>
@@ -93,19 +117,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GuiMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GuiMain" />
-      <module name="AP_Project.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ServerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.ServerMain" />
       <module name="AP_Project.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.TestMain" />
+      <module name="AP_Project.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -140,19 +170,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.TestMain" />
       <item itemvalue="Application.client.ClientMain" />
       <item itemvalue="Application.DataUploader" />
-      <item itemvalue="Application.GuiMain" />
       <item itemvalue="Application.server.ServerMain" />
       <item itemvalue="Application.ServerMain" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TestMain" />
         <item itemvalue="Application.client.ClientMain" />
         <item itemvalue="Application.ServerMain" />
         <item itemvalue="Application.server.ServerMain" />
         <item itemvalue="Application.DataUploader" />
-        <item itemvalue="Application.GuiMain" />
       </list>
     </recent_temporary>
   </component>
@@ -298,7 +328,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660311100950</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Chat and minor debugs and debuffs #3">
+      <created>1660322919298</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1660322919298</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -342,7 +379,8 @@
     <MESSAGE value="Server and Client Development #B" />
     <MESSAGE value="Chat and minor debugs and debuffs #1" />
     <MESSAGE value="Chat and minor debugs and debuffs #2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Chat and minor debugs and debuffs #2" />
+    <MESSAGE value="Chat and minor debugs and debuffs #3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chat and minor debugs and debuffs #3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AP_Project$client_ClientMain.ic" NAME="client.ClientMain Coverage Results" MODIFIED="1660119255146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

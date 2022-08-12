@@ -1,6 +1,8 @@
-package client.graphical;
+package client.graphical.dialogs;
 
 import client.Application;
+import client.DataLoader;
+import client.graphical.templates.DialogTemplate;
 import client.logic.User;
 
 import javax.swing.*;
@@ -11,7 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
-public class NewChatDialog extends DialogTemplate{
+public class NewChatDialog extends DialogTemplate {
 
     private JRadioButton userListRadioButton = new JRadioButton();
     private JRadioButton userIDRadioButton = new JRadioButton();
@@ -31,10 +33,13 @@ public class NewChatDialog extends DialogTemplate{
     private JLabel messageLabel;
     private JButton sendButton;
 
-    private int WIDTH = 450;
-    private int HEIGHT = 600;
-    private int MARGIN_SIZE = 25;
-    private int LABEL_HEIGHT = 40;
+    private int WIDTH = DataLoader.getConstraint("dialogs", "width");
+    private int HEIGHT = DataLoader.getConstraint("dialogs", "height");
+    private int MARGIN_SIZE = DataLoader.getConstraint("dialogs", "marginSize");
+    private int ROW_HEIGHT = DataLoader.getConstraint("dialogs", "rowHeight");
+    private int ROW_WIDTH = DataLoader.getConstraint("dialogs", "rowWidth");
+    private int LABEL_WIDTH = DataLoader.getConstraint("dialogs", "labelWidth");
+    private int BUTTON_WIDTH = DataLoader.getConstraint("dialogs", "buttonWidth");
 
     public NewChatDialog(Application app, String userID) {
         super(app, userID);
@@ -78,13 +83,13 @@ public class NewChatDialog extends DialogTemplate{
     }
 
     public int getCoor(double x){
-        return (int)(MARGIN_SIZE + x * LABEL_HEIGHT);
+        return (int)(MARGIN_SIZE + x * ROW_HEIGHT);
     }
 
     public void addRadioButtons(){
         this.userListRadioButton = new JRadioButton("Choose from list");
         this.userListRadioButton.setSelected(true);
-        this.userListRadioButton.setBounds(MARGIN_SIZE, getCoor(0), 200, LABEL_HEIGHT);
+        this.userListRadioButton.setBounds(MARGIN_SIZE, getCoor(0), BUTTON_WIDTH, ROW_HEIGHT);
         this.userListRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +108,7 @@ public class NewChatDialog extends DialogTemplate{
 
         this.userIDRadioButton = new JRadioButton("Enter ID");
         this.userIDRadioButton.setSelected(false);
-        this.userIDRadioButton.setBounds(MARGIN_SIZE + 200, getCoor(0), 200, LABEL_HEIGHT);
+        this.userIDRadioButton.setBounds(MARGIN_SIZE + BUTTON_WIDTH, getCoor(0), BUTTON_WIDTH, ROW_HEIGHT);
         this.userIDRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +131,7 @@ public class NewChatDialog extends DialogTemplate{
 
         this.allSelected = new JCheckBox();
         this.allSelected.setText("All");
-        this.allSelected.setBounds(MARGIN_SIZE , getCoor(1), 100, LABEL_HEIGHT);
+        this.allSelected.setBounds(MARGIN_SIZE , getCoor(1), 100, ROW_HEIGHT);
         this.allSelected.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,24 +167,24 @@ public class NewChatDialog extends DialogTemplate{
 
     public void addUserIDField(){
         this.userIDLabel = new JLabel("User ID:");
-        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(2), 125, LABEL_HEIGHT);
+        this.userIDLabel.setBounds(MARGIN_SIZE, getCoor(2), 125, ROW_HEIGHT);
 
         this.userIDField = new JTextField();
-        this.userIDField.setBounds(MARGIN_SIZE + 125, getCoor(2), 275, LABEL_HEIGHT);
+        this.userIDField.setBounds(MARGIN_SIZE + 125, getCoor(2), 275, ROW_HEIGHT);
     }
 
     public void addMessageBox(){
         this.messageLabel = new JLabel("Message:");
-        this.messageLabel.setBounds(MARGIN_SIZE, getCoor(5), 125, LABEL_HEIGHT);
+        this.messageLabel.setBounds(MARGIN_SIZE, getCoor(5), LABEL_WIDTH, ROW_HEIGHT);
         this.add(this.messageLabel);
 
         this.messageArea = new JTextArea();
-        this.messageArea.setBounds(MARGIN_SIZE, getCoor(6), 400, getCoor(11) - getCoor(6));
+        this.messageArea.setBounds(MARGIN_SIZE, getCoor(6), ROW_WIDTH, getCoor(11) - getCoor(6));
         this.add(this.messageArea);
 
         this.sendButton = new JButton("Send message");
         this.sendButton.setBackground(Color.GREEN);
-        this.sendButton.setBounds((WIDTH - 150) / 2, getCoor(11), 150, LABEL_HEIGHT);
+        this.sendButton.setBounds((WIDTH - LABEL_WIDTH - MARGIN_SIZE) / 2, getCoor(11), LABEL_WIDTH + MARGIN_SIZE, ROW_HEIGHT);
         this.sendButton.addActionListener(new SendListener());
         this.add(this.sendButton);
     }
