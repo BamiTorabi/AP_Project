@@ -141,6 +141,8 @@ public class CoursesList extends PanelTemplate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = JOptionPane.showInputDialog(CoursesList.this, "Enter course ID: ");
+                if (id == null)
+                    return;
                 if (id.equals("")){
                     JOptionPane.showMessageDialog(CoursesList.this, "Invalid course ID.");
                     return;

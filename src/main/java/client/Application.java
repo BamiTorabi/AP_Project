@@ -31,12 +31,6 @@ public class Application implements Runnable {
     public Application(Client client) {
         this.client = client;
         this.updater = new Updater(this);
-        //temporaryScoreList = new ArrayList<>();
-        /*Data.initialize();
-        Data.readUsers();
-        Data.readCourses();
-        Data.readRequests();*/
-        //University.setSpecialUsers();
         this.pageStack = new Stack<>();
     }
 
@@ -73,10 +67,10 @@ public class Application implements Runnable {
             pageStack.pop();
         }
         pageStack.push(temp);
-        pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
+        /*pageStack.forEach(x -> System.out.print(x.substring(0, 2) + ", "));
         System.out.println();
         updater.getPageStack().forEach(x -> System.out.print(x.substring(0, 2) + ", "));
-        System.out.println();
+        System.out.println();*/
         if (pageNumber == 0){
             if (!(page instanceof LoginPage))
                 page = new LoginPage(this);
@@ -146,10 +140,6 @@ public class Application implements Runnable {
                     dialog.refreshDialog(pageInfo);
                     repaintApp();
                     return;
-        /*panelList[6] = new RequestsPage();
-        panelList[7] = new TemporaryScoresPage();
-        if (userLoggedIn.isStudent() || ((Professor)userLoggedIn).isDeputy())
-            panelList[8] = new ReportCardPage(userLoggedIn);*/
             }
             panel.refreshPanel(pageInfo);
         }
@@ -534,20 +524,7 @@ public class Application implements Runnable {
                 break;
             case 1:
                 userLoggedIn = unpackUser(info);
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-                break;
-            case 14:
-                System.err.println(info);
+            default:
                 break;
         }
         newPage(pageNumber, info);
@@ -697,6 +674,8 @@ public class Application implements Runnable {
         this.updateThread.start();
     }
 
-
+    public void close(){
+        this.updateThread.stop();
+    }
 
 }

@@ -64,6 +64,7 @@ public class LoginPage extends PageTemplate {
     }
 
     public void setTopText(String topText){
+        this.topText = topText;
         this.topTextLabel.setText(topText);
         this.topTextLabel.setBounds(getCoor(1, true), getCoor(1, false), TOP_LABEL_WIDTH, LABEL_HEIGHT);
         this.add(this.topTextLabel);
@@ -139,6 +140,7 @@ public class LoginPage extends PageTemplate {
             }
             else{
                 topText = "Invalid captcha. Please try again.";
+                app.askForInfo(0, String.format("%04d", app.getCaptchaNumber()));
             }
             setVisible(false);
             usernameField.setText("");

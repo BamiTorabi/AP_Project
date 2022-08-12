@@ -63,6 +63,16 @@ public class Server {
         thread.start();
     }
 
+    public void close(ClientHandler handler){
+        System.err.println("Handler @token " + handler.getAuthToken() + " closed.");
+        int place = handlers.indexOf(handler);
+        handlers.remove(handler);
+        Thread thread = handlerThreads.get(place);
+        thread.stop();
+        handlerThreads.remove(thread);
+        db.close();
+    }
+
     public int getRandomCaptcha(int x){
         return captchaLoader.getRandomCaptcha(x);
     }
@@ -73,7 +83,10 @@ public class Server {
 
     public boolean checkLogIn(String userID, String password){
         try {
-            String tableName = getUserType("\"" + userID + "\"") + "s";
+            String tableName = getUserType("\"" + userID + "\"");
+            if (tableName == null)
+                return false;
+            tableName += "s";
             String[] S = {(tableName.equals("Specials") ? "userID" : "universityID") + "=\"" + userID + "\"", "password=\"" + password + "\""};
             ResultSet resultSet = db.getResult(tableName, S, new String[]{});
             return resultSet.next();
@@ -88,7 +101,7 @@ public class Server {
             resultSet.next();
             return resultSet.getString("userType");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
@@ -98,7 +111,7 @@ public class Server {
             resultSet.next();
             return resultSet.getString("college");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 

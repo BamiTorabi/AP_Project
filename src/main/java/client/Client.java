@@ -1,6 +1,7 @@
 package client;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Base64;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Client implements Runnable{
@@ -33,8 +35,6 @@ public class Client implements Runnable{
         while (!socket.isClosed()) {
             String message = receive();
             String[] S = message.split("/");
-            //if (!S[0].equals("CAPTCHA"))
-            //   System.err.println(message);
             switch (S[0]) {
                 case "START":
                     this.guiThread.start();
@@ -100,8 +100,12 @@ public class Client implements Runnable{
     public void run() {
         try {
             init();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | NoSuchElementException e) {
+            JOptionPane.showMessageDialog(new JFrame(), "Server isn't connected. The app will now close.");
+            if (this.app != null)
+                this.app.close();
+            if (this.guiThread != null)
+                this.guiThread.stop();
         }
 
     }

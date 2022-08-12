@@ -149,4 +149,14 @@ public class DatabaseHandler {
         statement.executeUpdate(message);
     }
 
+    public void close(){
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException ignored) {
+
+            }
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ClientHandler implements Runnable{
@@ -21,7 +22,7 @@ public class ClientHandler implements Runnable{
         this.server = Server.getInstance();
     }
 
-    public void init() throws IOException {
+    public void init() throws IOException, NoSuchElementException {
         this.input = new Scanner(this.socket.getInputStream());
         this.output = new PrintWriter(this.socket.getOutputStream());
         send("AUTH_TOKEN/" + authToken);
@@ -662,8 +663,8 @@ public class ClientHandler implements Runnable{
     public void run() {
         try {
             init();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | NoSuchElementException e) {
+            server.close(this);
         }
     }
 }

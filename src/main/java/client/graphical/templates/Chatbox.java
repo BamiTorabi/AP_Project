@@ -1,6 +1,5 @@
 package client.graphical.templates;
 
-import client.DataLoader;
 import client.logic.Chat;
 
 import javax.swing.*;
@@ -20,8 +19,8 @@ public class Chatbox extends JTextPane {
     private final static int MAX_SIZE = 800;
     private SimpleAttributeSet attributeSet = new SimpleAttributeSet();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private final static Color lightBlue = new Color(DataLoader.getConstraint("dialogs", "lightBlue"));
-    private final static Color lightGreen = new Color(DataLoader.getConstraint("dialogs", "lightGreen"));
+    private final static Color lightBlue = new Color(0xABECE7);
+    private final static Color lightGreen = new Color(0x94E7AB);
     private Color colour;
 
     public Chatbox(String userID, Chat chat){

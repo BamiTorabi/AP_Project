@@ -76,6 +76,6 @@ public class Conversation implements Comparable<Conversation> {
 
     @Override
     public int compareTo(Conversation o) {
-        return this.lastTime.compareTo(o.getLastTime());
+        return -this.lastTime.compareTo(o.getLastTime());
     }
 }

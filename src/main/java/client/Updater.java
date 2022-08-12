@@ -47,7 +47,6 @@ public class Updater implements Runnable{
                 synchronized (this) {
                     String query = pageStack.peek();
                     if (!query.substring(3).equals("") && app.getPageNumber(query) > 0) {
-                        System.err.println("bitch");
                         app.askForInfo(app.getPageNumber(query), query.substring(3));
                     }
                 }

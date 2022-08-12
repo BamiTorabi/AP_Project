@@ -29,7 +29,6 @@ public class ChatPage extends PanelTemplate {
 
     private final int LABEL_WIDTH = DataLoader.getConstraint("chatPanel", "labelWidth");
     private final int LABEL_HEIGHT = DataLoader.getConstraint("chatPanel", "labelHeight");
-
     private final int FILTER_WIDTH = DataLoader.getConstraint("chatPanel", "filterWidth");
     private final int CHAT_HEIGHT = DataLoader.getConstraint("chatPanel", "chatHeight");
     private final int MARGIN_SIZE = DataLoader.getConstraint("chatPanel", "marginSize");
