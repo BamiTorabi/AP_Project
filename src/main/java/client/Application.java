@@ -37,7 +37,7 @@ public class Application implements Runnable {
     public void repaintApp() {
         int pageNumber = getPageNumber(pageStack.peek());
         if (pageNumber > 0) {
-            if (pageNumber == 12 || pageNumber == 13){
+            if (pageNumber > 11){
                 dialog.revalidate();
                 dialog.repaint();
                 return;
@@ -129,6 +129,13 @@ public class Application implements Runnable {
                 case 13:
                     if (!(dialog instanceof StudentsPickerDialog)) {
                         dialog = new StudentsPickerDialog(this, userID);
+                    }
+                    dialog.refreshDialog(pageInfo);
+                    repaintApp();
+                    return;
+                case 14:
+                    if (!(dialog instanceof NewChatDialog)) {
+                        dialog = new NewChatDialog(this, userID);
                     }
                     dialog.refreshDialog(pageInfo);
                     repaintApp();
@@ -532,6 +539,9 @@ public class Application implements Runnable {
             case 11:
             case 12:
             case 13:
+                break;
+            case 14:
+                System.err.println(info);
                 break;
         }
         newPage(pageNumber, info);

@@ -55,6 +55,7 @@ public class ClientHandler implements Runnable{
         String S[] = message.split("/");
         int pageNumber = Integer.parseInt(S[2]);
         String info = "";
+        String college;
         ArrayList<String> T;
         String userType = "";
         switch (pageNumber) {
@@ -355,7 +356,6 @@ public class ClientHandler implements Runnable{
                 break;
             case 13:
                 userType = server.getUserType(S[3]);
-                System.err.println(S[4]);
                 if (userType.equals("Special")){
                     info = server.getInfoList("Users", new String[]{
                             "userID LIKE " + S[4],
@@ -367,8 +367,7 @@ public class ClientHandler implements Runnable{
                     }, null, null);
                 }
                 else{
-                    String college = server.getCollege(S[3]);
-                    System.err.println(S[4]);
+                    college = server.getCollege(S[3]);
                     info = server.getInfoList("Users", new String[]{
                             "userID LIKE " + S[4],
                             "userType=\"Student\"",
@@ -378,6 +377,83 @@ public class ClientHandler implements Runnable{
                             "userID",
                             "name"
                     }, null, null);
+                }
+                break;
+            case 14:
+                userType = server.getUserType(S[3]);
+                switch (userType){
+                    case "Student":
+                        college = server.getCollege(S[3]);
+                        String firstYear = S[3].substring(0, 4);
+                        String profID = server.getInfo("Students", new String[]{
+                                "universityID=\"" + S[3] + "\""
+                        }, new String[]{"counsellor"}).split(":")[1];
+                        info += server.getInfoList("Professors", new String[]{
+                                "universityID=\"" + profID + "\""
+                        }, new String[]{
+                                "userType",
+                                "universityID",
+                                "firstName",
+                                "lastName"
+                        }, null, null);
+                        info += (info.equals("") ? "" : "$&$") + server.getInfoList("Students", new String[]{
+                                "college=\"" + college + "\"",
+                                "firstYear=" + firstYear,
+                                "NOT universityID=\"" + S[3] + "\""
+                        }, new String[]{
+                                "userType",
+                                "universityID",
+                                "firstName",
+                                "lastName"
+                        }, null, null);
+                        info += (info.equals("") ? "" : "$&$") + server.getInfoList("Specials", null, new String[]{
+                                "userType",
+                                "userID",
+                                "name"
+                        }, null, null);
+                        break;
+                    case "Professor":
+                        String deputyOrHead = server.getInfo("Professors", new String[]{
+                                "universityID=\"" + S[3] + "\"",
+                                "deputy=true OR head=true"
+                        }, new String[]{"universityID"});
+                        college = server.getCollege(S[3]);
+                        if (deputyOrHead == null){
+                            info = server.getInfoList("Students", new String[]{
+                                    "college=\"" + college + "\"",
+                                    "counsellor=\"" + S[3] + "\""
+                            }, new String[]{
+                                    "userType",
+                                    "universityID",
+                                    "firstName",
+                                    "lastName"
+                            }, null, null);
+                        }
+                        else{
+                            info = server.getInfoList("Students", new String[]{
+                                    "college=\"" + college + "\""
+                            }, new String[]{
+                                    "userType",
+                                    "universityID",
+                                    "firstName",
+                                    "lastName"
+                            }, null, null);
+                        }
+                        info += (info.equals("") ? "" : "$&$") + server.getInfoList("Specials", null, new String[]{
+                                "userType",
+                                "userID",
+                                "name"
+                        }, null, null);
+                        break;
+                    case "Special":
+                        info = server.getInfoList("Users", new String[]{
+                                "NOT userID=\"" + S[3] + "\""
+                        }, new String[]{
+                                "userType",
+                                "userID",
+                                "name"
+                        }, null, null);
+                        break;
                 }
                 break;
         }
@@ -543,7 +619,7 @@ public class ClientHandler implements Runnable{
                         "message"
                 });
                 if (!flag){
-                    sendError("Bad information.");
+                    sendError("User with id " + S[4] + " doesn't exist.");
                     return;
                 }
                 break;

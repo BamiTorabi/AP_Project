@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Chat and minor debugs and debuffs #1">
+    <list default="true" id="0c8bc4e9-4438-4265-b909-0e5ba85cbb9d" name="Changes" comment="Chat and minor debugs and debuffs #2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/ChatPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/ChatPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/Conversation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/graphical/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/graphical/UserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/logic/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/logic/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/DatabaseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660250049646</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Chat and minor debugs and debuffs #2">
+      <created>1660311100950</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1660311100950</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -335,7 +341,8 @@
     <MESSAGE value="Server and Client Development #A" />
     <MESSAGE value="Server and Client Development #B" />
     <MESSAGE value="Chat and minor debugs and debuffs #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Chat and minor debugs and debuffs #1" />
+    <MESSAGE value="Chat and minor debugs and debuffs #2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chat and minor debugs and debuffs #2" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AP_Project$client_ClientMain.ic" NAME="client.ClientMain Coverage Results" MODIFIED="1660119255146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

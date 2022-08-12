@@ -80,7 +80,7 @@ public class UserDialog extends JDialog {
         this.add(this.studentRadioButton);
 
         this.professorRadioButton.setText("Professor");
-        this.studentRadioButton.setSelected(false);
+        this.professorRadioButton.setSelected(false);
         this.professorRadioButton.setBounds(MARGIN_SIZE + 200, getCoor(0), 100, LABEL_HEIGHT);
         this.professorRadioButton.addActionListener(new ActionListener() {
             @Override

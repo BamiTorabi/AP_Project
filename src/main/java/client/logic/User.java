@@ -6,12 +6,12 @@ import java.util.List;
 
 public class User {
 
-    private String firstName;
-    private String lastName;
+    private String firstName = "";
+    private String lastName = "";
     private String nationalID;
     private String phoneNumber;
     private String emailAddress;
-    private String universityID;
+    private String universityID = "";
     private String password;
     private int firstYear;
     private CollegeType college;

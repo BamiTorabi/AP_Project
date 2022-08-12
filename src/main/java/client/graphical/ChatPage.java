@@ -13,6 +13,8 @@ import java.util.*;
 
 public class ChatPage extends PanelTemplate{
 
+    private Font bigBoldFont = new Font("Arial", Font.BOLD, 30);
+
     private JPanel convosPanel, chatPanel;
     private JButton newChatButton, sendButton;
     private Conversation chatSelected;
@@ -20,8 +22,9 @@ public class ChatPage extends PanelTemplate{
     private Map<JButton, Conversation> map;
     private JScrollPane convosPane, chatPane;
     private JTextArea messageArea;
+    private JLabel nameLabel;
 
-    private final int SCROLL_WIDTH = 200;
+    private final int SCROLL_WIDTH = 250;
     private final int CHAT_HEIGHT = 500;
     private final int WIDTH = 1000;
     private final int HEIGHT = 600;
@@ -43,6 +46,12 @@ public class ChatPage extends PanelTemplate{
         this.newChatButton.setText("New chat");
         this.newChatButton.setBackground(Color.GREEN);
         this.newChatButton.setBounds(MARGIN_SIZE, MARGIN_SIZE, LABEL_WIDTH, LABEL_HEIGHT);
+        this.newChatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                app.askForInfo(14, app.getUserID());
+            }
+        });
         this.add(this.newChatButton);
     }
 
@@ -53,6 +62,14 @@ public class ChatPage extends PanelTemplate{
         if (conversation == null)
             return;
         messageArea.setEditable(true);
+
+        if (this.nameLabel != null)
+            remove(this.nameLabel);
+        this.nameLabel = new JLabel(conversation.getOtherName());
+        this.nameLabel.setFont(bigBoldFont);
+        this.nameLabel.setBounds(SCROLL_WIDTH + MARGIN_SIZE, 0, WIDTH - SCROLL_WIDTH - 2 * MARGIN_SIZE, LABEL_HEIGHT);
+        this.add(this.nameLabel);
+
         this.chatPanel = new JPanel(new GridBagLayout());
         this.chatPanel.setAlignmentX(LEFT_ALIGNMENT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -62,14 +79,14 @@ public class ChatPage extends PanelTemplate{
         for (Chat chat : chats){
             Chatbox box = new Chatbox(userID, chat);
             box.setSize(600, getHeight());
-            gbc.anchor = GridBagConstraints.WEST;
+            gbc.anchor = GridBagConstraints.FIRST_LINE_START;
             this.chatPanel.add(box, gbc);
             gbc.gridy++;
         }
         Collections.reverse(chats);
         this.chatPane = new JScrollPane(this.chatPanel);
         this.chatPane.setAlignmentX(LEFT_ALIGNMENT);
-        this.chatPane.setBounds(SCROLL_WIDTH + MARGIN_SIZE, MARGIN_SIZE, WIDTH - SCROLL_WIDTH - 2 * MARGIN_SIZE, CHAT_HEIGHT);
+        this.chatPane.setBounds(SCROLL_WIDTH + MARGIN_SIZE, LABEL_HEIGHT, WIDTH - SCROLL_WIDTH - 2 * MARGIN_SIZE, CHAT_HEIGHT);
         this.add(this.chatPane);
         revalidate();
         repaint();
@@ -77,7 +94,7 @@ public class ChatPage extends PanelTemplate{
 
     public void addMessageBox(){
         this.messageArea = new JTextArea();
-        this.messageArea.setBounds(SCROLL_WIDTH + 2 * MARGIN_SIZE, CHAT_HEIGHT + 2 * MARGIN_SIZE, WIDTH - SCROLL_WIDTH - 5 * MARGIN_SIZE, HEIGHT - MARGIN_SIZE - CHAT_HEIGHT);
+        this.messageArea.setBounds(SCROLL_WIDTH + 2 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, WIDTH - SCROLL_WIDTH - 5 * MARGIN_SIZE, HEIGHT - MARGIN_SIZE - CHAT_HEIGHT);
         this.messageArea.setEditable(false);
         this.add(this.messageArea);
 
@@ -85,7 +102,7 @@ public class ChatPage extends PanelTemplate{
         this.sendButton.setIcon(new ImageIcon("resources/icons/send.png"));
         this.sendButton.setBorderPainted(false);
         this.sendButton.setBackground(Color.CYAN);
-        this.sendButton.setBounds(WIDTH - 3 * MARGIN_SIZE, CHAT_HEIGHT + 2 * MARGIN_SIZE, 40, 40);
+        this.sendButton.setBounds(WIDTH - 3 * MARGIN_SIZE, LABEL_HEIGHT + CHAT_HEIGHT + MARGIN_SIZE, 40, 40);
         this.sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,8 +120,11 @@ public class ChatPage extends PanelTemplate{
     public void addConvoButtons(){
         if (this.convosPane != null)
             remove(this.convosPane);
-        this.convosPanel = new JPanel();
+        this.convosPanel = new JPanel(new GridBagLayout());
         this.map = new HashMap<>();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
         for (Conversation conversation : convos){
             JButton button = new JButton();
             String lastMessage = conversation.getLastMessage();
@@ -115,7 +135,9 @@ public class ChatPage extends PanelTemplate{
             button.setContentAreaFilled(false);
             button.addActionListener(new ChatListener());
             map.put(button, conversation);
-            this.convosPanel.add(button);
+            gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+            this.convosPanel.add(button, gbc);
+            gbc.gridy++;
         }
         this.convosPane = new JScrollPane(this.convosPanel);
         this.convosPane.setOpaque(true);
