@@ -147,6 +147,15 @@ public class Server {
         }
     }
 
+    public boolean addRowWithInfo(String tableName, String[] values, String[] columns){
+        try{
+            db.addRowWithID(tableName, values, columns);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public boolean updateCompleteRow(String tableName, String[] values, String[] conditions){
         try{
             String[] columnNames = db.getColumnNames(tableName);

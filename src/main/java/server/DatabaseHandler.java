@@ -104,6 +104,21 @@ public class DatabaseHandler {
         statement.executeUpdate(message);
     }
 
+    public void addRowWithID(String tableName, String[] values, String[] columns) throws SQLException{
+        String message = "INSERT INTO " + tableName;
+        for (String column : columns){
+            message += (column.equals(columns[0]) ? " (" : ", ") + column;
+        }
+        message += ") VALUES (";
+        for (String value : values){
+            message += (value.equals(values[0]) ? "" : ", ") + value;
+        }
+        message += ");";
+        System.out.println("mysql> " + message);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(message);
+    }
+
     public void deleteCompleteRow(String tableName, String[] conditions) throws SQLException{
         String message = "DELETE FROM " + tableName;
         if (conditions != null && conditions.length > 0){

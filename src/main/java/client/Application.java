@@ -360,7 +360,7 @@ public class Application implements Runnable {
                     chat.setReceiver(S[1]);
                     break;
                 case "message":
-                    chat.setMessage(S[1]);
+                    chat.setMessage(entry.substring(8));
                     break;
                 case "names":
                     String[] T = S[1].split(",");
@@ -489,8 +489,11 @@ public class Application implements Runnable {
         for (String row : S){
             Chat chat = unpackChat(row);
             String otherUser = chat.getSender();
-            if (otherUser.equals(userID))
+            String otherName = chat.getSenderName();
+            if (otherUser.equals(userID)) {
                 otherUser = chat.getReceiver();
+                otherName = chat.getReceiverName();
+            }
             if (map.get(otherUser) == null){
                 Conversation convo = new Conversation();
                 convo.addChat(chat);
@@ -500,6 +503,7 @@ public class Application implements Runnable {
                 map.get(otherUser).addChat(chat);
             }
             map.get(otherUser).setOtherID(otherUser);
+            map.get(otherUser).setOtherName(otherName);
             map.get(otherUser).setUserID(userID);
         }
         ArrayList<Conversation> conversations = new ArrayList<>(map.values());
@@ -525,11 +529,9 @@ public class Application implements Runnable {
             case 8:
             case 9:
             case 10:
+            case 11:
             case 12:
             case 13:
-                break;
-            case 11:
-                System.err.println(info);
                 break;
         }
         newPage(pageNumber, info);
@@ -602,6 +604,19 @@ public class Application implements Runnable {
         }
     }
 
+    public void addNewChat(String userID, String otherID, String message) {
+        String info = "";
+        info += "\"" + userID + "\"/";
+        info += "\"" + otherID + "\"/";
+        info += "\"" + LocalDateTime.now() + "\"/";
+        info += "$&$\"" + message + "\"";
+        try{
+            this.client.send("ADD/CHAT/" + info);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void updateScore(Score score){
         String message = "";
         message += "\"" + score.getCourseLinked() + "\"/";
@@ -665,6 +680,7 @@ public class Application implements Runnable {
         this.updateThread = new Thread(this.updater);
         this.updateThread.start();
     }
+
 
 
 }

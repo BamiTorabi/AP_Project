@@ -7,6 +7,7 @@ public class Conversation implements Comparable<Conversation> {
 
     private String userID;
     private String otherID;
+    private String otherName;
     private String lastMessage;
     private LocalDateTime lastTime;
     private ArrayList<Chat> chats;
@@ -15,6 +16,14 @@ public class Conversation implements Comparable<Conversation> {
         chats = new ArrayList<>();
         lastMessage = "";
         lastTime = LocalDateTime.MIN;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(ArrayList<Chat> chats) {
+        this.chats = chats;
     }
 
     public void addChat(Chat chat){
@@ -55,6 +64,14 @@ public class Conversation implements Comparable<Conversation> {
 
     public void setOtherID(String otherID) {
         this.otherID = otherID;
+    }
+
+    public String getOtherName() {
+        return otherName;
+    }
+
+    public void setOtherName(String otherName) {
+        this.otherName = otherName;
     }
 
     @Override

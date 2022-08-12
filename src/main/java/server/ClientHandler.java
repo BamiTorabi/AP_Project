@@ -483,13 +483,13 @@ public class ClientHandler implements Runnable{
         String query;
         boolean flag = false;
         ArrayList<String> values;
-        query = server.getInfoList("Users", new String[]{"userID=\"" + S[8] + "\""}, new String[]{"userID"}, null, null);
-        if (query != null && !query.equals("")){
-            sendError("User ID already exists.");
-            return;
-        }
         switch (S[2]){
             case "STUDENT":
+                query = server.getInfoList("Users", new String[]{"userID=\"" + S[8] + "\""}, new String[]{"userID"}, null, null);
+                if (query != null && !query.equals("")){
+                    sendError("User ID already exists.");
+                    return;
+                }
                 query = server.getInfoList("Professors", new String[]{"universityID=" + S[16]}, new String[]{"universityID"}, null, null);
                 if (query == null || query.equals("")){
                     sendError("Professor with ID " + S[16] + " doesn't exist.");
@@ -504,8 +504,18 @@ public class ClientHandler implements Runnable{
                     return;
                 }
                 flag = server.addCompleteRow("Users", new String[]{S[8], "\"Student\"", "\"" + S[3] + " " + S[4] + "\""});
+                if (!flag){
+                    sendError("Bad information.");
+                    return;
+                }
+                sendError("User successfully added.");
                 break;
             case "PROFESSOR":
+                query = server.getInfoList("Users", new String[]{"userID=\"" + S[8] + "\""}, new String[]{"userID"}, null, null);
+                if (query != null && !query.equals("")){
+                    sendError("User ID already exists.");
+                    return;
+                }
                 values = new ArrayList<>();
                 for (int i = 3; i < S.length; i++)
                     values.add(S[i]);
@@ -515,13 +525,29 @@ public class ClientHandler implements Runnable{
                     return;
                 }
                 flag = server.addCompleteRow("Users", new String[]{S[8], "\"Professor\"", "\"" + S[3] + " " + S[4] + "\""});
+                if (!flag){
+                    sendError("Bad information.");
+                    return;
+                }
+                sendError("User successfully added.");
+                break;
+            case "CHAT":
+                values = new ArrayList<>();
+                for (int i = 3; i < 6; i++)
+                    values.add(S[i]);
+                values.add(message.split("\\$&\\$")[1]);
+                flag = server.addRowWithInfo("Chats", values.toArray(new String[0]), new String[]{
+                        "sender",
+                        "receiver",
+                        "timeSent",
+                        "message"
+                });
+                if (!flag){
+                    sendError("Bad information.");
+                    return;
+                }
                 break;
         }
-        if (!flag){
-            sendError("Bad information.");
-            return;
-        }
-        sendError("User successfully added.");
     }
 
     public void sendError(String message) throws IOException {
